@@ -14,6 +14,7 @@ class DataStore {
    */
   initializeData() {
     return [
+      // 1. About Me
       {
         slug: 'about-me',
         title: 'About Me',
@@ -21,20 +22,22 @@ class DataStore {
         items: [
           {
             slug: 'introduction',
-            title: 'Introduction',
+            title: 'About Rishabh Dangi',
             subtitle: 'Electrical Engineer',
-            image: 'assets/images/about-hero.jpg',
-            thumbnail: 'assets/images/profile-1.jpg',
+            image: 'assets/images/about me cover.png',
+            thumbnail: 'assets/images/card 1.jpg',
             shortDescription: 'Passionate about IoT security and embedded systems',
-            description: 'I am an Electrical Engineer driven by a passion for continuous learning and innovation. My interests lie in IoT security, embedded systems, and cutting-edge product development.',
+            description: "I am an Electrical Engineer driven by a passion for continuous learning and innovation. My interests lie in IoT security, embedded systems, and cutting-edge product development. With a strong foundation in both hardware and software, I strive to create impactful solutions that bridge technology with real-world challenges. I'm dedicated to building scalable, efficient, and future-ready technologies contributing to India's innovation ecosystem.",
             details: {
               location: 'Udaipur, India',
               specialization: 'IoT Security, Embedded Systems, Product Development'
             },
-            tags: ['engineer', 'iot', 'embedded', 'security']
+            tags: ['engineer', 'iot', 'embedded', 'security', 'innovation']
           }
         ]
       },
+      
+      // 2. Education
       {
         slug: 'education',
         title: 'Education',
@@ -42,54 +45,56 @@ class DataStore {
         items: [
           {
             slug: 'ctae-mtech',
-            title: 'College of Technology and Engineering (CTAE), Udaipur',
-            subtitle: 'MTech Power Electronics',
-            image: 'assets/images/graduation-background.jpg',
-            thumbnail: 'assets/images/graduation-photo.jpg',
+            title: 'Master of Technology | Power Electronics',
+            subtitle: 'College of Technology and Engineering (CTAE), Udaipur | 2027',
+            image: 'assets/images/education cover.jpg',
+            thumbnail: 'assets/images/card 2.jpg',
             shortDescription: 'Master of Technology in Power Electronics',
-            description: 'Pursuing advanced studies in Power Electronics with focus on modern power systems and control.',
+            description: 'Currently pursuing a Master of Technology with a specialization in Power Electronics at CTAE, Udaipur. Focusing on advanced power systems, control strategies, and modern power electronics applications.',
             date: '2027',
             location: 'Udaipur, India',
-            tags: ['mtech', 'power electronics', 'engineering']
+            tags: ['mtech', 'power electronics', 'engineering', 'ctae']
           },
           {
             slug: 'gits-btech',
-            title: 'GITS, Udaipur',
-            subtitle: 'BTech Electrical Engineering',
-            image: 'assets/images/graduation-background.jpg',
-            thumbnail: 'assets/images/graduation-photo.jpg',
+            title: 'Bachelor of Technology | Electrical Engineering',
+            subtitle: 'Geetanjali Institute of Technical Studies, Udaipur | 2024',
+            image: 'assets/images/education cover.jpg',
+            thumbnail: 'https://source.unsplash.com/800x450/?graduation,university,dark',
             shortDescription: 'Bachelor of Technology in Electrical Engineering',
-            description: 'Completed undergraduate studies with focus on electrical systems, embedded systems, and IoT.',
+            description: 'Completed a Bachelor of Technology in Electrical Engineering, providing a strong foundational knowledge in electrical systems, embedded systems, IoT, and power electronics.',
             date: '2024',
             location: 'Udaipur, India',
-            tags: ['btech', 'electrical', 'engineering']
+            tags: ['btech', 'electrical', 'engineering', 'gits']
           },
           {
             slug: 'central-academy',
-            title: 'Central Academy, Udaipur',
-            subtitle: 'CBSE',
-            image: 'assets/images/graduation-background.jpg',
-            thumbnail: 'assets/images/graduation-photo.jpg',
+            title: 'Senior Secondary | CBSE',
+            subtitle: 'Central Academy Sr. Sec. School, Sec5 Udaipur, Raj.IN | 2020',
+            image: 'assets/images/education cover.jpg',
+            thumbnail: 'https://source.unsplash.com/800x450/?school,books,red',
             shortDescription: 'Higher Secondary Education',
-            description: 'Completed higher secondary education with focus on science and mathematics.',
+            description: 'Completed senior secondary education under the CBSE curriculum with focus on science and mathematics, building a strong foundation for engineering studies.',
             date: '2020',
             location: 'Udaipur, India',
-            tags: ['cbse', 'school']
+            tags: ['cbse', 'school', 'senior secondary']
           },
           {
             slug: 'indo-american',
-            title: 'Indo American Public School, Udaipur',
-            subtitle: 'CBSE',
-            image: 'assets/images/graduation-background.jpg',
-            thumbnail: 'assets/images/graduation-photo.jpg',
+            title: 'Secondary School | CBSE',
+            subtitle: 'Indo American Public School, Udaipur, Raj. IN | 2018',
+            image: 'assets/images/education cover.jpg',
+            thumbnail: 'https://source.unsplash.com/800x450/?education,dark,red',
             shortDescription: 'Secondary Education',
-            description: 'Completed secondary education with strong foundation in sciences.',
+            description: 'Completed secondary education under the CBSE curriculum with strong foundation in sciences and mathematics.',
             date: '2018',
             location: 'Udaipur, India',
-            tags: ['cbse', 'school']
+            tags: ['cbse', 'school', 'secondary']
           }
         ]
       },
+      
+      // 3. Experience
       {
         slug: 'experience',
         title: 'Experience',
@@ -97,42 +102,44 @@ class DataStore {
         items: [
           {
             slug: 'aicte-idea-lab',
-            title: 'AICTE IDEA Lab',
-            subtitle: 'Technical Assistant',
-            image: 'assets/images/conference-background.jpg',
-            thumbnail: 'assets/images/experience-1.jpg',
+            title: 'Technical Assistant',
+            subtitle: 'AICTE IDEA LAB Geetanjali Institute of Technical Studies | Sept 2025 - Till Now',
+            image: 'assets/images/experience cover page.jpg',
+            thumbnail: 'assets/images/card 3.jpg',
             shortDescription: 'Supporting innovation and technical projects',
-            description: 'Working as Technical Assistant supporting various innovation projects and technical initiatives.',
+            description: 'Serving as a Technical Assistant at the AICTE IDEA Lab, supporting various innovation projects, technical initiatives, and helping students with their research and development activities.',
             date: 'Sept 2025 – Present',
             location: 'Udaipur, India',
-            tags: ['technical', 'innovation', 'current']
+            tags: ['technical', 'innovation', 'current', 'aicte']
           },
           {
             slug: 'shieldlink',
-            title: 'Shieldlink Technolytix Pvt. Ltd',
-            subtitle: 'Founder & CEO',
-            image: 'assets/images/conference-background.jpg',
-            thumbnail: 'assets/images/experience-2.jpg',
+            title: 'Founder & CEO',
+            subtitle: 'Shieldlink Technolytix Private limited. | August 2023 - Nov 2024',
+            image: 'assets/images/experience cover page.jpg',
+            thumbnail: 'https://source.unsplash.com/800x450/?startup,tech,office,dark',
             shortDescription: 'IoT Security Product Development',
-            description: 'Founded and led IoT security product development company, focusing on innovative security solutions for connected devices.',
+            description: 'Founded Shieldlink Technolytix, focusing on technology building for IoT security of LoRa Tech. Led product development, team management, and strategic planning for innovative security solutions.',
             date: 'Aug 2023 – Nov 2024',
             location: 'Udaipur, India',
-            tags: ['founder', 'iot', 'security', 'startup']
+            tags: ['founder', 'iot', 'security', 'startup', 'lora']
           },
           {
             slug: 'oriana-power',
-            title: 'Oriana Power',
-            subtitle: 'Solar Technician Internship',
-            image: 'assets/images/conference-background.jpg',
-            thumbnail: 'assets/images/experience-3.jpg',
+            title: '45 days Internship',
+            subtitle: 'Oriana Power (Udaipur Cement Work Limited) | 25 July - 30 August 2022',
+            image: 'assets/images/experience cover page.jpg',
+            thumbnail: 'https://source.unsplash.com/800x450/?solar,power,industry,red',
             shortDescription: 'Solar energy systems internship',
-            description: 'Gained hands-on experience with solar power systems, installation, and maintenance.',
+            description: 'Worked as a Solar Technician during a 45-day internship, gaining hands-on experience with solar power systems, installation, maintenance, and troubleshooting.',
             date: '25 July – 30 Aug 2022',
             location: 'Udaipur, India',
-            tags: ['solar', 'internship', 'renewable energy']
+            tags: ['solar', 'internship', 'renewable energy', 'power']
           }
         ]
       },
+      
+      // 4. Technical Activities
       {
         slug: 'technical-activities',
         title: 'Technical Activities',
@@ -141,347 +148,318 @@ class DataStore {
           {
             slug: 'industrial-automation',
             title: 'Industrial Auto-mission',
-            subtitle: 'Sofcon, Ahmedabad',
-            image: 'assets/images/technical-background.jpg',
-            thumbnail: 'assets/images/technical-1.jpg',
+            subtitle: 'Sofcon, Ahmedabad | 6 Jan - 4 April 2024',
+            image: 'assets/images/technical activities cover page.png',
+            thumbnail: 'assets/images/card 4.JPG',
             shortDescription: 'Industrial automation training',
-            description: 'Comprehensive training in industrial automation systems and processes.',
+            description: 'Completed the Industrial Auto-mission program in Ahmedabad, gaining comprehensive knowledge in industrial automation systems, processes, and modern manufacturing technologies.',
             date: '6 Jan - 4 April 2024',
             location: 'Ahmedabad, India',
-            tags: ['automation', 'industrial', 'training']
+            tags: ['automation', 'industrial', 'training', 'sofcon']
           },
           {
             slug: 'java-programming',
             title: 'Java programming',
-            subtitle: 'MSME, Udaipur',
-            image: 'assets/images/technical-background.jpg',
-            thumbnail: 'assets/images/technical-2.jpg',
+            subtitle: 'MSME, Udaipur | 24 April 2023 - 25 May 2023',
+            image: 'assets/images/technical activities cover page.png',
+            thumbnail: 'https://source.unsplash.com/800x450/?code,java,dark',
             shortDescription: 'Java programming course',
-            description: 'Intensive Java programming training covering core concepts and applications.',
+            description: 'Java programming training at MSME, Udaipur. Covered core Java concepts, object-oriented programming, data structures, and application development.',
             date: '24 April 2023 - 25 May 2023',
             location: 'Udaipur, India',
-            tags: ['java', 'programming', 'software']
+            tags: ['java', 'programming', 'software', 'msme']
           },
           {
             slug: 'autocad-solidworks',
             title: 'AutoCAD & SolidWorks',
-            subtitle: 'CADCAM Expert, Udaipur',
-            image: 'assets/images/technical-background.jpg',
-            thumbnail: 'assets/images/technical-3.jpg',
+            subtitle: 'CADCAM Expert, Udaipur | May 2022 – June 2022',
+            image: 'assets/images/technical activities cover page.png',
+            thumbnail: 'https://source.unsplash.com/800x450/?3d,cad,modeling,red',
             shortDescription: 'CAD software training',
-            description: 'Professional training in AutoCAD and SolidWorks for engineering design.',
+            description: 'Training in AutoCAD & SolidWorks from CADCAM Expert, Udaipur. Learned 2D drafting, 3D modeling, assembly design, and engineering documentation.',
             date: 'May 2022 – June 2022',
             location: 'Udaipur, India',
-            tags: ['cad', 'design', 'software']
+            tags: ['cad', 'design', 'software', 'autocad', 'solidworks']
           },
           {
             slug: 'industry-4-0',
             title: 'Industry 4.0: PLC+SCADA+IOT',
-            subtitle: 'Vision Automation, Udaipur',
-            image: 'assets/images/technical-background.jpg',
-            thumbnail: 'assets/images/technical-1.jpg',
+            subtitle: 'Vision Automation, Udaipur | 3 Nov 2022 – 3 Dec 2022',
+            image: 'assets/images/technical activities cover page.png',
+            thumbnail: 'https://source.unsplash.com/800x450/?automation,iot,industry,dark',
             shortDescription: 'Industry 4.0 technologies',
-            description: 'Training in PLC, SCADA, and IoT integration for Industry 4.0 applications.',
+            description: 'Specialized training in Industry 4.0 technologies including PLC programming, SCADA systems, and IoT integration for smart manufacturing.',
             date: '3 Nov 2022 – 3 Dec 2022',
             location: 'Udaipur, India',
-            tags: ['plc', 'scada', 'iot', 'industry 4.0']
+            tags: ['plc', 'scada', 'iot', 'industry 4.0', 'automation']
           },
           {
             slug: 'electrical-panel',
             title: 'Electrical System & panel designing',
-            subtitle: 'Vision Automation, Udaipur',
-            image: 'assets/images/technical-background.jpg',
-            thumbnail: 'assets/images/technical-2.jpg',
+            subtitle: 'Vision Automation, Udaipur | 4 July 2022 – 26 July 2022',
+            image: 'assets/images/technical activities cover page.png',
+            thumbnail: 'https://source.unsplash.com/800x450/?electrical,panel,engineering,red',
             shortDescription: 'Electrical panel design',
-            description: 'Training in electrical system design and panel layout for industrial applications.',
+            description: 'Training in electrical system and panel design, covering circuit design, component selection, wiring diagrams, and safety standards.',
             date: '4 July 2022 – 26 July 2022',
             location: 'Udaipur, India',
-            tags: ['electrical', 'panel design', 'industrial']
+            tags: ['electrical', 'panel design', 'systems', 'automation']
           },
           {
-            slug: 'adani-visit',
-            title: 'Large Scale Industries',
-            subtitle: 'Adani Thermal Power Station (ADTPS)',
-            image: 'assets/images/technical-background.jpg',
-            thumbnail: 'assets/images/technical-3.jpg',
-            shortDescription: 'Industrial visit to thermal power station',
-            description: 'Industrial visit to understand large-scale power generation and distribution systems.',
-            date: 'Aug 2021 – Aug 2021',
-            location: 'India',
-            tags: ['power', 'industrial visit', 'thermal']
+            slug: 'industrial-visit',
+            title: 'Large Scale Industries Visit',
+            subtitle: 'Adani Thermal Power Station (ADTPS) | Aug 2021',
+            image: 'assets/images/technical activities cover page.png',
+            thumbnail: 'https://source.unsplash.com/800x450/?power,plant,industrial,dark',
+            shortDescription: 'Industrial visit to power station',
+            description: 'Industrial visit to Adani Thermal Power Station, gaining insights into large-scale power generation, distribution systems, and industrial operations.',
+            date: 'Aug 2021',
+            location: 'Gujarat, India',
+            tags: ['industrial visit', 'power', 'thermal', 'adani']
           }
         ]
       },
+      
+      // 5. Learning & Courses
       {
-        slug: 'learning-courses',
+        slug: 'learning-and-courses',
         title: 'Learning & Courses',
         description: 'Online courses and certifications',
         items: [
           {
-            slug: 'design-tech-innovation',
+            slug: 'design-technology-innovation',
             title: 'Design, Technology and Innovation',
-            subtitle: 'IIT Mumbai',
-            image: 'assets/images/learning-background.jpg',
-            thumbnail: 'assets/images/certificate-1.jpg',
-            shortDescription: '8-week course on design thinking',
-            description: 'Comprehensive course on design thinking, technology innovation, and product development.',
-            date: '8-week Course',
-            location: 'Online',
-            tags: ['design', 'innovation', 'iit']
+            subtitle: '8-week Course IIT Mumbai',
+            image: 'assets/images/learning and course cover page.jpg',
+            thumbnail: 'assets/images/card 5.jpg',
+            shortDescription: 'Design thinking and innovation',
+            description: 'An 8-week course on Design, Technology, and Innovation from IIT Mumbai, covering design thinking, innovation methodologies, and technology integration.',
+            date: '8 weeks',
+            provider: 'IIT Mumbai',
+            tags: ['design', 'innovation', 'technology', 'iit']
           },
           {
             slug: 'soft-skills',
             title: 'Enhancing soft skills and Personality',
-            subtitle: 'IIT Kanpur',
-            image: 'assets/images/learning-background.jpg',
-            thumbnail: 'assets/images/certificate-2.jpg',
-            shortDescription: '8-week course on soft skills',
-            description: 'Course focused on developing soft skills, communication, and personality development.',
-            date: '8-weeks Course',
-            location: 'Online',
-            tags: ['soft skills', 'personality', 'iit']
+            subtitle: '8-weeks Course IIT Kanpur',
+            image: 'assets/images/learning and course cover page.jpg',
+            thumbnail: 'https://source.unsplash.com/800x450/?presentation,skills,dark',
+            shortDescription: 'Soft skills development',
+            description: 'An 8-week course on enhancing soft skills and personality development from IIT Kanpur, focusing on communication, leadership, and professional skills.',
+            date: '8 weeks',
+            provider: 'IIT Kanpur',
+            tags: ['soft skills', 'personality', 'communication', 'iit']
           },
           {
-            slug: 'intro-iot',
-            title: 'Introduction to Internet of Things',
-            subtitle: 'NPTEL',
-            image: 'assets/images/learning-background.jpg',
-            thumbnail: 'assets/images/certificate-3.jpg',
-            shortDescription: '4-week IoT fundamentals',
-            description: 'Foundational course covering IoT concepts, protocols, and applications.',
-            date: '4-weeks Course',
-            location: 'Online',
-            tags: ['iot', 'nptel', 'online']
+            slug: 'iot-introduction',
+            title: 'Introduction of Internet of Things',
+            subtitle: '12 Weeks course IIT Kharagpur',
+            image: 'assets/images/learning and course cover page.jpg',
+            thumbnail: 'https://source.unsplash.com/800x450/?iot,abstract,red',
+            shortDescription: 'IoT fundamentals',
+            description: 'A 12-week course on IoT from IIT Kharagpur, covering IoT architecture, protocols, sensors, actuators, and application development.',
+            date: '12 weeks',
+            provider: 'IIT Kharagpur',
+            tags: ['iot', 'internet of things', 'sensors', 'iit']
           },
           {
-            slug: 'joy-computing-python',
-            title: 'Joy of Computing using Python',
-            subtitle: 'NPTEL',
-            image: 'assets/images/learning-background.jpg',
-            thumbnail: 'assets/images/certificate-1.jpg',
-            shortDescription: '12-week Python programming',
-            description: 'Comprehensive Python programming course covering fundamentals and applications.',
-            date: '12-weeks Course',
-            location: 'Online',
-            tags: ['python', 'programming', 'nptel']
+            slug: 'waste-energy',
+            title: 'Waste energy conversion',
+            subtitle: '8 Weeks Course IIT Roorkee',
+            image: 'assets/images/learning and course cover page.jpg',
+            thumbnail: 'https://source.unsplash.com/800x450/?renewable,energy,dark',
+            shortDescription: 'Energy conversion technologies',
+            description: 'An 8-week course on waste energy conversion from IIT Roorkee, exploring renewable energy, waste-to-energy technologies, and sustainable solutions.',
+            date: '8 weeks',
+            provider: 'IIT Roorkee',
+            tags: ['energy', 'renewable', 'waste conversion', 'iit']
           },
           {
-            slug: 'dsa-python',
-            title: 'Programming, Data Structures and Algorithms using Python',
-            subtitle: 'NPTEL',
-            image: 'assets/images/learning-background.jpg',
-            thumbnail: 'assets/images/certificate-2.jpg',
-            shortDescription: '12-week DSA course',
-            description: 'Advanced course on data structures, algorithms, and problem-solving using Python.',
-            date: '12-weeks Course',
-            location: 'Online',
-            tags: ['dsa', 'python', 'algorithms', 'nptel']
+            slug: 'digital-image-processing',
+            title: 'Digital image processing',
+            subtitle: '12 Weeks Course IIT Kharagpur',
+            image: 'assets/images/learning and course cover page.jpg',
+            thumbnail: 'https://source.unsplash.com/800x450/?digital,image,pixels,red',
+            shortDescription: 'Image processing techniques',
+            description: 'A 12-week course on digital image processing from IIT Kharagpur, covering image enhancement, filtering, segmentation, and computer vision basics.',
+            date: '12 weeks',
+            provider: 'IIT Kharagpur',
+            tags: ['image processing', 'computer vision', 'digital', 'iit']
           },
           {
-            slug: 'intro-ml',
-            title: 'Introduction to Machine Learning',
-            subtitle: 'NPTEL',
-            image: 'assets/images/learning-background.jpg',
-            thumbnail: 'assets/images/certificate-3.jpg',
-            shortDescription: '12-week ML fundamentals',
-            description: 'Introduction to machine learning concepts, algorithms, and applications.',
-            date: '12-weeks Course',
-            location: 'Online',
-            tags: ['machine learning', 'ai', 'nptel']
+            slug: 'dsa-java',
+            title: 'DSA using JAVA',
+            subtitle: '12 Weeks Course IIT Kharagpur',
+            image: 'assets/images/learning and course cover page.jpg',
+            thumbnail: 'https://source.unsplash.com/800x450/?data,structure,algorithm,dark',
+            shortDescription: 'Data structures and algorithms',
+            description: 'A 12-week course on Data Structures and Algorithms using Java from IIT Kharagpur, covering arrays, linked lists, trees, graphs, sorting, and searching algorithms.',
+            date: '12 weeks',
+            provider: 'IIT Kharagpur',
+            tags: ['dsa', 'java', 'algorithms', 'data structures', 'iit']
           },
           {
-            slug: 'cloud-computing',
-            title: 'Cloud Computing',
-            subtitle: 'NPTEL',
-            image: 'assets/images/learning-background.jpg',
-            thumbnail: 'assets/images/certificate-1.jpg',
-            shortDescription: '12-week cloud computing',
-            description: 'Comprehensive course on cloud computing platforms, services, and architectures.',
-            date: '12-weeks Course',
-            location: 'Online',
-            tags: ['cloud', 'computing', 'nptel']
-          },
-          {
-            slug: 'cyber-security',
-            title: 'Cyber Security and Privacy',
-            subtitle: 'NPTEL',
-            image: 'assets/images/learning-background.jpg',
-            thumbnail: 'assets/images/certificate-2.jpg',
-            shortDescription: '12-week security course',
-            description: 'Course covering cybersecurity fundamentals, privacy, and security best practices.',
-            date: '12-weeks Course',
-            location: 'Online',
-            tags: ['security', 'privacy', 'cyber', 'nptel']
+            slug: 'consumer-behaviour',
+            title: 'Consumer behaviour',
+            subtitle: '8 Weeks Course IIT Kharagpur',
+            image: 'assets/images/learning and course cover page.jpg',
+            thumbnail: 'https://source.unsplash.com/800x450/?consumer,psychology,red',
+            shortDescription: 'Consumer psychology and behavior',
+            description: 'An 8-week course on consumer behaviour from IIT Kharagpur, exploring consumer psychology, decision-making processes, and market dynamics.',
+            date: '8 weeks',
+            provider: 'IIT Kharagpur',
+            tags: ['consumer', 'behaviour', 'psychology', 'marketing', 'iit']
           }
         ]
       },
+      
+      // 6. Projects
       {
         slug: 'project',
-        title: 'Project',
-        description: 'Technical projects and implementations',
+        title: 'Projects',
+        description: 'Technical projects and innovations',
         items: [
           {
             slug: 'star-delta-stator',
             title: 'Star Delta Stator',
-            subtitle: 'Motor Control System',
-            image: 'assets/images/projects-background.jpg',
-            thumbnail: 'assets/images/project-1.jpg',
-            shortDescription: 'Advanced motor control system',
-            description: 'Advanced motor control system implementation for industrial applications.',
-            tags: ['motor control', 'electrical', 'automation']
+            subtitle: 'Core Electrical Engineering Project',
+            image: 'assets/images/project cover page.jpg',
+            thumbnail: 'assets/images/card 6.jpg',
+            shortDescription: 'Motor control system',
+            description: 'A foundational project on Star Delta Stators, implementing motor control systems and understanding three-phase motor starting techniques.',
+            tags: ['electrical', 'motor', 'stator', 'control']
           },
           {
             slug: 'star-delta-iot-plc',
             title: 'Star delta Stator using IOT and PLC Scada',
-            subtitle: 'IoT-enabled Industrial Automation',
-            image: 'assets/images/projects-background.jpg',
-            thumbnail: 'assets/images/project-2.jpg',
-            shortDescription: 'IoT and PLC integration',
-            description: 'IoT-enabled industrial automation with PLC and SCADA integration for remote monitoring and control.',
-            tags: ['iot', 'plc', 'scada', 'automation']
+            subtitle: 'Industrial Automation Project',
+            image: 'assets/images/project cover page.jpg',
+            thumbnail: 'https://source.unsplash.com/800x450/?plc,scada,automation,dark',
+            shortDescription: 'Automated motor control',
+            description: 'Advanced automation of Star Delta Stators using IoT, PLC, and SCADA systems for remote monitoring and control of industrial motors.',
+            tags: ['iot', 'plc', 'scada', 'automation', 'industrial']
           },
           {
             slug: 'lora-detection',
             title: 'Detection usage of Lora Technology',
-            subtitle: 'Long-range Wireless Communication',
-            image: 'assets/images/projects-background.jpg',
-            thumbnail: 'assets/images/project-3.jpg',
-            shortDescription: 'LoRa communication system',
-            description: 'Long-range wireless communication system for IoT applications using LoRa technology.',
-            tags: ['lora', 'wireless', 'iot', 'communication']
+            subtitle: 'IoT Communication Project',
+            image: 'assets/images/project cover page.jpg',
+            thumbnail: 'https://source.unsplash.com/800x450/?lora,wireless,signal,red',
+            shortDescription: 'LoRa technology implementation',
+            description: 'A project focused on the application and detection of LoRa Technology for long-range, low-power wireless communication in IoT applications.',
+            tags: ['lora', 'iot', 'wireless', 'communication', 'lpwan']
           },
           {
             slug: 'ai-energy-management',
-            title: 'AI Based Energy Management System',
-            subtitle: 'Intelligent Energy Optimization',
-            image: 'assets/images/projects-background.jpg',
-            thumbnail: 'assets/images/project-1.jpg',
-            shortDescription: 'AI-powered energy optimization',
-            description: 'Intelligent energy optimization using machine learning algorithms for efficient power management.',
-            tags: ['ai', 'energy', 'machine learning', 'optimization']
+            title: 'AI-based energy management system',
+            subtitle: 'Industrial and commercial facilities',
+            image: 'assets/images/project cover page.jpg',
+            thumbnail: 'https://source.unsplash.com/800x450/?ai,energy,management,dark',
+            shortDescription: 'Smart energy optimization',
+            description: 'Developing an AI-based system for energy management in large facilities, optimizing power consumption, predicting demand, and reducing costs.',
+            tags: ['ai', 'energy', 'management', 'optimization', 'smart']
           },
           {
-            slug: 'iot-security-product',
-            title: 'IoT Security Product Development',
-            subtitle: 'Comprehensive Security Solutions',
-            image: 'assets/images/projects-background.jpg',
-            thumbnail: 'assets/images/project-2.jpg',
-            shortDescription: 'IoT security solutions',
-            description: 'Comprehensive security solutions for IoT ecosystems, protecting connected devices and networks.',
-            tags: ['iot', 'security', 'product', 'cybersecurity']
+            slug: 'milk-adulteration-detector',
+            title: 'Smart device to detect adulterations in milk',
+            subtitle: 'Consumer Tech Project',
+            image: 'assets/images/project cover page.jpg',
+            thumbnail: 'https://source.unsplash.com/800x450/?smart,device,sensor,red',
+            shortDescription: 'Food quality monitoring',
+            description: 'Creating a smart device to ensure milk quality by detecting adulterations using sensors and IoT technology for consumer safety.',
+            tags: ['iot', 'sensors', 'food safety', 'consumer', 'quality']
           },
           {
-            slug: 'embedded-systems',
-            title: 'Embedded Systems Integration Projects',
-            subtitle: 'Real-time System Design',
-            image: 'assets/images/projects-background.jpg',
-            thumbnail: 'assets/images/project-3.jpg',
-            shortDescription: 'Embedded system design',
-            description: 'Real-time embedded system design and implementation for various applications.',
-            tags: ['embedded', 'real-time', 'systems']
+            slug: 'ecommerce-compliance',
+            title: 'Automated Compliance Checker for E-Commerce',
+            subtitle: 'Legal Metrology Declarations',
+            image: 'assets/images/project cover page.jpg',
+            thumbnail: 'https://source.unsplash.com/800x450/?ecommerce,compliance,automation,dark',
+            shortDescription: 'Regulatory compliance automation',
+            description: 'An automated tool to check for legal metrology declarations on e-commerce platforms, ensuring regulatory compliance and consumer protection.',
+            tags: ['ecommerce', 'compliance', 'automation', 'legal', 'metrology']
           },
           {
-            slug: 'hardware-software-integration',
-            title: 'Hardware-Software Integration Solutions',
-            subtitle: 'Seamless Integration',
-            image: 'assets/images/projects-background.jpg',
-            thumbnail: 'assets/images/project-1.jpg',
-            shortDescription: 'Hardware-software integration',
-            description: 'Seamless integration of hardware components with software systems for complete solutions.',
-            tags: ['hardware', 'software', 'integration']
+            slug: 'neurological-screening',
+            title: 'Screening Tool for Early Detection of Neurological Conditions',
+            subtitle: 'MedTech Project',
+            image: 'assets/images/project cover page.jpg',
+            thumbnail: 'https://source.unsplash.com/800x450/?neurology,health,tech,red',
+            shortDescription: 'Healthcare technology',
+            description: 'A screening tool designed for the early detection of neurological conditions using AI and sensor technology for improved healthcare outcomes.',
+            tags: ['medtech', 'neurology', 'ai', 'healthcare', 'screening']
           }
         ]
       },
+      
+      // 7. Awards
       {
         slug: 'award',
-        title: 'Award',
+        title: 'Awards',
         description: 'Recognition and achievements',
         items: [
           {
             slug: 'kavach-2023',
-            title: 'KAVACH CYBER HACKATHON 2023',
-            subtitle: 'Winner - ₹1 Lakh Prize',
-            image: 'assets/images/awards-background.jpg',
-            thumbnail: 'assets/images/award-1.jpg',
-            shortDescription: 'National cybersecurity hackathon winner',
-            description: 'Won the KAVACH Cyber Hackathon 2023 with the project "Detection Usage of Lora" focusing on security in wireless communication.',
+            title: 'Winner | KAVACH CYBER HACKATHON 2023',
+            subtitle: 'August 2023 | Prize: 1 Lakh',
+            image: 'assets/images/award cover page.jpg',
+            thumbnail: 'assets/images/card 7.JPG',
+            shortDescription: 'National level hackathon winner',
+            description: 'Winner of the KAVACH Cyber Hackathon 2023 for the project on "Detection Usage of LoRa", receiving a prize of 1 Lakh. The project focused on IoT security and wireless communication.',
             date: 'August 2023',
-            details: {
-              project: 'Detection Usage of Lora',
-              prize: '₹1 Lakh'
-            },
-            tags: ['hackathon', 'cybersecurity', 'winner', 'lora']
+            prize: '₹1,00,000',
+            tags: ['hackathon', 'winner', 'kavach', 'iot', 'lora']
           },
           {
             slug: 'sih-2023',
-            title: 'SMART INDIA HACKATHON 2023',
-            subtitle: 'Winner - ₹1 Lakh Prize',
-            image: 'assets/images/awards-background.jpg',
-            thumbnail: 'assets/images/award-2.jpg',
-            shortDescription: 'National innovation hackathon winner',
-            description: 'Won the Smart India Hackathon 2023 with the project "AI Based Energy Management System" for intelligent power optimization.',
+            title: 'Winner | SMART INDIA HACKATHON 2023',
+            subtitle: 'December 2023 | Prize: 1 Lakh',
+            image: 'assets/images/award cover page.jpg',
+            thumbnail: 'https://source.unsplash.com/800x450/?trophy,award,spotlight,dark',
+            shortDescription: 'National level hackathon winner',
+            description: 'Winner of the Smart India Hackathon 2023 for the "AI Based Energy Management System" project, receiving a prize of 1 Lakh. The project addressed energy optimization in industrial facilities.',
             date: 'December 2023',
-            details: {
-              project: 'AI Based Energy Management System',
-              prize: '₹1 Lakh'
-            },
-            tags: ['hackathon', 'ai', 'winner', 'energy']
+            prize: '₹1,00,000',
+            tags: ['hackathon', 'winner', 'sih', 'ai', 'energy']
           }
         ]
       },
+      
+      // 8. Skills & Interests
       {
-        slug: 'skills-interests',
+        slug: 'skills-and-interests',
         title: 'Skills & Interests',
-        description: 'Technical skills and personal interests',
+        description: 'Technical skills and areas of interest',
         items: [
           {
-            slug: 'programming-skills',
-            title: 'Programming Skills',
-            subtitle: 'Software Development',
-            image: 'assets/images/skills-background.jpg',
-            thumbnail: 'assets/images/hobby-1.jpg',
+            slug: 'programming',
+            title: 'Programming',
+            subtitle: 'Java, Arduino, MATLAB, Spring Boot, C & C++',
+            image: 'assets/images/skill and interest cover page.png',
+            thumbnail: 'assets/images/card 8.jpg',
             shortDescription: 'Programming languages and frameworks',
-            description: 'Proficient in Java, Arduino, MATLAB, Spring Boot, C & C++ for various applications.',
-            details: {
-              skills: ['Java', 'Arduino', 'MATLAB', 'Spring Boot', 'C & C++']
-            },
-            tags: ['programming', 'software', 'development']
+            description: 'Proficient in a range of programming languages and frameworks including Java, Arduino, MATLAB, Spring Boot, C & C++. Experienced in software development, embedded programming, and application development.',
+            tags: ['programming', 'java', 'arduino', 'matlab', 'c++', 'spring boot']
           },
           {
-            slug: 'software-tools',
-            title: 'Software Tools',
-            subtitle: 'Design and Analysis',
-            image: 'assets/images/skills-background.jpg',
-            thumbnail: 'assets/images/hobby-2.jpg',
-            shortDescription: 'Engineering and design software',
-            description: 'Experienced with AutoCAD, SolidWorks, GNU Radio, WireShark, Photoshop, Illustrator, and PSpice.',
-            details: {
-              skills: ['AutoCAD', 'SolidWorks', 'GNU Radio', 'WireShark', 'Photoshop', 'Illustrator', 'PSpice']
-            },
-            tags: ['software', 'tools', 'design']
+            slug: 'software',
+            title: 'Software',
+            subtitle: 'Auto CAD, Solid Works, GNU Radio, WireShark, Photoshop, PSpice',
+            image: 'assets/images/skill and interest cover page.png',
+            thumbnail: 'https://source.unsplash.com/800x450/?software,tools,design,dark',
+            shortDescription: 'Software tools and applications',
+            description: 'Experienced with various software tools like Auto CAD, Solid Works, GNU Radio, WireShark, Photoshop, Illustrator, and PSpice for design, analysis, and development.',
+            tags: ['software', 'cad', 'design', 'tools', 'engineering']
           },
           {
-            slug: 'hardware-skills',
-            title: 'Hardware Skills',
-            subtitle: 'Embedded Systems and IoT',
-            image: 'assets/images/skills-background.jpg',
-            thumbnail: 'assets/images/hobby-3.jpg',
-            shortDescription: 'Hardware and communication protocols',
-            description: 'Expertise in Robotics, PLC & SCADA, UART, I2C, SPI, LoRa, Bluetooth, NRF, and RF technologies.',
-            details: {
-              skills: ['Robotics', 'PLC & SCADA', 'UART', 'I2C', 'SPI', 'LoRa', 'Bluetooth', 'NRF', 'RF']
-            },
-            tags: ['hardware', 'embedded', 'iot', 'protocols']
-          },
-          {
-            slug: 'personal-interests',
-            title: 'Personal Interests',
-            subtitle: 'Beyond Technology',
-            image: 'assets/images/skills-background.jpg',
-            thumbnail: 'assets/images/hobby-1.jpg',
-            shortDescription: 'Continuous learning and innovation',
-            description: 'Passionate about exploring new technologies, contributing to open-source projects, and staying updated with the latest innovations in IoT and embedded systems.',
-            tags: ['interests', 'learning', 'innovation']
+            slug: 'hardware',
+            title: 'Hardware',
+            subtitle: 'Robotics, PLC & Scada, UART, I2C, SPI, Lora, Bluetooth, NRF, RF',
+            image: 'assets/images/skill and interest cover page.png',
+            thumbnail: 'https://source.unsplash.com/800x450/?hardware,circuits,robotics,red',
+            shortDescription: 'Hardware technologies and protocols',
+            description: 'Knowledgeable in hardware technologies including Robotics, PLC & Scada, UART, I2C, SPI, LoRa, Bluetooth, NRF, and RF communication protocols for embedded systems and IoT.',
+            tags: ['hardware', 'robotics', 'plc', 'iot', 'communication', 'embedded']
           }
         ]
       }
@@ -490,18 +468,18 @@ class DataStore {
 
   /**
    * Get all categories
-   * @returns {Array} All category objects
+   * @returns {Array} All categories
    */
-  getAllCategories() {
+  getAll() {
     return this.data;
   }
 
   /**
    * Get category by slug
    * @param {string} slug - Category slug
-   * @returns {Object|null} Category object or null if not found
+   * @returns {Object|null} Category object or null
    */
-  getCategoryBySlug(slug) {
+  getBySlug(slug) {
     return this.data.find(category => category.slug === slug) || null;
   }
 
@@ -509,61 +487,74 @@ class DataStore {
    * Get item by category and item slug
    * @param {string} categorySlug - Category slug
    * @param {string} itemSlug - Item slug
-   * @returns {Object|null} Item object or null if not found
+   * @returns {Object|null} Item object or null
    */
-  getItemBySlug(categorySlug, itemSlug) {
-    const category = this.getCategoryBySlug(categorySlug);
+  getItem(categorySlug, itemSlug) {
+    const category = this.getBySlug(categorySlug);
     if (!category) return null;
-    
     return category.items.find(item => item.slug === itemSlug) || null;
   }
 
   /**
-   * Search items across all categories
+   * Search across all content
    * @param {string} query - Search query
-   * @returns {Array} Array of matching items with category info
+   * @returns {Array} Array of matching categories with filtered items
    */
-  searchItems(query) {
-    if (!query || query.trim() === '') return [];
+  search(query) {
+    if (!query || query.trim() === '') {
+      return this.data;
+    }
+
+    const searchTerm = query.toLowerCase().trim();
     
-    const normalizedQuery = query.toLowerCase().trim();
-    const results = [];
-
-    this.data.forEach(category => {
-      category.items.forEach(item => {
-        const searchableText = [
-          item.title,
-          item.subtitle,
-          item.description,
-          item.shortDescription,
-          ...(item.tags || [])
-        ].join(' ').toLowerCase();
-
-        if (searchableText.includes(normalizedQuery)) {
-          results.push({
-            ...item,
-            categorySlug: category.slug,
-            categoryTitle: category.title
-          });
-        }
+    return this.data.map(category => {
+      const matchingItems = category.items.filter(item => {
+        return (
+          item.title.toLowerCase().includes(searchTerm) ||
+          item.subtitle.toLowerCase().includes(searchTerm) ||
+          item.shortDescription.toLowerCase().includes(searchTerm) ||
+          item.description.toLowerCase().includes(searchTerm) ||
+          (item.tags && item.tags.some(tag => tag.toLowerCase().includes(searchTerm)))
+        );
       });
-    });
 
-    return results;
+      return {
+        ...category,
+        items: matchingItems
+      };
+    }).filter(category => category.items.length > 0);
   }
 
   /**
-   * Filter items by category
+   * Filter by category
    * @param {string} categorySlug - Category slug to filter by
-   * @returns {Array} Array of items in the category
+   * @returns {Array} Array with single category or all categories
    */
   filterByCategory(categorySlug) {
-    const category = this.getCategoryBySlug(categorySlug);
-    return category ? category.items : [];
+    if (!categorySlug || categorySlug === 'all') {
+      return this.data;
+    }
+    
+    const category = this.getBySlug(categorySlug);
+    return category ? [category] : [];
+  }
+
+  /**
+   * Get all tags
+   * @returns {Array} Array of unique tags
+   */
+  getAllTags() {
+    const tags = new Set();
+    this.data.forEach(category => {
+      category.items.forEach(item => {
+        if (item.tags) {
+          item.tags.forEach(tag => tags.add(tag));
+        }
+      });
+    });
+    return Array.from(tags).sort();
   }
 }
 
-// Export for use in other modules
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = DataStore;
-}
+// Create and export global instance
+const dataStore = new DataStore();

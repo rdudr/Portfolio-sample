@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Loading Test</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #141414;
+      color: #ffffff;
+      padding: 2rem;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #e50914;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      margin: 2rem 0 1rem;
+      color: #ffffff;
+      border-bottom: 2px solid #333;
+      padding-bottom: 0.5rem;
+    }
+
+    h3 {
+      font-size: 1.3rem;
+      margin: 1.5rem 0 0.5rem;
+      color: #b3b3b3;
+    }
+
+    .section {
+      background: #1a1a1a;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border-radius: 8px;
+      border: 1px solid #333;
+    }
+
+    .item-card {
+      background: #2a2a2a;
+      padding: 1rem;
+      margin: 0.5rem 0;
+      border-radius: 4px;
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .item-card img {
+      width: 150px;
+      height: 84px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+
+    .item-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .item-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .item-subtitle {
+      font-size: 0.9rem;
+      color: #b3b3b3;
+    }
+
+    .item-path {
+      font-size: 0.8rem;
+      color: #666;
+      font-family: 'Courier New', monospace;
+    }
+
+    .status {
+      padding: 0.25rem 0.75rem;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      display: inline-block;
+      margin-top: 0.5rem;
+    }
+
+    .status.success {
+      background: #2ea043;
+      color: white;
+    }
+
+    .status.error {
+      background: #da3633;
+      color: white;
+    }
+
+    .status.warning {
+      background: #f0ad4e;
+      color: #1a1a1a;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .summary-card {
+      background: #2a2a2a;
+      padding: 1.5rem;
+      border-radius: 8px;
+      text-align: center;
+      border: 1px solid #333;
+    }
+
+    .summary-card .number {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin: 0.5rem 0;
+    }
+
+    .summary-card .label {
+      color: #b3b3b3;
+      font-size: 0.9rem;
+    }
+
+    .image-test {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .image-test img {
+      width: 200px;
+      height: 112px;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 2px solid #333;
+    }
+
+    .image-test img.loaded {
+      border-color: #2ea043;
+    }
+
+    .image-test img.error {
+      border-color: #da3633;
+    }
+
+    button {
+      background: #e50914;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin: 0.5rem 0.5rem 0.5rem 0;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background: #f40612;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: #b3b3b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🧪 Portfolio Data Loading Test</h1>
+    <p>Testing data structure and image loading for Netflix-style portfolio</p>
+
+    <div class="summary" id="summary">
+      <div class="summary-card">
+        <div class="label">Total Sections</div>
+        <div class="number" id="totalSections">-</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Total Items</div>
+        <div class="number" id="totalItems">-</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Images Loaded</div>
+        <div class="number" id="imagesLoaded">-</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Image Errors</div>
+        <div class="number" id="imageErrors">-</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Actions</h2>
+      <button onclick="testImageLoading()">Test All Images</button>
+      <button onclick="testDataStructure()">Test Data Structure</button>
+      <button onclick="testSearch()">Test Search</button>
+      <button onclick="window.location.href='index-netflix.html'">Open Portfolio</button>
+    </div>
+
+    <div id="results"></div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script>
+    let imageLoadCount = 0;
+    let imageErrorCount = 0;
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', () => {
+      displayDataStructure();
+      testImageLoading();
+    });
+
+    function displayDataStructure() {
+      const results = document.getElementById('results');
+      results.innerHTML = '<div class="loading">Loading data...</div>';
+
+      setTimeout(() => {
+        const data = dataStore.getAll();
+        let html = '';
+        let totalItems = 0;
+
+        data.forEach(section => {
+          totalItems += section.items.length;
+          
+          html += `
+            <div class="section">
+              <h2>${section.title}</h2>
+              <p style="color: #b3b3b3; margin-bottom: 1rem;">${section.description}</p>
+              <p style="color: #666; font-size: 0.9rem;">Slug: ${section.slug} | Items: ${section.items.length}</p>
+              
+              <h3>Items:</h3>
+          `;
+
+          section.items.forEach((item, index) => {
+            html += `
+              <div class="item-card">
+                <img src="${item.thumbnail}" 
+                     alt="${item.title}"
+                     onerror="this.style.borderColor='#da3633'; imageErrorCount++; updateSummary();"
+                     onload="this.style.borderColor='#2ea043'; imageLoadCount++; updateSummary();">
+                <div class="item-info">
+                  <div class="item-title">${item.title}</div>
+                  <div class="item-subtitle">${item.subtitle}</div>
+                  <div class="item-path">Card: ${item.thumbnail}</div>
+                  <div class="item-path">Hero: ${item.image}</div>
+                </div>
+              </div>
+            `;
+          });
+
+          html += '</div>';
+        });
+
+        results.innerHTML = html;
+
+        // Update summary
+        document.getElementById('totalSections').textContent = data.length;
+        document.getElementById('totalItems').textContent = totalItems;
+      }, 100);
+    }
+
+    function updateSummary() {
+      document.getElementById('imagesLoaded').textContent = imageLoadCount;
+      document.getElementById('imageErrors').textContent = imageErrorCount;
+    }
+
+    function testImageLoading() {
+      imageLoadCount = 0;
+      imageErrorCount = 0;
+      updateSummary();
+      
+      const data = dataStore.getAll();
+      const allImages = [];
+
+      data.forEach(section => {
+        section.items.forEach(item => {
+          allImages.push({ path: item.thumbnail, type: 'Card', item: item.title });
+          allImages.push({ path: item.image, type: 'Hero', item: item.title });
+        });
+      });
+
+      console.log('Testing', allImages.length, 'images...');
+      
+      allImages.forEach(img => {
+        const testImg = new Image();
+        testImg.onload = () => {
+          console.log('✓ Loaded:', img.path);
+          imageLoadCount++;
+          updateSummary();
+        };
+        testImg.onerror = () => {
+          console.error('✗ Failed:', img.path);
+          imageErrorCount++;
+          updateSummary();
+        };
+        testImg.src = img.path;
+      });
+    }
+
+    function testDataStructure() {
+      console.log('=== Data Structure Test ===');
+      
+      const data = dataStore.getAll();
+      console.log('Total sections:', data.length);
+      
+      data.forEach(section => {
+        console.log(`\n${section.title}:`, section.items.length, 'items');
+        section.items.forEach((item, i) => {
+          console.log(`  ${i + 1}. ${item.title}`);
+          console.log(`     Card: ${item.thumbnail}`);
+          console.log(`     Hero: ${item.image}`);
+        });
+      });
+
+      alert('Check browser console for detailed data structure');
+    }
+
+    function testSearch() {
+      const queries = ['IoT', 'Java', 'Power', 'Engineering', 'Hackathon'];
+      
+      console.log('=== Search Test ===');
+      
+      queries.forEach(query => {
+        const results = dataStore.search(query);
+        const totalResults = results.reduce((sum, cat) => sum + cat.items.length, 0);
+        console.log(`Search "${query}":`, totalResults, 'results');
+      });
+
+      alert('Check browser console for search results');
+    }
+  </script>
+</body>
+</html>
