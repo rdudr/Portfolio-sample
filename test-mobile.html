@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mobile Layout Test - Portfolio</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* Test viewport indicators */
+    body::before {
+      content: 'Viewport: ' attr(data-viewport);
+      position: fixed;
+      top: 70px;
+      right: 10px;
+      background: rgba(255, 0, 0, 0.8);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 12px;
+      z-index: 10000;
+    }
+    
+    @media (max-width: 374px) {
+      body::before {
+        content: 'Viewport: 320px (Extra Small)';
+      }
+    }
+    
+    @media (min-width: 375px) and (max-width: 767px) {
+      body::before {
+        content: 'Viewport: 375px-767px (Small Mobile)';
+      }
+    }
+    
+    @media (min-width: 768px) {
+      body::before {
+        content: 'Viewport: 768px+ (Tablet/Desktop)';
+      }
+    }
+    
+    /* Touch target visualization */
+    .touch-target-test {
+      outline: 2px dashed yellow;
+      position: relative;
+    }
+    
+    .touch-target-test::after {
+      content: attr(data-size);
+      position: absolute;
+      bottom: -20px;
+      left: 0;
+      font-size: 10px;
+      color: yellow;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 2px 5px;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="search-container">
+      <input type="search" placeholder="Search" class="search-input touch-target-test" data-size="44x44" aria-label="Search portfolio">
+    </div>
+    <nav class="tab-switcher">
+      <button class="tab-btn active touch-target-test" data-size="44x44" data-tab="photos">Photos</button>
+      <button class="tab-btn touch-target-test" data-size="44x44" data-tab="video">Video</button>
+      <button class="tab-btn touch-target-test" data-size="44x44" data-tab="audio">Audio</button>
+    </nav>
+  </header>
+
+  <main class="hero-container">
+    <section class="hero-panel" data-section="test">
+      <div class="hero-background" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="content-left">
+          <h1 class="hero-heading">Mobile Layout Test</h1>
+          <p class="hero-text">This page tests the mobile layout adjustments for viewports at 320px and 375px. Resize your browser window or use DevTools device emulation to test different viewport sizes.</p>
+          
+          <h3 style="color: white; margin-top: 1rem; margin-bottom: 0.5rem;">Touch Target Tests:</h3>
+          <ul style="color: white; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">
+            <li>✓ Header search input: min 44x44px</li>
+            <li>✓ Tab buttons: min 44x44px</li>
+            <li>✓ CTA buttons: min 48x48px</li>
+            <li>✓ Carousel dots: 48x48px touch area</li>
+          </ul>
+          
+          <button class="cta-button touch-target-test" data-size="48x48" data-variant="default">Test Button (48x48)</button>
+        </div>
+        <div class="content-right">
+          <div class="carousel">
+            <div class="carousel-track">
+              <div class="carousel-image active" style="background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%); position: relative;"></div>
+            </div>
+            <div class="carousel-dots">
+              <button class="dot active touch-target-test" data-size="48x48" data-index="0"></button>
+              <button class="dot touch-target-test" data-size="48x48" data-index="1"></button>
+              <button class="dot touch-target-test" data-size="48x48" data-index="2"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="hero-panel" data-section="test2">
+      <div class="hero-background" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="content-left">
+          <h2 class="hero-heading">Content Stacking Test</h2>
+          <ul class="education-list">
+            <li class="education-item">
+              <h3 class="education-institution">Test Institution</h3>
+              <p class="education-year">2024</p>
+              <p class="education-degree">Test Degree</p>
+            </li>
+            <li class="education-item">
+              <h3 class="education-institution">Another Institution</h3>
+              <p class="education-year">2023</p>
+              <p class="education-degree">Another Degree</p>
+            </li>
+          </ul>
+          <button class="cta-button" data-variant="red">Know More</button>
+        </div>
+        <div class="content-right">
+          <div class="image-card">
+            <div class="card-image" style="background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Simple touch target size checker
+    document.addEventListener('DOMContentLoaded', () => {
+      const touchTargets = document.querySelectorAll('.touch-target-test');
+      touchTargets.forEach(target => {
+        const rect = target.getBoundingClientRect();
+        const size = `${Math.round(rect.width)}x${Math.round(rect.height)}`;
+        target.setAttribute('data-size', size);
+        
+        // Check if meets minimum
+        if (rect.width < 44 || rect.height < 44) {
+          target.style.outline = '2px solid red';
+          console.warn('Touch target too small:', target, size);
+        } else {
+          target.style.outline = '2px solid green';
+          console.log('Touch target OK:', target, size);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

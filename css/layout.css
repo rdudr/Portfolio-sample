@@ -85,13 +85,15 @@ body {
 @media (max-width: 767px) {
   .hero-panel {
     padding: var(--spacing-sm);
+    min-height: 100vh;
   }
 
   .hero-content {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-md);
+    gap: var(--spacing-sm);
     padding: var(--spacing-sm);
+    padding-top: 80px; /* Account for fixed header */
   }
 
   .content-left {
@@ -105,11 +107,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-
-  /* Adjust spacing for mobile */
-  .hero-content {
-    gap: var(--spacing-sm);
+    max-width: 100%;
   }
 
   /* Ensure images don't overflow on mobile */
@@ -118,6 +116,43 @@ body {
   .content-right .carousel {
     max-width: 100%;
     width: 100%;
+  }
+
+  /* Adjust image card sizes for mobile */
+  .content-right .image-card {
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .content-right .carousel {
+    max-width: 320px;
+    margin: 0 auto;
+  }
+}
+
+/* Extra small mobile devices (320px) */
+@media (max-width: 374px) {
+  .hero-panel {
+    padding: 0.75rem;
+  }
+
+  .hero-content {
+    padding: 0.75rem;
+    padding-top: 70px;
+    gap: 1rem;
+  }
+
+  .content-right .image-card,
+  .content-right .carousel {
+    max-width: 280px;
+  }
+}
+
+/* Small mobile devices (375px - 767px) */
+@media (min-width: 375px) and (max-width: 767px) {
+  .content-right .image-card,
+  .content-right .carousel {
+    max-width: 340px;
   }
 }
 

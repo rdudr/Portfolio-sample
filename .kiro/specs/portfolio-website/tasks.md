@@ -228,6 +228,7 @@
   - Add floating image card or carousel with project photos
 
 
+
   - Add "Know More" button
   - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5_
 
@@ -235,6 +236,10 @@
 
   - Add "Awards" heading
   - Insert appropriate background image
+
+
+
+
   - Create list of two award entries with award name, date, project, and prize details
   - Add KAVACH CYBER HACKATHON 2023 and SMART INDIA HACKATHON 2023 entries
   - Add floating image card or carousel with award certificates
@@ -244,33 +249,52 @@
 - [ ] 20. Populate Skills & Interests section content
 
   - Add "Skills & Interests" heading
+
+
   - Insert appropriate background image
   - Create three skill categories: Programming, Software, and Hardware
   - Add Programming skills: Java, Arduino, MATLAB, Spring Boot, C & C++
   - Add Software skills: Auto CAD, Solid Works, GNU Radio, WireShark, Photoshop, Illustrator, PSpice
   - Add Hardware skills: Robotics, PLC & Scada, UART, I2C, SPI, Lora, Bluetooth, NRF, RF
   - Add personal interests with descriptions
+
+
+
   - Add floating image card or carousel with hobby photos
   - Add "Know More" button
   - _Requirements: 12.1, 12.2, 12.3, 12.4, 12.5, 12.6_
 
-- [ ] 21. Implement responsive typography scaling
+- [x] 21. Implement responsive typography scaling
+
+
+
+
 
   - Apply clamp() function for heading sizes (2.5rem to 4rem)
   - Apply clamp() function for body text sizes (1rem to 1.125rem)
   - Set line-height: 1.6 for body text and 1.2 for headings
   - Ensure text color contrast meets WCAG AA standards
+
+
+
   - _Requirements: 1.5, 13.3_
 
 - [ ] 22. Implement mobile layout adjustments
 
   - Stack content vertically for viewports <768px
+
+
+
   - Adjust image card sizes for mobile devices
   - Ensure touch targets are at least 44x44 pixels
   - Test layout on 320px, 375px viewports
   - _Requirements: 13.1, 13.4_
 
-- [ ] 23. Add accessibility features
+
+
+
+- [-] 23. Add accessibility features
+
 
   - Implement proper heading hierarchy (h1 for main, h2 for sections)
   - Add ARIA labels for carousel navigation

@@ -23,10 +23,10 @@
     <div class="search-container">
       <input type="search" placeholder="Search" class="search-input" aria-label="Search portfolio">
     </div>
-    <nav class="tab-switcher">
-      <button class="tab-btn active" data-tab="photos" aria-pressed="true">Photos</button>
-      <button class="tab-btn" data-tab="video" aria-pressed="false">Video</button>
-      <button class="tab-btn" data-tab="audio" aria-pressed="false">Audio</button>
+    <nav class="tab-switcher" role="tablist" aria-label="Media type filter">
+      <button class="tab-btn active" data-tab="photos" role="tab" aria-pressed="true" aria-label="Show photos">Photos</button>
+      <button class="tab-btn" data-tab="video" role="tab" aria-pressed="false" aria-label="Show videos">Video</button>
+      <button class="tab-btn" data-tab="audio" role="tab" aria-pressed="false" aria-label="Show audio">Audio</button>
     </nav>
   </header>
 
@@ -43,7 +43,7 @@
         </div>
         <div class="content-right">
           <div class="carousel" role="region" aria-label="About Me image carousel">
-            <div class="carousel-track">
+            <div class="carousel-track" role="list"></div>
               <img src="assets/images/profile-1.jpg" alt="Profile photo 1 of 3" class="carousel-image active" role="listitem">
               <img src="assets/images/profile-2.jpg" alt="Profile photo 2 of 3" class="carousel-image" role="listitem">
               <img src="assets/images/profile-3.jpg" alt="Profile photo 3 of 3" class="carousel-image" role="listitem">
@@ -87,7 +87,7 @@
               <p class="education-degree">CBSE</p>
             </li>
           </ul>
-          <button class="cta-button" data-variant="red">Know More</button>
+          <button class="cta-button" data-variant="red" aria-label="Learn more about my education">Know More</button>
         </div>
         <div class="content-right">
           <div class="image-card">
@@ -122,11 +122,11 @@
               <p class="experience-period">25 July – 30 Aug 2022</p>
             </li>
           </ul>
-          <button class="cta-button" data-variant="default">Know More</button>
+          <button class="cta-button" data-variant="default" aria-label="Learn more about my experience">Know More</button>
         </div>
         <div class="content-right">
           <div class="carousel" role="region" aria-label="Experience image carousel">
-            <div class="carousel-track">
+            <div class="carousel-track" role="list"></div>
               <img src="assets/images/experience-1.jpg" alt="Conference photo 1 of 3" class="carousel-image active" role="listitem">
               <img src="assets/images/experience-2.jpg" alt="Conference photo 2 of 3" class="carousel-image" role="listitem">
               <img src="assets/images/experience-3.jpg" alt="Portrait photo 3 of 3" class="carousel-image" role="listitem">
@@ -180,11 +180,11 @@
               <p class="activity-dates">Aug 2021 – Aug 2021</p>
             </li>
           </ul>
-          <button class="cta-button" data-variant="default">Know More</button>
+          <button class="cta-button" data-variant="default" aria-label="Learn more about my technical activities">Know More</button>
         </div>
         <div class="content-right">
           <div class="carousel" role="region" aria-label="Technical Activities image carousel">
-            <div class="carousel-track">
+            <div class="carousel-track" role="list"></div>
               <img src="assets/images/technical-1.jpg" alt="Technical activity photo 1 of 3" class="carousel-image active" role="listitem">
               <img src="assets/images/technical-2.jpg" alt="Technical activity photo 2 of 3" class="carousel-image" role="listitem">
               <img src="assets/images/technical-3.jpg" alt="Technical activity photo 3 of 3" class="carousel-image" role="listitem">
@@ -248,11 +248,11 @@
               <p class="course-duration">12-weeks Course</p>
             </li>
           </ul>
-          <button class="cta-button" data-variant="default">Know More</button>
+          <button class="cta-button" data-variant="default" aria-label="Learn more about my courses">Know More</button>
         </div>
         <div class="content-right">
           <div class="carousel" role="region" aria-label="Learning & Courses image carousel">
-            <div class="carousel-track">
+            <div class="carousel-track" role="list"></div>
               <img src="assets/images/certificate-1.jpg" alt="Certificate photo 1 of 3" class="carousel-image active" role="listitem">
               <img src="assets/images/certificate-2.jpg" alt="Certificate photo 2 of 3" class="carousel-image" role="listitem">
               <img src="assets/images/certificate-3.jpg" alt="Certificate photo 3 of 3" class="carousel-image" role="listitem">
@@ -304,11 +304,11 @@
               <p class="project-description">Seamless integration of hardware components with software systems</p>
             </li>
           </ul>
-          <button class="cta-button" data-variant="default">Know More</button>
+          <button class="cta-button" data-variant="default" aria-label="Learn more about my projects">Know More</button>
         </div>
         <div class="content-right">
           <div class="carousel" role="region" aria-label="Projects image carousel">
-            <div class="carousel-track">
+            <div class="carousel-track" role="list"></div>
               <img src="assets/images/project-1.jpg" alt="Project photo 1 of 3" class="carousel-image active" role="listitem">
               <img src="assets/images/project-2.jpg" alt="Project photo 2 of 3" class="carousel-image" role="listitem">
               <img src="assets/images/project-3.jpg" alt="Project photo 3 of 3" class="carousel-image" role="listitem">
@@ -344,11 +344,11 @@
               <p class="award-prize">Winner - Prize of ₹1 Lakh</p>
             </li>
           </ul>
-          <button class="cta-button" data-variant="default">Know More</button>
+          <button class="cta-button" data-variant="default" aria-label="Learn more about my awards">Know More</button>
         </div>
         <div class="content-right">
           <div class="carousel" role="region" aria-label="Awards image carousel">
-            <div class="carousel-track">
+            <div class="carousel-track" role="list"></div>
               <img src="assets/images/award-1.jpg" alt="Award certificate 1 of 2" class="carousel-image active" role="listitem">
               <img src="assets/images/award-2.jpg" alt="Award certificate 2 of 2" class="carousel-image" role="listitem">
             </div>
@@ -363,15 +363,68 @@
 
     <!-- Section 8: Skills & Interests -->
     <section class="hero-panel" data-section="skills-interests">
-      <div class="hero-background"></div>
+      <div class="hero-background" style="background-image: url('assets/images/skills-background.jpg')"></div>
       <div class="hero-overlay"></div>
       <div class="hero-content">
         <div class="content-left">
           <h2 class="hero-heading">Skills & Interests</h2>
-          <!-- Content will be added in later tasks -->
+          <div class="skills-container">
+            <div class="skill-category">
+              <h3 class="skill-category-title">Programming</h3>
+              <ul class="skills-list">
+                <li class="skill-item">Java</li>
+                <li class="skill-item">Arduino</li>
+                <li class="skill-item">MATLAB</li>
+                <li class="skill-item">Spring Boot</li>
+                <li class="skill-item">C & C++</li>
+              </ul>
+            </div>
+            <div class="skill-category">
+              <h3 class="skill-category-title">Software</h3>
+              <ul class="skills-list">
+                <li class="skill-item">Auto CAD</li>
+                <li class="skill-item">Solid Works</li>
+                <li class="skill-item">GNU Radio</li>
+                <li class="skill-item">WireShark</li>
+                <li class="skill-item">Photoshop</li>
+                <li class="skill-item">Illustrator</li>
+                <li class="skill-item">PSpice</li>
+              </ul>
+            </div>
+            <div class="skill-category">
+              <h3 class="skill-category-title">Hardware</h3>
+              <ul class="skills-list">
+                <li class="skill-item">Robotics</li>
+                <li class="skill-item">PLC & Scada</li>
+                <li class="skill-item">UART</li>
+                <li class="skill-item">I2C</li>
+                <li class="skill-item">SPI</li>
+                <li class="skill-item">Lora</li>
+                <li class="skill-item">Bluetooth</li>
+                <li class="skill-item">NRF</li>
+                <li class="skill-item">RF</li>
+              </ul>
+            </div>
+          </div>
+          <div class="interests-container">
+            <h3 class="interests-title">Personal Interests</h3>
+            <p class="interests-text">Beyond my technical pursuits, I am passionate about exploring new technologies, contributing to open-source projects, and staying updated with the latest innovations in IoT and embedded systems. I enjoy problem-solving through hands-on experimentation and believe in the power of continuous learning to drive innovation.</p>
+          </div>
+          <button class="cta-button" data-variant="default" aria-label="Learn more about my skills and interests">Know More</button>
         </div>
         <div class="content-right">
-          <!-- Image card/carousel will be added in later tasks -->
+          <div class="carousel" role="region" aria-label="Skills & Interests image carousel">
+            <div class="carousel-track" role="list"></div>
+              <img src="assets/images/hobby-1.jpg" alt="Hobby photo 1 of 3" class="carousel-image active" role="listitem">
+              <img src="assets/images/hobby-2.jpg" alt="Hobby photo 2 of 3" class="carousel-image" role="listitem">
+              <img src="assets/images/hobby-3.jpg" alt="Hobby photo 3 of 3" class="carousel-image" role="listitem">
+            </div>
+            <div class="carousel-dots" role="tablist" aria-label="Carousel navigation">
+              <button class="dot active" data-index="0" role="tab" aria-selected="true" aria-label="View image 1"></button>
+              <button class="dot" data-index="1" role="tab" aria-selected="false" aria-label="View image 2"></button>
+              <button class="dot" data-index="2" role="tab" aria-selected="false" aria-label="View image 3"></button>
+            </div>
+          </div>
         </div>
       </div>
     </section>

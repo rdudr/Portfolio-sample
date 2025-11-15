@@ -24,7 +24,39 @@
     // Add click event handlers to each tab button
     tabButtons.forEach(button => {
       button.addEventListener('click', handleTabClick);
+      button.addEventListener('keydown', handleTabKeydown);
     });
+  }
+
+  /**
+   * Handle keyboard navigation for tab switcher
+   * @param {KeyboardEvent} event - Keydown event
+   */
+  function handleTabKeydown(event) {
+    const currentButton = event.currentTarget;
+    const currentIndex = Array.from(tabButtons).indexOf(currentButton);
+    let targetIndex = currentIndex;
+
+    // Handle arrow key navigation
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      targetIndex = currentIndex > 0 ? currentIndex - 1 : tabButtons.length - 1;
+    } else if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+      event.preventDefault();
+      targetIndex = currentIndex < tabButtons.length - 1 ? currentIndex + 1 : 0;
+    } else if (event.key === 'Home') {
+      event.preventDefault();
+      targetIndex = 0;
+    } else if (event.key === 'End') {
+      event.preventDefault();
+      targetIndex = tabButtons.length - 1;
+    }
+
+    // Focus and activate the target tab if index changed
+    if (targetIndex !== currentIndex) {
+      tabButtons[targetIndex].focus();
+      tabButtons[targetIndex].click();
+    }
   }
 
   /**
