@@ -111,6 +111,30 @@ html {
    Hero Content Animations
    ============================================ */
 
+/* Hero Title Animation */
+@keyframes heroTitleFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hero Tagline Animation */
+@keyframes heroTaglineFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Apply fade-in-up animation to hero content */
 .hero-content {
   animation: fadeInUp 0.8s ease-out;
@@ -407,8 +431,18 @@ html {
    Accessibility - Reduced Motion
    ============================================ */
 
-/* Disable animations for users who prefer reduced motion */
+/* 
+ * Comprehensive reduced motion support for users who prefer reduced motion
+ * Requirements: 15.5 - Respect prefers-reduced-motion media query
+ * 
+ * This ensures:
+ * - All animations are disabled or reduced to instant transitions
+ * - Functionality remains fully intact
+ * - Smooth scrolling is replaced with instant scrolling
+ * - Hover effects maintain visual feedback without transforms
+ */
 @media (prefers-reduced-motion: reduce) {
+  /* Global animation and transition override */
   *,
   *::before,
   *::after {
@@ -418,7 +452,18 @@ html {
     scroll-behavior: auto !important;
   }
 
+  /* Disable smooth scroll behavior */
+  html,
+  .hero-container,
+  .carousel-track {
+    scroll-behavior: auto !important;
+    -webkit-overflow-scrolling: auto !important;
+  }
+
+  /* Disable all keyframe animations */
   .hero-content,
+  .hero-title,
+  .hero-tagline,
   .content-left,
   .content-right,
   .hero-heading,
@@ -428,19 +473,85 @@ html {
   .carousel-dots,
   .content-list-item,
   .skill-category,
-  .site-header {
+  .site-header,
+  .view-enter,
+  .view-exit,
+  .view-enter-slide,
+  .view-exit-slide,
+  .content-row,
+  .content-card,
+  .carousel-arrow,
+  .detail-hero,
+  .detail-content,
+  .search-results-header,
+  .card-image,
+  .dot {
     animation: none !important;
   }
 
-  .carousel-image {
+  /* Disable image transitions */
+  .carousel-image,
+  .card-image {
     transition: none !important;
+    opacity: 1 !important;
   }
 
+  /* Disable hover transforms but maintain visual feedback */
   .cta-button:hover,
   .image-card:hover,
   .content-list-item:hover,
-  .skill-item:hover {
+  .skill-item:hover,
+  .content-card:hover,
+  .tab-btn:hover,
+  .dot:hover {
     transform: none !important;
+  }
+
+  /* Maintain hover visual feedback with opacity/color changes only */
+  .content-card:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .cta-button:hover {
+    opacity: 0.9 !important;
+  }
+
+  /* Disable will-change for performance optimization */
+  .hero-content,
+  .carousel,
+  .image-card,
+  .cta-button,
+  .content-card,
+  .carousel-track {
+    will-change: auto !important;
+  }
+
+  /* Disable focus ring animation */
+  .cta-button:focus-visible,
+  .tab-btn:focus-visible,
+  .dot:focus-visible,
+  .search-input:focus-visible {
+    animation: none !important;
+  }
+
+  /* Disable loading animations */
+  .loading,
+  .loading-pulse {
+    animation: none !important;
+  }
+
+  /* Ensure arrow visibility changes are instant */
+  .carousel-arrow.visible,
+  .carousel-arrow.hidden {
+    animation: none !important;
+  }
+
+  /* Disable stagger delays for content rows and cards */
+  .content-row:nth-child(n),
+  .content-card:nth-child(n),
+  .content-list-item:nth-child(n),
+  .skill-category:nth-child(n) {
+    animation-delay: 0s !important;
   }
 }
 
@@ -485,4 +596,230 @@ html {
 .dot:focus-visible,
 .search-input:focus-visible {
   animation: focusRing 0.3s ease-out;
+}
+
+
+/* ============================================
+   Netflix-Style View Transitions
+   ============================================ */
+
+/* View Enter Animation - Fade In with Slide */
+.view-enter {
+  animation: viewFadeIn 500ms ease-out;
+  animation-fill-mode: both;
+}
+
+@keyframes viewFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* View Exit Animation - Fade Out */
+.view-exit {
+  animation: viewFadeOut 400ms ease-in;
+  animation-fill-mode: both;
+  pointer-events: none; /* Prevent interaction during exit */
+}
+
+@keyframes viewFadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+/* Alternative Slide Transitions */
+.view-enter-slide {
+  animation: viewSlideIn 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  animation-fill-mode: both;
+}
+
+@keyframes viewSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.view-exit-slide {
+  animation: viewSlideOut 400ms cubic-bezier(0.7, 0, 0.84, 0);
+  animation-fill-mode: both;
+  pointer-events: none;
+}
+
+@keyframes viewSlideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+}
+
+/* Content Row Stagger Animation */
+.content-row {
+  animation: fadeInUp 600ms ease-out;
+  animation-fill-mode: both;
+}
+
+.content-row:nth-child(1) { animation-delay: 0ms; }
+.content-row:nth-child(2) { animation-delay: 100ms; }
+.content-row:nth-child(3) { animation-delay: 200ms; }
+.content-row:nth-child(4) { animation-delay: 300ms; }
+.content-row:nth-child(5) { animation-delay: 400ms; }
+.content-row:nth-child(6) { animation-delay: 500ms; }
+.content-row:nth-child(7) { animation-delay: 600ms; }
+.content-row:nth-child(8) { animation-delay: 700ms; }
+
+/* Card Hover Animation */
+.content-card {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Smooth Carousel Scroll - Requirements 11.2, 11.3 */
+.carousel-track {
+  scroll-behavior: smooth;
+  /* Smooth momentum scrolling on iOS */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Carousel scroll animation with GPU acceleration */
+@keyframes carouselScroll {
+  from {
+    transform: translateX(var(--scroll-start));
+  }
+  to {
+    transform: translateX(var(--scroll-end));
+  }
+}
+
+/* Smooth card entrance animation */
+@keyframes cardSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* Apply entrance animation to cards */
+.content-card {
+  animation: cardSlideIn 400ms ease-out;
+  animation-fill-mode: both;
+}
+
+/* Stagger card animations for visual appeal */
+.content-card:nth-child(1) { animation-delay: 0ms; }
+.content-card:nth-child(2) { animation-delay: 50ms; }
+.content-card:nth-child(3) { animation-delay: 100ms; }
+.content-card:nth-child(4) { animation-delay: 150ms; }
+.content-card:nth-child(5) { animation-delay: 200ms; }
+.content-card:nth-child(6) { animation-delay: 250ms; }
+.content-card:nth-child(7) { animation-delay: 300ms; }
+.content-card:nth-child(8) { animation-delay: 350ms; }
+
+/* Arrow fade animations */
+@keyframes arrowFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+}
+
+@keyframes arrowFadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.9);
+  }
+}
+
+/* Carousel arrow smooth transitions */
+.carousel-arrow {
+  transition: opacity 300ms ease, transform 200ms ease, background 200ms ease;
+}
+
+.carousel-arrow.visible {
+  animation: arrowFadeIn 300ms ease-out;
+}
+
+.carousel-arrow.hidden {
+  animation: arrowFadeOut 300ms ease-in;
+}
+
+/* Detail Page Hero Animation */
+.detail-hero {
+  animation: scaleIn 600ms ease-out;
+  animation-fill-mode: both;
+}
+
+/* Detail Content Animation */
+.detail-content {
+  animation: fadeInUp 600ms ease-out;
+  animation-delay: 200ms;
+  animation-fill-mode: both;
+}
+
+/* Search Results Animation */
+.search-results-header {
+  animation: fadeInUp 400ms ease-out;
+  animation-fill-mode: both;
+}
+
+/* Reduced Motion Override for Netflix-Style */
+@media (prefers-reduced-motion: reduce) {
+  .view-enter,
+  .view-exit,
+  .content-row,
+  .hero-title,
+  .hero-tagline,
+  .detail-hero,
+  .detail-content,
+  .search-results-header,
+  .content-card,
+  .carousel-arrow {
+    animation: none !important;
+  }
+  
+  .content-card:hover {
+    transform: none !important;
+  }
+  
+  .carousel-track {
+    scroll-behavior: auto !important;
+    -webkit-overflow-scrolling: auto !important;
+  }
+  
+  /* Disable all carousel animations for reduced motion */
+  .carousel-track,
+  .content-card {
+    will-change: auto !important;
+  }
 }

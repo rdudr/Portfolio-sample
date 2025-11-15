@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test: Page Transitions</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    body {
+      background: var(--color-bg-primary);
+      color: var(--color-text-primary);
+      padding: 2rem;
+    }
+
+    .test-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .test-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--color-accent);
+    }
+
+    .test-controls {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .test-button {
+      padding: 0.75rem 1.5rem;
+      background: var(--color-accent);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .test-button:hover {
+      background: #f40612;
+      transform: translateY(-2px);
+    }
+
+    .test-button.secondary {
+      background: #333;
+    }
+
+    .test-button.secondary:hover {
+      background: #444;
+    }
+
+    #app {
+      min-height: 400px;
+      background: var(--color-bg-secondary);
+      border-radius: 8px;
+      padding: 2rem;
+    }
+
+    .test-results {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+    }
+
+    .test-results h3 {
+      margin-bottom: 1rem;
+      color: var(--color-accent);
+    }
+
+    .test-results ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .test-results li {
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 4px;
+    }
+
+    .test-results li.pass {
+      border-left: 3px solid #4caf50;
+    }
+
+    .test-results li.fail {
+      border-left: 3px solid #f44336;
+    }
+
+    .test-results li.info {
+      border-left: 3px solid #2196f3;
+    }
+
+    /* Mock content styles */
+    .mock-browse-hub {
+      animation: viewFadeIn 500ms ease-out;
+    }
+
+    .mock-detail-page {
+      animation: viewSlideIn 600ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .mock-hero {
+      height: 300px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .mock-content-row {
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+    }
+
+    .mock-detail-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+    }
+
+    .mock-detail-content {
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <header class="test-header">
+      <h1>Page Transitions Test</h1>
+      <p>Testing smooth transitions between Browse Hub and Detail Pages</p>
+    </header>
+
+    <div class="test-controls">
+      <button class="test-button" onclick="testTransitionToBrowseHub()">
+        Transition to Browse Hub
+      </button>
+      <button class="test-button" onclick="testTransitionToDetailPage()">
+        Transition to Detail Page
+      </button>
+      <button class="test-button secondary" onclick="testFadeTransition()">
+        Test Fade (400ms)
+      </button>
+      <button class="test-button secondary" onclick="testSlideTransition()">
+        Test Slide (600ms)
+      </button>
+      <button class="test-button secondary" onclick="testRapidTransitions()">
+        Test Rapid Transitions
+      </button>
+      <button class="test-button secondary" onclick="runAllTests()">
+        Run All Tests
+      </button>
+    </div>
+
+    <div id="app"></div>
+
+    <div class="test-results">
+      <h3>Test Results</h3>
+      <ul id="results"></ul>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/view-manager.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/row-carousel.js"></script>
+  <script src="js/back-navigation.js"></script>
+
+  <script>
+    // Initialize test environment
+    const appContainer = document.getElementById('app');
+    const resultsContainer = document.getElementById('results');
+    const dataStore = new DataStore();
+    const viewManager = new ViewManager(appContainer, dataStore);
+    const router = new Router(viewManager);
+
+    let testCount = 0;
+
+    function logResult(message, type = 'info') {
+      const li = document.createElement('li');
+      li.className = type;
+      li.textContent = `${new Date().toLocaleTimeString()}: ${message}`;
+      resultsContainer.insertBefore(li, resultsContainer.firstChild);
+    }
+
+    function testTransitionToBrowseHub() {
+      logResult('Testing transition to Browse Hub...', 'info');
+      const startTime = performance.now();
+      
+      viewManager.renderBrowseHub();
+      
+      setTimeout(() => {
+        const endTime = performance.now();
+        const duration = Math.round(endTime - startTime);
+        
+        const hasViewEnter = appContainer.querySelector('.view-enter') !== null;
+        const hasBrowseHub = appContainer.querySelector('.browse-hub') !== null;
+        
+        if (hasViewEnter && hasBrowseHub) {
+          logResult(`✓ Browse Hub rendered with view-enter class (${duration}ms)`, 'pass');
+        } else {
+          logResult(`✗ Browse Hub missing expected classes`, 'fail');
+        }
+      }, 100);
+    }
+
+    function testTransitionToDetailPage() {
+      logResult('Testing transition to Detail Page...', 'info');
+      
+      // First ensure we have data
+      const categories = dataStore.getAllCategories();
+      if (categories.length === 0 || !categories[0].items || categories[0].items.length === 0) {
+        logResult('✗ No data available for detail page test', 'fail');
+        return;
+      }
+      
+      const category = categories[0];
+      const item = category.items[0];
+      const startTime = performance.now();
+      
+      viewManager.renderDetailPage(category.slug, item.slug);
+      
+      setTimeout(() => {
+        const endTime = performance.now();
+        const duration = Math.round(endTime - startTime);
+        
+        const hasViewEnter = appContainer.querySelector('.view-enter') !== null;
+        const hasDetailPage = appContainer.querySelector('.detail-page') !== null;
+        
+        if (hasViewEnter && hasDetailPage) {
+          logResult(`✓ Detail Page rendered with view-enter class (${duration}ms)`, 'pass');
+        } else {
+          logResult(`✗ Detail Page missing expected classes`, 'fail');
+        }
+      }, 100);
+    }
+
+    function testFadeTransition() {
+      logResult('Testing fade transition (400ms)...', 'info');
+      const startTime = performance.now();
+      
+      const mockHTML = '<div class="mock-content view-enter"><h2>Fade Transition Test</h2><p>This should fade in smoothly.</p></div>';
+      
+      viewManager.transitionTo(mockHTML, () => {
+        const endTime = performance.now();
+        const duration = Math.round(endTime - startTime);
+        
+        if (duration >= 350 && duration <= 500) {
+          logResult(`✓ Fade transition completed in ${duration}ms (expected ~400ms)`, 'pass');
+        } else {
+          logResult(`⚠ Fade transition took ${duration}ms (expected ~400ms)`, 'info');
+        }
+      }, 400, 'fade');
+    }
+
+    function testSlideTransition() {
+      logResult('Testing slide transition (600ms)...', 'info');
+      const startTime = performance.now();
+      
+      const mockHTML = '<div class="mock-content view-enter-slide"><h2>Slide Transition Test</h2><p>This should slide in smoothly.</p></div>';
+      
+      viewManager.transitionTo(mockHTML, () => {
+        const endTime = performance.now();
+        const duration = Math.round(endTime - startTime);
+        
+        if (duration >= 400 && duration <= 700) {
+          logResult(`✓ Slide transition completed in ${duration}ms (expected ~600ms)`, 'pass');
+        } else {
+          logResult(`⚠ Slide transition took ${duration}ms (expected ~600ms)`, 'info');
+        }
+      }, 600, 'slide');
+    }
+
+    function testRapidTransitions() {
+      logResult('Testing rapid transitions...', 'info');
+      let transitionCount = 0;
+      
+      function doTransition() {
+        transitionCount++;
+        const mockHTML = `<div class="mock-content view-enter"><h2>Transition ${transitionCount}</h2></div>`;
+        
+        viewManager.transitionTo(mockHTML, () => {
+          if (transitionCount < 3) {
+            setTimeout(doTransition, 100);
+          } else {
+            logResult(`✓ Completed ${transitionCount} rapid transitions without errors`, 'pass');
+          }
+        }, 300, 'fade');
+      }
+      
+      doTransition();
+    }
+
+    function testAnimationClasses() {
+      logResult('Testing animation classes...', 'info');
+      
+      // Create a test element
+      const testDiv = document.createElement('div');
+      testDiv.className = 'view-exit';
+      appContainer.appendChild(testDiv);
+      
+      // Check if animation is applied
+      const styles = window.getComputedStyle(testDiv);
+      const hasAnimation = styles.animationName !== 'none';
+      
+      if (hasAnimation) {
+        logResult('✓ view-exit class applies animation', 'pass');
+      } else {
+        logResult('✗ view-exit class does not apply animation', 'fail');
+      }
+      
+      testDiv.remove();
+    }
+
+    function testScrollToTop() {
+      logResult('Testing scroll to top on transition...', 'info');
+      
+      // Scroll down first
+      window.scrollTo(0, 500);
+      
+      setTimeout(() => {
+        const mockHTML = '<div class="mock-content view-enter"><h2>Scroll Test</h2></div>';
+        
+        viewManager.transitionTo(mockHTML, () => {
+          setTimeout(() => {
+            if (window.scrollY === 0) {
+              logResult('✓ Page scrolled to top after transition', 'pass');
+            } else {
+              logResult(`✗ Page scroll position is ${window.scrollY} (expected 0)`, 'fail');
+            }
+          }, 100);
+        }, 400, 'fade');
+      }, 100);
+    }
+
+    function runAllTests() {
+      logResult('=== Running All Tests ===', 'info');
+      resultsContainer.innerHTML = '';
+      
+      testAnimationClasses();
+      
+      setTimeout(() => {
+        testFadeTransition();
+      }, 500);
+      
+      setTimeout(() => {
+        testSlideTransition();
+      }, 1500);
+      
+      setTimeout(() => {
+        testTransitionToBrowseHub();
+      }, 2500);
+      
+      setTimeout(() => {
+        testTransitionToDetailPage();
+      }, 3500);
+      
+      setTimeout(() => {
+        testScrollToTop();
+      }, 4500);
+      
+      setTimeout(() => {
+        testRapidTransitions();
+      }, 5500);
+      
+      setTimeout(() => {
+        logResult('=== All Tests Complete ===', 'info');
+      }, 7000);
+    }
+
+    // Initial render
+    logResult('Test environment initialized', 'info');
+    logResult('Click buttons above to test transitions', 'info');
+  </script>
+</body>
+</html>

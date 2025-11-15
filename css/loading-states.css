@@ -1,0 +1,488 @@
+/**
+ * Loading States CSS
+ * Requirements: 19.1, 19.2, 19.3, 19.4, 19.5
+ * Provides skeleton cards, spinners, and error states
+ */
+
+/* ============================================
+   Skeleton Cards - Requirement 19.1
+   ============================================ */
+
+.skeleton-card {
+  flex: 0 0 auto;
+  width: 85vw;
+  max-width: 300px;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #1a1a1a;
+  position: relative;
+}
+
+.skeleton-card-image {
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  position: relative;
+}
+
+.skeleton-card-info {
+  padding: var(--spacing-sm);
+}
+
+.skeleton-card-title {
+  height: 16px;
+  width: 70%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.skeleton-card-subtitle {
+  height: 14px;
+  width: 50%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  animation-delay: 0.1s;
+  border-radius: 4px;
+  margin-bottom: 0.25rem;
+}
+
+.skeleton-card-meta {
+  height: 12px;
+  width: 30%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  animation-delay: 0.2s;
+  border-radius: 4px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Responsive skeleton cards */
+@media (min-width: 768px) {
+  .skeleton-card {
+    width: 40vw;
+    max-width: 350px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .skeleton-card {
+    width: 20vw;
+    max-width: 300px;
+  }
+}
+
+/* ============================================
+   Loading Spinner - Requirement 19.2
+   ============================================ */
+
+.loading-spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  padding: var(--spacing-xl);
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loading-spinner-small {
+  width: 30px;
+  height: 30px;
+  border-width: 3px;
+}
+
+.loading-spinner-large {
+  width: 70px;
+  height: 70px;
+  border-width: 5px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  margin-top: var(--spacing-md);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  color: var(--color-secondary);
+  text-align: center;
+}
+
+/* Full page loading overlay */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(20, 20, 20, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ============================================
+   Image Loading States - Requirement 19.3
+   ============================================ */
+
+/* Card image loading state */
+.card-image-loading {
+  position: relative;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.card-image-loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Image loaded state */
+.card-image-loaded {
+  animation: imageReveal 0.4s ease-out;
+}
+
+@keyframes imageReveal {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ============================================
+   Error States - Requirement 19.4
+   ============================================ */
+
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  padding: var(--spacing-xl);
+  text-align: center;
+}
+
+.error-icon {
+  width: 60px;
+  height: 60px;
+  margin-bottom: var(--spacing-md);
+  color: #e50914;
+  opacity: 0.8;
+}
+
+.error-title {
+  font-family: var(--font-sans);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.error-message {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  color: var(--color-secondary);
+  margin-bottom: var(--spacing-lg);
+  max-width: 500px;
+  line-height: 1.6;
+}
+
+.retry-button {
+  padding: 0.75rem 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  color: var(--color-primary);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.retry-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+.retry-button:focus {
+  outline: 2px solid rgba(255, 255, 255, 0.6);
+  outline-offset: 2px;
+}
+
+.retry-button:active {
+  transform: translateY(0);
+}
+
+/* Card image error state */
+.card-image-error {
+  position: relative;
+  background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-image-error::before {
+  content: '⚠';
+  font-size: 2rem;
+  color: rgba(255, 255, 255, 0.3);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.card-image-error::after {
+  content: 'Image unavailable';
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Detail page image error */
+.detail-hero-error {
+  background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detail-hero-error::before {
+  content: 'Image failed to load';
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.5);
+  z-index: 10;
+  position: relative;
+}
+
+/* ============================================
+   Initial Render Performance - Requirement 19.5
+   ============================================ */
+
+/* Optimize initial render with content-visibility */
+.content-row {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 400px;
+}
+
+/* Prioritize above-the-fold content */
+.hero-section,
+.content-row:nth-child(1),
+.content-row:nth-child(2),
+.content-row:nth-child(3) {
+  content-visibility: visible;
+}
+
+/* Progressive enhancement for loading */
+.browse-hub-loading .content-row {
+  opacity: 0;
+  animation: rowFadeIn 0.4s ease-out forwards;
+}
+
+.browse-hub-loading .content-row:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.browse-hub-loading .content-row:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.browse-hub-loading .content-row:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.browse-hub-loading .content-row:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.browse-hub-loading .content-row:nth-child(5) {
+  animation-delay: 0.4s;
+}
+
+.browse-hub-loading .content-row:nth-child(6) {
+  animation-delay: 0.5s;
+}
+
+.browse-hub-loading .content-row:nth-child(7) {
+  animation-delay: 0.6s;
+}
+
+.browse-hub-loading .content-row:nth-child(8) {
+  animation-delay: 0.7s;
+}
+
+@keyframes rowFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+   Reduced Motion Support
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-card-image,
+  .skeleton-card-title,
+  .skeleton-card-subtitle,
+  .skeleton-card-meta,
+  .card-image-loading {
+    animation: none;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .loading-spinner {
+    animation: none;
+    border-top-color: var(--color-primary);
+    border-right-color: var(--color-primary);
+  }
+
+  .card-image-loaded {
+    animation: none;
+  }
+
+  .browse-hub-loading .content-row {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .loading-overlay {
+    animation: none;
+  }
+}
+
+/* ============================================
+   Mobile Responsive
+   ============================================ */
+
+@media (max-width: 767px) {
+  .loading-spinner-container {
+    min-height: 300px;
+    padding: var(--spacing-md);
+  }
+
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border-width: 3px;
+  }
+
+  .error-container {
+    min-height: 300px;
+    padding: var(--spacing-md);
+  }
+
+  .error-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .error-title {
+    font-size: 1.25rem;
+  }
+
+  .error-message {
+    font-size: 0.875rem;
+  }
+
+  .retry-button {
+    padding: 0.625rem 1.5rem;
+    font-size: 0.875rem;
+    width: 100%;
+    max-width: 250px;
+  }
+}

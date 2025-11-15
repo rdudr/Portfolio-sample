@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ViewManager Test</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    body {
+      background-color: #141414;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .test-controls {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 20px;
+      border-radius: 8px;
+      z-index: 1000;
+    }
+    .test-controls button {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+      background: #e50914;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .test-controls button:hover {
+      background: #f40612;
+    }
+    #test-output {
+      margin-top: 20px;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      font-size: 12px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-controls">
+    <h3>ViewManager Tests</h3>
+    <button onclick="testRenderBrowseHub()">Test Browse Hub</button>
+    <button onclick="testRenderDetailPage()">Test Detail Page</button>
+    <button onclick="testTransitions()">Test Transitions</button>
+    <button onclick="testScrollPosition()">Test Scroll Position</button>
+    <button onclick="testNotFound()">Test 404 Page</button>
+    <div id="test-output"></div>
+  </div>
+
+  <div id="app">
+    <div class="loading-state">
+      <div class="loading-spinner"></div>
+      <p>Ready for testing...</p>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/view-manager.js"></script>
+  
+  <script>
+    // Initialize test environment
+    const appContainer = document.getElementById('app');
+    const dataStore = new DataStore();
+    const viewManager = new ViewManager(appContainer, dataStore);
+    const output = document.getElementById('test-output');
+
+    function log(message) {
+      const timestamp = new Date().toLocaleTimeString();
+      output.innerHTML += `<div>[${timestamp}] ${message}</div>`;
+      output.scrollTop = output.scrollHeight;
+      console.log(message);
+    }
+
+    function testRenderBrowseHub() {
+      log('Testing renderBrowseHub()...');
+      try {
+        viewManager.renderBrowseHub();
+        log('✓ Browse Hub rendered successfully');
+        
+        // Check if hero section exists
+        const heroSection = document.querySelector('.hero-section');
+        if (heroSection) {
+          log('✓ Hero section found');
+        } else {
+          log('✗ Hero section not found');
+        }
+        
+        // Check if content rows exist
+        const contentRows = document.querySelectorAll('.content-row');
+        log(`✓ Found ${contentRows.length} content rows`);
+        
+        // Check if cards exist
+        const cards = document.querySelectorAll('.content-card');
+        log(`✓ Found ${cards.length} content cards`);
+        
+      } catch (error) {
+        log('✗ Error: ' + error.message);
+      }
+    }
+
+    function testRenderDetailPage() {
+      log('Testing renderDetailPage()...');
+      try {
+        viewManager.renderDetailPage('education', 'gits-btech');
+        log('✓ Detail page rendered successfully');
+        
+        // Check if detail page elements exist
+        const detailPage = document.querySelector('.detail-page');
+        if (detailPage) {
+          log('✓ Detail page container found');
+        }
+        
+        const backButton = document.querySelector('.back-button');
+        if (backButton) {
+          log('✓ Back button found');
+        }
+        
+        const detailHero = document.querySelector('.detail-hero');
+        if (detailHero) {
+          log('✓ Detail hero section found');
+        }
+        
+      } catch (error) {
+        log('✗ Error: ' + error.message);
+      }
+    }
+
+    function testTransitions() {
+      log('Testing view transitions...');
+      try {
+        log('Rendering Browse Hub...');
+        viewManager.renderBrowseHub();
+        
+        setTimeout(() => {
+          log('Transitioning to Detail Page...');
+          viewManager.renderDetailPage('education', 'gits-btech');
+          
+          setTimeout(() => {
+            log('Transitioning back to Browse Hub...');
+            viewManager.renderBrowseHub();
+            log('✓ Transitions completed successfully');
+          }, 1000);
+        }, 1000);
+        
+      } catch (error) {
+        log('✗ Error: ' + error.message);
+      }
+    }
+
+    function testScrollPosition() {
+      log('Testing scroll position save/restore...');
+      try {
+        viewManager.renderBrowseHub();
+        
+        setTimeout(() => {
+          window.scrollTo(0, 500);
+          log('Scrolled to position 500');
+          
+          setTimeout(() => {
+            viewManager.saveScrollPosition();
+            log('✓ Scroll position saved');
+            
+            viewManager.renderDetailPage('education', 'gits-btech');
+            log('Navigated to detail page');
+            
+            setTimeout(() => {
+              viewManager.renderBrowseHub();
+              viewManager.restoreScrollPosition();
+              log(`✓ Scroll position restored to: ${window.scrollY}`);
+            }, 500);
+          }, 500);
+        }, 500);
+        
+      } catch (error) {
+        log('✗ Error: ' + error.message);
+      }
+    }
+
+    function testNotFound() {
+      log('Testing 404 page...');
+      try {
+        viewManager.renderNotFound();
+        log('✓ 404 page rendered successfully');
+        
+        const notFound = document.querySelector('.not-found');
+        if (notFound) {
+          log('✓ Not found container found');
+        }
+        
+      } catch (error) {
+        log('✗ Error: ' + error.message);
+      }
+    }
+
+    // Log initial state
+    log('ViewManager test environment initialized');
+    log(`DataStore has ${dataStore.getAllCategories().length} categories`);
+  </script>
+</body>
+</html>

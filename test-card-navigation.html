@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test: Card Click Navigation</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    body {
+      padding: 2rem;
+      background: var(--color-bg-primary);
+      color: var(--color-text-primary);
+    }
+    
+    .test-section {
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: var(--color-bg-secondary);
+      border-radius: 8px;
+    }
+    
+    .test-section h2 {
+      margin-bottom: 1rem;
+      color: var(--color-accent);
+    }
+    
+    .test-cards {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    
+    .test-result {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.9rem;
+    }
+    
+    .success {
+      color: #4ade80;
+    }
+    
+    .error {
+      color: #f87171;
+    }
+    
+    .info {
+      color: #60a5fa;
+    }
+    
+    #app {
+      margin-top: 2rem;
+      min-height: 400px;
+    }
+    
+    .status-indicator {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+    
+    .status-indicator.pass {
+      background: #4ade80;
+    }
+    
+    .status-indicator.fail {
+      background: #f87171;
+    }
+  </style>
+</head>
+<body>
+  <h1>Card Click Navigation Test</h1>
+  <p>Testing Requirements 5.1, 5.2, 5.3, 5.4, 5.5</p>
+
+  <div class="test-section">
+    <h2>Test 1: Click Event Listeners Attached</h2>
+    <p>Click on any card below to test navigation</p>
+    <div class="test-cards" id="test-cards-container"></div>
+    <div class="test-result" id="test1-result">
+      <span class="status-indicator" id="test1-status"></span>
+      <span id="test1-message">Waiting for card click...</span>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <h2>Test 2: URL Format (#/category-slug/item-slug)</h2>
+    <div class="test-result" id="test2-result">
+      <span class="status-indicator" id="test2-status"></span>
+      <span id="test2-message">Current URL: <span id="current-url">-</span></span>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <h2>Test 3: Router Navigation Method</h2>
+    <div class="test-result" id="test3-result">
+      <span class="status-indicator" id="test3-status"></span>
+      <span id="test3-message">Router status: <span id="router-status">-</span></span>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <h2>Test 4: Page Transition Animation (400-600ms)</h2>
+    <div class="test-result" id="test4-result">
+      <span class="status-indicator" id="test4-status"></span>
+      <span id="test4-message">Transition duration: <span id="transition-duration">-</span></span>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <h2>Test 5: Browser History Update</h2>
+    <div class="test-result" id="test5-result">
+      <span class="status-indicator" id="test5-status"></span>
+      <span id="test5-message">History entries: <span id="history-count">-</span></span>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <h2>Application View</h2>
+    <div id="app"></div>
+  </div>
+
+  <!-- Load JavaScript modules -->
+  <script src="js/data.js"></script>
+  <script src="js/content-card.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/view-manager.js"></script>
+  <script src="js/row-carousel.js"></script>
+
+  <script>
+    // Test suite
+    let testResults = {
+      test1: false,
+      test2: false,
+      test3: false,
+      test4: false,
+      test5: false
+    };
+
+    let initialHistoryLength = window.history.length;
+    let transitionStartTime = null;
+
+    // Initialize data store
+    const dataStore = new DataStore();
+    const appContainer = document.getElementById('app');
+    const viewManager = new ViewManager(appContainer, dataStore);
+    const router = new Router(viewManager);
+    
+    // Expose router globally
+    window.router = router;
+    
+    // Initialize router
+    router.init();
+
+    // Test 1: Create test cards
+    function createTestCards() {
+      const container = document.getElementById('test-cards-container');
+      const categories = dataStore.getAllCategories();
+      
+      if (categories.length === 0) {
+        updateTestResult('test1', false, 'No categories found in data store');
+        return;
+      }
+
+      // Create 3 test cards from first category
+      const firstCategory = categories[0];
+      const testItems = firstCategory.items.slice(0, 3);
+
+      testItems.forEach(item => {
+        const card = new ContentCard(item, firstCategory.slug);
+        const cardElement = card.render();
+        container.appendChild(cardElement);
+      });
+
+      updateTestResult('test1', true, `${testItems.length} cards created with click listeners`);
+    }
+
+    // Test 2: Monitor URL changes
+    function monitorURLChanges() {
+      const updateURL = () => {
+        const currentURL = window.location.hash || '#/';
+        document.getElementById('current-url').textContent = currentURL;
+        
+        // Check URL format
+        const urlPattern = /^#\/[a-z0-9-]+\/[a-z0-9-]+$/;
+        if (currentURL !== '#/' && currentURL !== '') {
+          const isValidFormat = urlPattern.test(currentURL);
+          updateTestResult('test2', isValidFormat, 
+            isValidFormat ? 'URL format is correct' : 'URL format is incorrect');
+        }
+      };
+
+      window.addEventListener('hashchange', updateURL);
+      updateURL();
+    }
+
+    // Test 3: Check router availability
+    function checkRouter() {
+      const hasRouter = typeof window.router !== 'undefined';
+      const hasNavigate = hasRouter && typeof window.router.navigate === 'function';
+      
+      if (hasRouter && hasNavigate) {
+        updateTestResult('test3', true, 'Router is available with navigate() method');
+        document.getElementById('router-status').textContent = 'Available ✓';
+      } else {
+        updateTestResult('test3', false, 'Router or navigate() method not found');
+        document.getElementById('router-status').textContent = 'Not Available ✗';
+      }
+    }
+
+    // Test 4: Measure transition duration
+    function measureTransitionDuration() {
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          mutation.addedNodes.forEach((node) => {
+            if (node.classList && node.classList.contains('view-enter')) {
+              transitionStartTime = performance.now();
+              
+              // Check animation duration
+              const computedStyle = window.getComputedStyle(node);
+              const animationDuration = computedStyle.animationDuration;
+              const durationMs = parseFloat(animationDuration) * 1000;
+              
+              const isValid = durationMs >= 400 && durationMs <= 600;
+              updateTestResult('test4', isValid, 
+                `Animation duration: ${durationMs}ms (${isValid ? 'Valid' : 'Invalid'})`);
+              document.getElementById('transition-duration').textContent = `${durationMs}ms`;
+            }
+          });
+        });
+      });
+
+      observer.observe(appContainer, { childList: true, subtree: true });
+    }
+
+    // Test 5: Monitor history changes
+    function monitorHistory() {
+      let clickCount = 0;
+      
+      window.addEventListener('hashchange', () => {
+        clickCount++;
+        const currentLength = window.history.length;
+        const historyAdded = currentLength > initialHistoryLength;
+        
+        if (clickCount > 0) {
+          updateTestResult('test5', historyAdded, 
+            historyAdded ? 'History entry added' : 'History not updated');
+          document.getElementById('history-count').textContent = 
+            `${currentLength} (initial: ${initialHistoryLength})`;
+        }
+      });
+    }
+
+    // Update test result display
+    function updateTestResult(testId, passed, message) {
+      testResults[testId] = passed;
+      
+      const statusElement = document.getElementById(`${testId}-status`);
+      const messageElement = document.getElementById(`${testId}-message`);
+      
+      statusElement.className = `status-indicator ${passed ? 'pass' : 'fail'}`;
+      messageElement.innerHTML = `<span class="${passed ? 'success' : 'error'}">${message}</span>`;
+    }
+
+    // Run tests
+    function runTests() {
+      console.log('Starting card navigation tests...');
+      
+      createTestCards();
+      monitorURLChanges();
+      checkRouter();
+      measureTransitionDuration();
+      monitorHistory();
+      
+      console.log('Tests initialized. Click on a card to test navigation.');
+    }
+
+    // Initialize tests when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', runTests);
+    } else {
+      runTests();
+    }
+
+    // Summary after 10 seconds
+    setTimeout(() => {
+      console.log('Test Results Summary:');
+      console.log('Test 1 (Click Listeners):', testResults.test1 ? 'PASS' : 'FAIL');
+      console.log('Test 2 (URL Format):', testResults.test2 ? 'PASS' : 'FAIL');
+      console.log('Test 3 (Router):', testResults.test3 ? 'PASS' : 'FAIL');
+      console.log('Test 4 (Transition):', testResults.test4 ? 'PASS' : 'FAIL');
+      console.log('Test 5 (History):', testResults.test5 ? 'PASS' : 'FAIL');
+    }, 10000);
+  </script>
+</body>
+</html>

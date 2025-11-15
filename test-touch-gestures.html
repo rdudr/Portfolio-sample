@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Touch Gesture Test - Netflix Portfolio</title>
+  
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  
+  <style>
+    body {
+      padding: 2rem;
+      background: var(--color-bg-primary, #141414);
+      color: var(--color-text-primary, #ffffff);
+    }
+
+    .test-section {
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: var(--color-bg-secondary, #1a1a1a);
+      border-radius: 8px;
+    }
+
+    .test-section h2 {
+      margin-bottom: 1rem;
+      color: var(--color-accent, #e50914);
+    }
+
+    .test-instructions {
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+
+    .test-instructions ul {
+      margin-top: 0.5rem;
+      padding-left: 1.5rem;
+    }
+
+    .test-instructions li {
+      margin-bottom: 0.5rem;
+    }
+
+    .gesture-log {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 4px;
+      max-height: 200px;
+      overflow-y: auto;
+      font-family: monospace;
+      font-size: 0.85rem;
+    }
+
+    .gesture-log-entry {
+      padding: 0.25rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .gesture-log-entry:last-child {
+      border-bottom: none;
+    }
+
+    .mock-detail-page {
+      position: relative;
+      min-height: 400px;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9));
+      border-radius: 8px;
+      padding: 2rem;
+      touch-action: pan-y;
+    }
+
+    .mock-detail-page h3 {
+      margin-bottom: 1rem;
+    }
+
+    .swipe-indicator {
+      position: absolute;
+      top: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+
+    .clear-log-btn {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background: var(--color-accent, #e50914);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .clear-log-btn:hover {
+      opacity: 0.9;
+    }
+
+    .status-indicator {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-left: 1rem;
+    }
+
+    .status-active {
+      background: rgba(0, 255, 0, 0.2);
+      color: #00ff00;
+    }
+
+    .status-inactive {
+      background: rgba(255, 255, 255, 0.1);
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <h1>Touch Gesture Test Suite</h1>
+  <p style="margin-bottom: 2rem; opacity: 0.8;">Test touch gestures on mobile or use Chrome DevTools device emulation</p>
+
+  <!-- Test 1: Carousel Horizontal Swipe -->
+  <div class="test-section">
+    <h2>Test 1: Carousel Horizontal Swipe <span class="status-indicator status-active">Active</span></h2>
+    
+    <div class="test-instructions">
+      <strong>Instructions:</strong>
+      <ul>
+        <li>Swipe left/right on the carousel to scroll</li>
+        <li>Release to see momentum scrolling with deceleration</li>
+        <li>Cards should snap to boundaries after scrolling</li>
+        <li>Check the log below for gesture events</li>
+      </ul>
+    </div>
+
+    <div class="row-carousel" id="test-carousel-1">
+      <button class="carousel-arrow carousel-arrow-left" aria-label="Scroll left">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+      <div class="carousel-track">
+        <article class="content-card">
+          <div class="card-image-container">
+            <div class="card-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+          </div>
+          <div class="card-info">
+            <h3 class="card-title">Card 1</h3>
+            <p class="card-subtitle">Test Card</p>
+          </div>
+        </article>
+        <article class="content-card">
+          <div class="card-image-container">
+            <div class="card-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+          </div>
+          <div class="card-info">
+            <h3 class="card-title">Card 2</h3>
+            <p class="card-subtitle">Test Card</p>
+          </div>
+        </article>
+        <article class="content-card">
+          <div class="card-image-container">
+            <div class="card-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
+          </div>
+          <div class="card-info">
+            <h3 class="card-title">Card 3</h3>
+            <p class="card-subtitle">Test Card</p>
+          </div>
+        </article>
+        <article class="content-card">
+          <div class="card-image-container">
+            <div class="card-image" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);"></div>
+          </div>
+          <div class="card-info">
+            <h3 class="card-title">Card 4</h3>
+            <p class="card-subtitle">Test Card</p>
+          </div>
+        </article>
+        <article class="content-card">
+          <div class="card-image-container">
+            <div class="card-image" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);"></div>
+          </div>
+          <div class="card-info">
+            <h3 class="card-title">Card 5</h3>
+            <p class="card-subtitle">Test Card</p>
+          </div>
+        </article>
+        <article class="content-card">
+          <div class="card-image-container">
+            <div class="card-image" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);"></div>
+          </div>
+          <div class="card-info">
+            <h3 class="card-title">Card 6</h3>
+            <p class="card-subtitle">Test Card</p>
+          </div>
+        </article>
+      </div>
+      <button class="carousel-arrow carousel-arrow-right" aria-label="Scroll right">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
+
+    <div class="gesture-log" id="carousel-log"></div>
+    <button class="clear-log-btn" onclick="clearLog('carousel-log')">Clear Log</button>
+  </div>
+
+  <!-- Test 2: Detail Page Vertical Swipe -->
+  <div class="test-section">
+    <h2>Test 2: Detail Page Vertical Swipe-Down <span class="status-indicator status-active">Active</span></h2>
+    
+    <div class="test-instructions">
+      <strong>Instructions:</strong>
+      <ul>
+        <li>Swipe down on the detail page area (when at top of page)</li>
+        <li>Swipe with sufficient distance (>80px) or velocity</li>
+        <li>Page should close and trigger callback</li>
+        <li>Check the log below for gesture events</li>
+      </ul>
+    </div>
+
+    <div class="mock-detail-page" id="test-detail-page">
+      <div class="swipe-indicator">↓ Swipe down to close ↓</div>
+      <h3>Mock Detail Page</h3>
+      <p>This simulates a detail page. Swipe down from the top to close.</p>
+      <p style="margin-top: 1rem; opacity: 0.7;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    </div>
+
+    <div class="gesture-log" id="detail-log"></div>
+    <button class="clear-log-btn" onclick="clearLog('detail-log')">Clear Log</button>
+  </div>
+
+  <!-- Test 3: Momentum Scrolling -->
+  <div class="test-section">
+    <h2>Test 3: Momentum Scrolling <span class="status-indicator status-active">Active</span></h2>
+    
+    <div class="test-instructions">
+      <strong>Instructions:</strong>
+      <ul>
+        <li>Swipe quickly on the carousel (flick gesture)</li>
+        <li>Observe smooth deceleration after release</li>
+        <li>Velocity should be calculated and applied</li>
+        <li>Check the log for velocity values</li>
+      </ul>
+    </div>
+
+    <div class="row-carousel" id="test-carousel-2">
+      <button class="carousel-arrow carousel-arrow-left" aria-label="Scroll left">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+      <div class="carousel-track">
+        <article class="content-card">
+          <div class="card-image-container">
+            <div class="card-image" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);"></div>
+          </div>
+          <div class="card-info">
+            <h3 class="card-title">Card A</h3>
+            <p class="card-subtitle">Momentum Test</p>
+          </div>
+        </article>
+        <article class="content-card">
+          <div class="card-image-container">
+            <div class="card-image" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);"></div>
+          </div>
+          <div class="card-info">
+            <h3 class="card-title">Card B</h3>
+            <p class="card-subtitle">Momentum Test</p>
+          </div>
+        </article>
+        <article class="content-card">
+          <div class="card-image-container">
+            <div class="card-image" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);"></div>
+          </div>
+          <div class="card-info">
+            <h3 class="card-title">Card C</h3>
+            <p class="card-subtitle">Momentum Test</p>
+          </div>
+        </article>
+        <article class="content-card">
+          <div class="card-image-container">
+            <div class="card-image" style="background: linear-gradient(135deg, #ff6e7f 0%, #bfe9ff 100%);"></div>
+          </div>
+          <div class="card-info">
+            <h3 class="card-title">Card D</h3>
+            <p class="card-subtitle">Momentum Test</p>
+          </div>
+        </article>
+        <article class="content-card">
+          <div class="card-image-container">
+            <div class="card-image" style="background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);"></div>
+          </div>
+          <div class="card-info">
+            <h3 class="card-title">Card E</h3>
+            <p class="card-subtitle">Momentum Test</p>
+          </div>
+        </article>
+      </div>
+      <button class="carousel-arrow carousel-arrow-right" aria-label="Scroll right">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
+
+    <div class="gesture-log" id="momentum-log"></div>
+    <button class="clear-log-btn" onclick="clearLog('momentum-log')">Clear Log</button>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="js/touch-handler.js"></script>
+  <script src="js/row-carousel.js"></script>
+  
+  <script>
+    // Logging utilities
+    function logGesture(logId, message) {
+      const log = document.getElementById(logId);
+      const entry = document.createElement('div');
+      entry.className = 'gesture-log-entry';
+      const timestamp = new Date().toLocaleTimeString();
+      entry.textContent = `[${timestamp}] ${message}`;
+      log.insertBefore(entry, log.firstChild);
+      
+      // Keep only last 20 entries
+      while (log.children.length > 20) {
+        log.removeChild(log.lastChild);
+      }
+    }
+
+    function clearLog(logId) {
+      document.getElementById(logId).innerHTML = '';
+    }
+
+    // Test 1: Carousel with TouchHandler
+    const carousel1 = document.getElementById('test-carousel-1');
+    const touchHandler1 = new TouchHandler(carousel1, {
+      type: 'carousel',
+      snapToCards: true,
+      momentumEnabled: true,
+      swipeThreshold: 50,
+      velocityThreshold: 0.5
+    });
+    touchHandler1.init();
+    logGesture('carousel-log', 'TouchHandler initialized for carousel');
+
+    // Add event listeners to track gestures
+    const track1 = carousel1.querySelector('.carousel-track');
+    track1.addEventListener('touchstart', () => {
+      logGesture('carousel-log', 'Touch start detected');
+    });
+    track1.addEventListener('touchmove', () => {
+      logGesture('carousel-log', 'Touch move - scrolling');
+    });
+    track1.addEventListener('touchend', () => {
+      logGesture('carousel-log', 'Touch end - applying momentum');
+    });
+
+    // Test 2: Detail Page with TouchHandler
+    const detailPage = document.getElementById('test-detail-page');
+    const touchHandler2 = new TouchHandler(detailPage, {
+      type: 'detail-page',
+      swipeThreshold: 80,
+      velocityThreshold: 0.8,
+      onSwipeDown: () => {
+        logGesture('detail-log', '✓ Swipe down detected - closing detail page');
+        alert('Detail page would close now!');
+        
+        // Reset the page position
+        setTimeout(() => {
+          detailPage.style.transform = '';
+          detailPage.style.opacity = '';
+        }, 100);
+      }
+    });
+    touchHandler2.init();
+    logGesture('detail-log', 'TouchHandler initialized for detail page');
+
+    // Add event listeners
+    detailPage.addEventListener('touchstart', () => {
+      logGesture('detail-log', 'Touch start detected');
+    });
+    detailPage.addEventListener('touchmove', (e) => {
+      const deltaY = e.touches[0].pageY - touchHandler2.touchStartY;
+      if (deltaY > 0) {
+        logGesture('detail-log', `Swiping down: ${Math.round(deltaY)}px`);
+      }
+    });
+    detailPage.addEventListener('touchend', () => {
+      logGesture('detail-log', 'Touch end - checking swipe threshold');
+    });
+
+    // Test 3: Momentum Scrolling
+    const carousel2 = document.getElementById('test-carousel-2');
+    const touchHandler3 = new TouchHandler(carousel2, {
+      type: 'carousel',
+      snapToCards: true,
+      momentumEnabled: true,
+      swipeThreshold: 50,
+      velocityThreshold: 0.5
+    });
+    touchHandler3.init();
+    logGesture('momentum-log', 'TouchHandler initialized with momentum');
+
+    const track2 = carousel2.querySelector('.carousel-track');
+    track2.addEventListener('touchstart', () => {
+      logGesture('momentum-log', 'Touch start - tracking velocity');
+    });
+    track2.addEventListener('touchend', () => {
+      const velocity = Math.abs(touchHandler3.velocity).toFixed(3);
+      logGesture('momentum-log', `Touch end - velocity: ${velocity}`);
+      if (Math.abs(touchHandler3.velocity) > 0.5) {
+        logGesture('momentum-log', '✓ Momentum scrolling applied');
+      } else {
+        logGesture('momentum-log', 'Velocity too low for momentum');
+      }
+    });
+
+    // Initialize RowCarousel for arrow functionality
+    const rowCarousel1 = new RowCarousel(carousel1);
+    rowCarousel1.init();
+    
+    const rowCarousel2 = new RowCarousel(carousel2);
+    rowCarousel2.init();
+
+    console.log('Touch gesture tests initialized');
+  </script>
+</body>
+</html>

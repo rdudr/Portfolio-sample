@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PreloadManager Test - Netflix Portfolio</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    body {
+      padding: 2rem;
+      background: var(--color-bg-primary);
+      color: var(--color-text-primary);
+    }
+
+    .test-section {
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: var(--color-bg-secondary);
+      border-radius: 8px;
+    }
+
+    .test-section h2 {
+      margin-bottom: 1rem;
+      color: var(--color-accent);
+    }
+
+    .test-results {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.9rem;
+    }
+
+    .test-results pre {
+      margin: 0;
+      white-space: pre-wrap;
+    }
+
+    .success {
+      color: #4caf50;
+    }
+
+    .error {
+      color: #f44336;
+    }
+
+    .info {
+      color: #2196f3;
+    }
+
+    .test-button {
+      padding: 0.75rem 1.5rem;
+      margin: 0.5rem 0.5rem 0.5rem 0;
+      background: var(--color-accent);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .test-button:hover {
+      background: #c40812;
+    }
+
+    .carousel-container {
+      margin-top: 1rem;
+    }
+
+    .content-card {
+      cursor: pointer;
+    }
+
+    .stats-display {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .stat-card {
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+    }
+
+    .stat-card h3 {
+      font-size: 0.9rem;
+      color: var(--color-text-secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-card .value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--color-accent);
+    }
+  </style>
+</head>
+<body>
+  <h1>PreloadManager Test Suite</h1>
+  <p>Testing preloading functionality for detail page images and adjacent cards</p>
+
+  <!-- Test 1: Basic Initialization -->
+  <div class="test-section">
+    <h2>Test 1: PreloadManager Initialization</h2>
+    <button class="test-button" onclick="testInitialization()">Run Test</button>
+    <div id="test1-results" class="test-results"></div>
+  </div>
+
+  <!-- Test 2: Card Hover Preloading -->
+  <div class="test-section">
+    <h2>Test 2: Card Hover Preloading (500ms delay)</h2>
+    <p>Hover over a card for 500ms to trigger preloading</p>
+    <div class="carousel-container">
+      <div class="row-carousel">
+        <div class="carousel-track" id="test-carousel">
+          <!-- Cards will be inserted here -->
+        </div>
+      </div>
+    </div>
+    <button class="test-button" onclick="testCardHoverPreload()">Setup Test</button>
+    <button class="test-button" onclick="checkPreloadStats()">Check Stats</button>
+    <div id="test2-results" class="test-results"></div>
+  </div>
+
+  <!-- Test 3: Cancel Preload on Hover End -->
+  <div class="test-section">
+    <h2>Test 3: Cancel Preload on Hover End</h2>
+    <p>Hover over a card briefly (less than 500ms) and move away</p>
+    <button class="test-button" onclick="testCancelPreload()">Run Test</button>
+    <div id="test3-results" class="test-results"></div>
+  </div>
+
+  <!-- Test 4: Adjacent Cards Preloading -->
+  <div class="test-section">
+    <h2>Test 4: Adjacent Cards Preloading</h2>
+    <p>Scroll the carousel to trigger adjacent card preloading</p>
+    <button class="test-button" onclick="testAdjacentPreload()">Run Test</button>
+    <div id="test4-results" class="test-results"></div>
+  </div>
+
+  <!-- Test 5: Critical Images Preloading -->
+  <div class="test-section">
+    <h2>Test 5: Critical Images Preloading</h2>
+    <button class="test-button" onclick="testCriticalPreload()">Run Test</button>
+    <div id="test5-results" class="test-results"></div>
+  </div>
+
+  <!-- Test 6: Preload Statistics -->
+  <div class="test-section">
+    <h2>Test 6: Preload Statistics</h2>
+    <button class="test-button" onclick="displayStats()">Display Stats</button>
+    <div class="stats-display" id="stats-display"></div>
+    <div id="test6-results" class="test-results"></div>
+  </div>
+
+  <!-- Test 7: Touch Device Detection -->
+  <div class="test-section">
+    <h2>Test 7: Touch Device Detection</h2>
+    <p>Preloading should be disabled on touch devices</p>
+    <button class="test-button" onclick="testTouchDetection()">Run Test</button>
+    <div id="test7-results" class="test-results"></div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/preload-manager.js"></script>
+
+  <script>
+    let dataStore;
+    let preloadManager;
+
+    // Initialize data store
+    dataStore = new DataStore();
+
+    function log(elementId, message, type = 'info') {
+      const element = document.getElementById(elementId);
+      const className = type === 'success' ? 'success' : type === 'error' ? 'error' : 'info';
+      element.innerHTML += `<div class="${className}">${message}</div>`;
+    }
+
+    function clearLog(elementId) {
+      document.getElementById(elementId).innerHTML = '';
+    }
+
+    // Test 1: Initialization
+    function testInitialization() {
+      clearLog('test1-results');
+      
+      try {
+        preloadManager = new PreloadManager(dataStore);
+        log('test1-results', '✓ PreloadManager instance created', 'success');
+        
+        if (preloadManager.dataStore === dataStore) {
+          log('test1-results', '✓ DataStore reference set correctly', 'success');
+        } else {
+          log('test1-results', '✗ DataStore reference not set', 'error');
+        }
+        
+        if (preloadManager.preloadDelay === 500) {
+          log('test1-results', '✓ Preload delay set to 500ms', 'success');
+        } else {
+          log('test1-results', '✗ Preload delay incorrect', 'error');
+        }
+        
+        if (preloadManager.adjacentCardsToPreload === 2) {
+          log('test1-results', '✓ Adjacent cards count set to 2', 'success');
+        } else {
+          log('test1-results', '✗ Adjacent cards count incorrect', 'error');
+        }
+        
+        log('test1-results', '✓ All initialization tests passed!', 'success');
+      } catch (error) {
+        log('test1-results', `✗ Error: ${error.message}`, 'error');
+      }
+    }
+
+    // Test 2: Card Hover Preloading
+    function testCardHoverPreload() {
+      clearLog('test2-results');
+      
+      if (!preloadManager) {
+        preloadManager = new PreloadManager(dataStore);
+      }
+      
+      // Create test cards
+      const carousel = document.getElementById('test-carousel');
+      carousel.innerHTML = '';
+      
+      const categories = dataStore.getAllCategories();
+      const firstCategory = categories[0];
+      
+      firstCategory.items.slice(0, 5).forEach(item => {
+        const card = document.createElement('article');
+        card.className = 'content-card';
+        card.setAttribute('data-category', firstCategory.slug);
+        card.setAttribute('data-slug', item.slug);
+        
+        card.innerHTML = `
+          <div class="card-image-container">
+            <img src="${item.thumbnail || item.image}" alt="${item.title}" class="card-image">
+          </div>
+          <div class="card-info">
+            <h3 class="card-title">${item.title}</h3>
+          </div>
+        `;
+        
+        carousel.appendChild(card);
+      });
+      
+      // Initialize preload manager
+      preloadManager.init(document.body);
+      
+      log('test2-results', '✓ Test cards created', 'success');
+      log('test2-results', 'ℹ Hover over a card for 500ms to trigger preloading', 'info');
+      log('test2-results', 'ℹ Then click "Check Stats" to see preloaded images', 'info');
+    }
+
+    function checkPreloadStats() {
+      if (!preloadManager) {
+        log('test2-results', '✗ PreloadManager not initialized', 'error');
+        return;
+      }
+      
+      const stats = preloadManager.getStats();
+      log('test2-results', `ℹ Preloaded images: ${stats.preloadedCount}`, 'info');
+      log('test2-results', `ℹ Active timers: ${stats.activeTimers}`, 'info');
+      
+      if (stats.preloadedCount > 0) {
+        log('test2-results', '✓ Images have been preloaded!', 'success');
+        log('test2-results', `ℹ Preloaded: ${stats.preloadedImages.join(', ')}`, 'info');
+      }
+    }
+
+    // Test 3: Cancel Preload
+    function testCancelPreload() {
+      clearLog('test3-results');
+      
+      if (!preloadManager) {
+        preloadManager = new PreloadManager(dataStore);
+      }
+      
+      const initialStats = preloadManager.getStats();
+      const initialCount = initialStats.preloadedCount;
+      
+      log('test3-results', `ℹ Initial preloaded count: ${initialCount}`, 'info');
+      log('test3-results', 'ℹ Simulating quick hover (< 500ms)...', 'info');
+      
+      // Create a test card
+      const testCard = document.createElement('div');
+      testCard.className = 'content-card';
+      testCard.setAttribute('data-category', 'education');
+      testCard.setAttribute('data-slug', 'test-item');
+      
+      // Simulate hover start
+      preloadManager.handleCardHover(testCard);
+      
+      // Cancel after 200ms (before 500ms delay)
+      setTimeout(() => {
+        preloadManager.cancelCardPreload(testCard);
+        
+        const finalStats = preloadManager.getStats();
+        const finalCount = finalStats.preloadedCount;
+        
+        if (finalCount === initialCount) {
+          log('test3-results', '✓ Preload cancelled successfully (no new images loaded)', 'success');
+        } else {
+          log('test3-results', '✗ Preload was not cancelled', 'error');
+        }
+        
+        if (finalStats.activeTimers === 0) {
+          log('test3-results', '✓ Timer cleared successfully', 'success');
+        } else {
+          log('test3-results', '✗ Timer not cleared', 'error');
+        }
+      }, 200);
+    }
+
+    // Test 4: Adjacent Cards Preloading
+    function testAdjacentPreload() {
+      clearLog('test4-results');
+      
+      if (!preloadManager) {
+        preloadManager = new PreloadManager(dataStore);
+      }
+      
+      log('test4-results', 'ℹ Testing adjacent card preloading...', 'info');
+      
+      const carousel = document.getElementById('test-carousel');
+      if (carousel.children.length === 0) {
+        log('test4-results', '✗ No cards in carousel. Run Test 2 first.', 'error');
+        return;
+      }
+      
+      const initialStats = preloadManager.getStats();
+      log('test4-results', `ℹ Initial preloaded count: ${initialStats.preloadedCount}`, 'info');
+      
+      // Trigger adjacent preload
+      preloadManager.preloadAdjacentCards(carousel);
+      
+      setTimeout(() => {
+        const finalStats = preloadManager.getStats();
+        log('test4-results', `ℹ Final preloaded count: ${finalStats.preloadedCount}`, 'info');
+        
+        if (finalStats.preloadedCount > initialStats.preloadedCount) {
+          log('test4-results', '✓ Adjacent cards preloaded successfully!', 'success');
+          log('test4-results', `ℹ Preloaded ${finalStats.preloadedCount - initialStats.preloadedCount} additional images`, 'info');
+        } else {
+          log('test4-results', 'ℹ No new images preloaded (may already be cached)', 'info');
+        }
+      }, 500);
+    }
+
+    // Test 5: Critical Images Preloading
+    function testCriticalPreload() {
+      clearLog('test5-results');
+      
+      // Create fresh instance
+      preloadManager = new PreloadManager(dataStore);
+      
+      log('test5-results', 'ℹ Preloading critical images...', 'info');
+      
+      const initialStats = preloadManager.getStats();
+      log('test5-results', `ℹ Initial preloaded count: ${initialStats.preloadedCount}`, 'info');
+      
+      preloadManager.preloadCriticalImages();
+      
+      setTimeout(() => {
+        const finalStats = preloadManager.getStats();
+        log('test5-results', `ℹ Final preloaded count: ${finalStats.preloadedCount}`, 'info');
+        
+        if (finalStats.preloadedCount > 0) {
+          log('test5-results', '✓ Critical images preloaded successfully!', 'success');
+          log('test5-results', `ℹ Preloaded ${finalStats.preloadedCount} images`, 'info');
+        } else {
+          log('test5-results', '✗ No critical images preloaded', 'error');
+        }
+      }, 1000);
+    }
+
+    // Test 6: Display Statistics
+    function displayStats() {
+      clearLog('test6-results');
+      
+      if (!preloadManager) {
+        log('test6-results', '✗ PreloadManager not initialized', 'error');
+        return;
+      }
+      
+      const stats = preloadManager.getStats();
+      
+      const statsDisplay = document.getElementById('stats-display');
+      statsDisplay.innerHTML = `
+        <div class="stat-card">
+          <h3>Preloaded Images</h3>
+          <div class="value">${stats.preloadedCount}</div>
+        </div>
+        <div class="stat-card">
+          <h3>Active Timers</h3>
+          <div class="value">${stats.activeTimers}</div>
+        </div>
+        <div class="stat-card">
+          <h3>Adjacent Cards</h3>
+          <div class="value">${preloadManager.adjacentCardsToPreload}</div>
+        </div>
+        <div class="stat-card">
+          <h3>Preload Delay</h3>
+          <div class="value">${preloadManager.preloadDelay}ms</div>
+        </div>
+      `;
+      
+      log('test6-results', '✓ Statistics displayed', 'success');
+      
+      if (stats.preloadedImages.length > 0) {
+        log('test6-results', 'ℹ Preloaded images:', 'info');
+        stats.preloadedImages.forEach(img => {
+          log('test6-results', `  - ${img}`, 'info');
+        });
+      }
+    }
+
+    // Test 7: Touch Device Detection
+    function testTouchDetection() {
+      clearLog('test7-results');
+      
+      if (!preloadManager) {
+        preloadManager = new PreloadManager(dataStore);
+      }
+      
+      const isTouchDevice = preloadManager.isTouchDevice();
+      
+      log('test7-results', `ℹ Touch device detected: ${isTouchDevice}`, 'info');
+      
+      if (isTouchDevice) {
+        log('test7-results', '✓ Touch device detection working', 'success');
+        log('test7-results', 'ℹ Hover preloading should be disabled', 'info');
+      } else {
+        log('test7-results', '✓ Non-touch device detected', 'success');
+        log('test7-results', 'ℹ Hover preloading should be enabled', 'info');
+      }
+    }
+
+    // Auto-run initialization test
+    window.addEventListener('load', () => {
+      testInitialization();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Browse Hub - Dynamic Content Rows</title>
+  
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  
+  <style>
+    body {
+      background-color: #141414;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .test-container {
+      padding: 2rem;
+    }
+    
+    .test-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .test-header h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .test-header p {
+      color: #b3b3b3;
+      font-size: 1rem;
+    }
+    
+    .test-info {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+    
+    .test-info h2 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .test-info ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    
+    .test-info li {
+      padding: 0.25rem 0;
+      color: #b3b3b3;
+    }
+    
+    .test-info li::before {
+      content: '✓ ';
+      color: #4caf50;
+      margin-right: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <div class="test-header">
+      <h1>Browse Hub - Dynamic Content Rows Test</h1>
+      <p>Testing Task 12: Dynamically render all 8 content rows</p>
+    </div>
+    
+    <div class="test-info">
+      <h2>Test Requirements:</h2>
+      <ul>
+        <li>Loop through DataStore categories</li>
+        <li>Generate ContentRow for each category</li>
+        <li>Render ContentCards for each item</li>
+        <li>Append to Browse Hub container</li>
+        <li>Add sequential fade-in animation (100ms stagger)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Main Application Container -->
+  <main id="app" role="main">
+    <!-- Browse Hub will be dynamically rendered here -->
+  </main>
+
+  <!-- JavaScript Modules -->
+  <script src="js/data.js"></script>
+  <script src="js/row-carousel.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/view-manager.js"></script>
+  
+  <script>
+    // Test script to render Browse Hub
+    (function() {
+      'use strict';
+      
+      console.log('=== Browse Hub Dynamic Rendering Test ===');
+      
+      // Initialize data store
+      const dataStore = new DataStore();
+      console.log('✓ DataStore initialized');
+      console.log('  Categories:', dataStore.getAllCategories().length);
+      
+      // Get all categories
+      const categories = dataStore.getAllCategories();
+      categories.forEach((cat, index) => {
+        console.log(`  ${index + 1}. ${cat.title} (${cat.items.length} items)`);
+      });
+      
+      // Initialize view manager
+      const appContainer = document.getElementById('app');
+      const viewManager = new ViewManager(appContainer, dataStore);
+      console.log('✓ ViewManager initialized');
+      
+      // Render Browse Hub with all 8 content rows
+      console.log('✓ Rendering Browse Hub...');
+      viewManager.renderBrowseHub();
+      
+      // Wait for render to complete, then verify
+      setTimeout(() => {
+        const renderedRows = document.querySelectorAll('.content-row');
+        console.log(`✓ Rendered ${renderedRows.length} content rows`);
+        
+        renderedRows.forEach((row, index) => {
+          const title = row.querySelector('.row-title').textContent;
+          const cards = row.querySelectorAll('.content-card');
+          console.log(`  ${index + 1}. ${title}: ${cards.length} cards`);
+        });
+        
+        // Check animations
+        const hasAnimations = Array.from(renderedRows).every(row => {
+          const computedStyle = window.getComputedStyle(row);
+          return computedStyle.animationName !== 'none';
+        });
+        
+        if (hasAnimations) {
+          console.log('✓ Sequential fade-in animations applied');
+        } else {
+          console.log('⚠ Animations may not be visible (check CSS)');
+        }
+        
+        console.log('=== Test Complete ===');
+      }, 1000);
+      
+    })();
+  </script>
+</body>
+</html>

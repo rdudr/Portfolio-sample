@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URL Routing Test - Direct Access</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 1000px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #141414;
+      color: #fff;
+    }
+    h1 { color: #e50914; }
+    .test-section {
+      background: #1a1a1a;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+    }
+    button {
+      background: #e50914;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 5px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    button:hover { background: #f40612; }
+    .route-info {
+      background: #2a2a2a;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 13px;
+    }
+    .success { color: #46d369; }
+    .error { color: #e50914; }
+    .info { color: #b3b3b3; }
+    .test-result {
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 4px;
+      background: #2a2a2a;
+    }
+    .pass { border-left: 4px solid #46d369; }
+    .fail { border-left: 4px solid #e50914; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #333;
+    }
+    th {
+      background: #2a2a2a;
+      color: #e50914;
+    }
+    .test-link {
+      color: #46d369;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .test-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>URL Routing Test - Direct Access</h1>
+  
+  <div class="test-section">
+    <h2>Current Route Information</h2>
+    <div id="route-info" class="route-info">Loading...</div>
+  </div>
+
+  <div class="test-section">
+    <h2>Test Direct URL Access</h2>
+    <p>Click these links to test direct access to different routes:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Route Type</th>
+          <th>URL</th>
+          <th>Expected Behavior</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Browse Hub</td>
+          <td><code>#/</code></td>
+          <td>Show all categories</td>
+          <td><a href="#/" class="test-link">Test</a></td>
+        </tr>
+        <tr>
+          <td>Category Filter</td>
+          <td><code>#/education</code></td>
+          <td>Show only education category</td>
+          <td><a href="#/education" class="test-link">Test</a></td>
+        </tr>
+        <tr>
+          <td>Detail Page</td>
+          <td><code>#/education/gits-btech</code></td>
+          <td>Show GITS BTech detail page</td>
+          <td><a href="#/education/gits-btech" class="test-link">Test</a></td>
+        </tr>
+        <tr>
+          <td>Detail Page</td>
+          <td><code>#/experience/shieldlink</code></td>
+          <td>Show Shieldlink experience detail</td>
+          <td><a href="#/experience/shieldlink" class="test-link">Test</a></td>
+        </tr>
+        <tr>
+          <td>Detail Page</td>
+          <td><code>#/award/kavach-2023</code></td>
+          <td>Show KAVACH award detail</td>
+          <td><a href="#/award/kavach-2023" class="test-link">Test</a></td>
+        </tr>
+        <tr>
+          <td>Invalid Category</td>
+          <td><code>#/invalid-category</code></td>
+          <td>Show 404 or redirect to browse hub</td>
+          <td><a href="#/invalid-category" class="test-link">Test</a></td>
+        </tr>
+        <tr>
+          <td>Invalid Item</td>
+          <td><code>#/education/invalid-item</code></td>
+          <td>Show 404 or redirect to browse hub</td>
+          <td><a href="#/education/invalid-item" class="test-link">Test</a></td>
+        </tr>
+        <tr>
+          <td>Too Many Parts</td>
+          <td><code>#/education/item/extra/parts</code></td>
+          <td>Show 404 or redirect to browse hub</td>
+          <td><a href="#/education/item/extra/parts" class="test-link">Test</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="test-section">
+    <h2>Automated Test Results</h2>
+    <div id="test-results"></div>
+  </div>
+
+  <div class="test-section">
+    <h2>Manual Navigation Tests</h2>
+    <button onclick="testNavigate('/')">Navigate to Browse Hub</button>
+    <button onclick="testNavigate('/education')">Navigate to Education</button>
+    <button onclick="testNavigate('/project/iot-security-product')">Navigate to Project Detail</button>
+    <button onclick="testNavigate('/invalid/route')">Navigate to Invalid Route</button>
+    <br><br>
+    <button onclick="router.navigateBack()">Browser Back</button>
+    <button onclick="router.navigateForward()">Browser Forward</button>
+    <button onclick="window.location.reload()">Reload Page (Test Initial Load)</button>
+  </div>
+
+  <div id="app"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/row-carousel.js"></script>
+  <script src="js/back-navigation.js"></script>
+  <script src="js/view-manager.js"></script>
+  <script src="js/router.js"></script>
+
+  <script>
+    let testResults = [];
+    let dataStore;
+    let viewManager;
+    let router;
+    let backNavigation;
+
+    // Initialize application
+    function initApp() {
+      const appContainer = document.getElementById('app');
+      
+      // Initialize data store
+      dataStore = new DataStore();
+      console.log('✓ DataStore initialized');
+
+      // Initialize view manager
+      viewManager = new ViewManager(appContainer, dataStore);
+      console.log('✓ ViewManager initialized');
+
+      // Initialize router
+      router = new Router(viewManager);
+      console.log('✓ Router initialized');
+
+      // Initialize back navigation
+      backNavigation = new BackNavigation(router, viewManager);
+      backNavigation.init();
+      viewManager.setBackNavigation(backNavigation);
+      console.log('✓ BackNavigation initialized');
+
+      // Start router (this will parse initial URL)
+      router.init();
+      console.log('✓ Router started');
+
+      // Add route change listener
+      router.onRouteChange((newRoute, oldRoute) => {
+        updateRouteInfo(newRoute);
+        logRouteChange(newRoute, oldRoute);
+      });
+
+      // Run automated tests
+      setTimeout(runAutomatedTests, 500);
+    }
+
+    // Update route info display
+    function updateRouteInfo(route) {
+      const info = document.getElementById('route-info');
+      info.innerHTML = `
+        <strong>Type:</strong> ${route.type}<br>
+        <strong>Params:</strong> ${JSON.stringify(route.params, null, 2)}<br>
+        <strong>Query:</strong> ${JSON.stringify(route.query, null, 2)}<br>
+        <strong>Hash:</strong> ${window.location.hash || '(empty)'}<br>
+        <strong>Timestamp:</strong> ${new Date().toLocaleTimeString()}
+      `;
+    }
+
+    // Log route change
+    function logRouteChange(newRoute, oldRoute) {
+      console.log('Route changed:', {
+        from: oldRoute?.type || 'none',
+        to: newRoute.type,
+        params: newRoute.params,
+        hash: window.location.hash
+      });
+    }
+
+    // Test navigation
+    function testNavigate(path) {
+      console.log(`Testing navigation to: ${path}`);
+      router.navigate(path);
+    }
+
+    // Run automated tests
+    function runAutomatedTests() {
+      const resultsDiv = document.getElementById('test-results');
+      resultsDiv.innerHTML = '<h3>Running automated tests...</h3>';
+      
+      testResults = [];
+
+      // Test 1: Parse browse hub route
+      testRouteParsingWithHash('#/', 'browse-hub', {}, 'Browse Hub route');
+
+      // Test 2: Parse category route
+      testRouteParsingWithHash('#/education', 'category', { categorySlug: 'education' }, 'Category route');
+
+      // Test 3: Parse detail route
+      testRouteParsingWithHash('#/education/gits-btech', 'detail', 
+        { categorySlug: 'education', itemSlug: 'gits-btech' }, 'Detail page route');
+
+      // Test 4: Parse invalid route
+      testRouteParsingWithHash('#/invalid/too/many/parts', 'not-found', {}, 'Invalid route (too many parts)');
+
+      // Test 5: Empty hash
+      testRouteParsingWithHash('', 'browse-hub', {}, 'Empty hash');
+
+      // Test 6: Query parameters
+      testRouteParsingWithHash('#/search?q=iot', 'category', { categorySlug: 'search' }, 'Route with query params');
+
+      // Test 7: Valid category exists
+      testCategoryExists('education', true, 'Valid category exists');
+
+      // Test 8: Invalid category
+      testCategoryExists('invalid-category', false, 'Invalid category does not exist');
+
+      // Test 9: Valid item exists
+      testItemExists('education', 'gits-btech', true, 'Valid item exists');
+
+      // Test 10: Invalid item
+      testItemExists('education', 'invalid-item', false, 'Invalid item does not exist');
+
+      // Test 11: Router current route
+      testCurrentRoute('Router tracks current route');
+
+      // Display results
+      displayTestResults();
+    }
+
+    // Test route parsing with specific hash
+    function testRouteParsingWithHash(hash, expectedType, expectedParams, description) {
+      const originalHash = window.location.hash;
+      window.location.hash = hash;
+      
+      const route = router.parseRoute();
+      const paramsMatch = JSON.stringify(route.params) === JSON.stringify(expectedParams);
+      const pass = route.type === expectedType && paramsMatch;
+
+      testResults.push({
+        description,
+        pass,
+        details: `Expected type: ${expectedType}, Got: ${route.type}. Params match: ${paramsMatch}`
+      });
+
+      window.location.hash = originalHash;
+    }
+
+    // Test category exists
+    function testCategoryExists(slug, shouldExist, description) {
+      const category = dataStore.getCategoryBySlug(slug);
+      const exists = category !== null;
+      const pass = exists === shouldExist;
+
+      testResults.push({
+        description,
+        pass,
+        details: `Category '${slug}' ${exists ? 'exists' : 'does not exist'} (expected: ${shouldExist ? 'exists' : 'does not exist'})`
+      });
+    }
+
+    // Test item exists
+    function testItemExists(categorySlug, itemSlug, shouldExist, description) {
+      const item = dataStore.getItemBySlug(categorySlug, itemSlug);
+      const exists = item !== null;
+      const pass = exists === shouldExist;
+
+      testResults.push({
+        description,
+        pass,
+        details: `Item '${categorySlug}/${itemSlug}' ${exists ? 'exists' : 'does not exist'} (expected: ${shouldExist ? 'exists' : 'does not exist'})`
+      });
+    }
+
+    // Test current route tracking
+    function testCurrentRoute(description) {
+      const currentRoute = router.getCurrentRoute();
+      const pass = currentRoute !== null && currentRoute.type !== undefined;
+
+      testResults.push({
+        description,
+        pass,
+        details: `Current route type: ${currentRoute?.type || 'undefined'}`
+      });
+    }
+
+    // Display test results
+    function displayTestResults() {
+      const resultsDiv = document.getElementById('test-results');
+      const passCount = testResults.filter(r => r.pass).length;
+      const totalCount = testResults.length;
+
+      let html = `<h3>Test Results: ${passCount}/${totalCount} Passed</h3>`;
+      
+      testResults.forEach((result, index) => {
+        html += `
+          <div class="test-result ${result.pass ? 'pass' : 'fail'}">
+            <strong>${index + 1}. ${result.description}</strong>
+            <span class="${result.pass ? 'success' : 'error'}"> ${result.pass ? '✓ PASS' : '✗ FAIL'}</span>
+            <br>
+            <small>${result.details}</small>
+          </div>
+        `;
+      });
+
+      resultsDiv.innerHTML = html;
+    }
+
+    // Initialize on load
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initApp);
+    } else {
+      initApp();
+    }
+
+    // Log initial hash for debugging
+    console.log('Initial URL hash:', window.location.hash || '(empty)');
+  </script>
+</body>
+</html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lazy Loading Test - Netflix Portfolio</title>
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  
+  <style>
+    body {
+      background-color: #141414;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+    }
+    
+    .test-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .test-section {
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+    }
+    
+    .test-section h2 {
+      margin-bottom: 1rem;
+      color: #e50914;
+    }
+    
+    .test-section p {
+      margin-bottom: 1rem;
+      color: #b3b3b3;
+    }
+    
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .test-image-container {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      background: #2a2a2a;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .test-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .spacer {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: #666;
+      border: 2px dashed #333;
+      margin: 2rem 0;
+    }
+    
+    .status {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.875rem;
+    }
+    
+    .status-item {
+      margin-bottom: 0.5rem;
+    }
+    
+    .status-item strong {
+      color: #e50914;
+    }
+    
+    .controls {
+      margin-top: 1rem;
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .btn {
+      padding: 0.75rem 1.5rem;
+      background: #e50914;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.2s;
+    }
+    
+    .btn:hover {
+      background: #f40612;
+    }
+    
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <h1 style="margin-bottom: 2rem; font-size: 2.5rem;">Lazy Loading Test</h1>
+    
+    <div class="test-section">
+      <h2>Test Information</h2>
+      <p>This page tests the LazyImageLoader implementation with Intersection Observer.</p>
+      <p><strong>Features being tested:</strong></p>
+      <ul style="color: #b3b3b3; margin-left: 1.5rem;">
+        <li>Images load when entering viewport (100px margin)</li>
+        <li>Loading state with shimmer animation</li>
+        <li>Loaded state with fade-in animation</li>
+        <li>Error handling for failed images</li>
+        <li>Fallback for browsers without Intersection Observer</li>
+      </ul>
+      
+      <div class="status">
+        <div class="status-item">
+          <strong>Intersection Observer Support:</strong> 
+          <span id="io-support">Checking...</span>
+        </div>
+        <div class="status-item">
+          <strong>Images Loaded:</strong> 
+          <span id="loaded-count">0</span>
+        </div>
+        <div class="status-item">
+          <strong>Images Loading:</strong> 
+          <span id="loading-count">0</span>
+        </div>
+        <div class="status-item">
+          <strong>Images Failed:</strong> 
+          <span id="error-count">0</span>
+        </div>
+      </div>
+      
+      <div class="controls">
+        <button class="btn" onclick="refreshLazyLoader()">Refresh Lazy Loader</button>
+        <button class="btn btn-secondary" onclick="scrollToBottom()">Scroll to Bottom</button>
+        <button class="btn btn-secondary" onclick="scrollToTop()">Scroll to Top</button>
+      </div>
+    </div>
+    
+    <div class="test-section">
+      <h2>Above the Fold Images (Should load immediately)</h2>
+      <div class="image-grid">
+        <div class="test-image-container">
+          <img data-src="assets/images/profile-1.jpg" alt="Test 1" class="test-image">
+        </div>
+        <div class="test-image-container">
+          <img data-src="assets/images/graduation-photo.jpg" alt="Test 2" class="test-image">
+        </div>
+        <div class="test-image-container">
+          <img data-src="assets/images/experience-1.jpg" alt="Test 3" class="test-image">
+        </div>
+      </div>
+    </div>
+    
+    <div class="spacer">
+      ↓ Scroll Down ↓
+    </div>
+    
+    <div class="test-section">
+      <h2>Below the Fold Images (Should lazy load)</h2>
+      <p>These images should only load when you scroll near them (100px margin).</p>
+      <div class="image-grid">
+        <div class="test-image-container">
+          <img data-src="assets/images/experience-2.jpg" alt="Test 4" class="test-image">
+        </div>
+        <div class="test-image-container">
+          <img data-src="assets/images/experience-3.jpg" alt="Test 5" class="test-image">
+        </div>
+        <div class="test-image-container">
+          <img data-src="assets/images/technical-1.jpg" alt="Test 6" class="test-image">
+        </div>
+        <div class="test-image-container">
+          <img data-src="assets/images/technical-2.jpg" alt="Test 7" class="test-image">
+        </div>
+      </div>
+    </div>
+    
+    <div class="spacer">
+      ↓ Keep Scrolling ↓
+    </div>
+    
+    <div class="test-section">
+      <h2>Far Below Images (Should lazy load later)</h2>
+      <div class="image-grid">
+        <div class="test-image-container">
+          <img data-src="assets/images/technical-3.jpg" alt="Test 8" class="test-image">
+        </div>
+        <div class="test-image-container">
+          <img data-src="assets/images/certificate-1.jpg" alt="Test 9" class="test-image">
+        </div>
+        <div class="test-image-container">
+          <img data-src="assets/images/certificate-2.jpg" alt="Test 10" class="test-image">
+        </div>
+      </div>
+    </div>
+    
+    <div class="test-section">
+      <h2>Error Handling Test</h2>
+      <p>This image has an invalid URL and should show error state:</p>
+      <div class="image-grid">
+        <div class="test-image-container">
+          <img data-src="assets/images/nonexistent-image.jpg" alt="Error Test" class="test-image">
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- JavaScript -->
+  <script src="js/lazy-loader.js"></script>
+  
+  <script>
+    let lazyLoader;
+    let loadedCount = 0;
+    let loadingCount = 0;
+    let errorCount = 0;
+    
+    // Initialize lazy loader
+    function initLazyLoader() {
+      lazyLoader = new LazyImageLoader({
+        rootMargin: '100px',
+        threshold: 0.01
+      });
+      
+      // Update support status
+      document.getElementById('io-support').textContent = 
+        lazyLoader.isSupported() ? 'Yes ✓' : 'No (using fallback)';
+      
+      // Observe all images
+      const images = document.querySelectorAll('img[data-src]');
+      lazyLoader.observeAll(images);
+      
+      // Listen for lazy load events
+      document.addEventListener('lazyloaded', (e) => {
+        loadedCount++;
+        updateStatus();
+        console.log('Image loaded:', e.detail.src);
+      });
+      
+      document.addEventListener('lazyerror', (e) => {
+        errorCount++;
+        updateStatus();
+        console.error('Image failed to load:', e.detail.src);
+      });
+      
+      // Monitor loading state
+      setInterval(() => {
+        loadingCount = document.querySelectorAll('img.lazy-loading').length;
+        updateStatus();
+      }, 100);
+      
+      console.log('LazyImageLoader initialized with', images.length, 'images');
+    }
+    
+    function updateStatus() {
+      document.getElementById('loaded-count').textContent = loadedCount;
+      document.getElementById('loading-count').textContent = loadingCount;
+      document.getElementById('error-count').textContent = errorCount;
+    }
+    
+    function refreshLazyLoader() {
+      if (lazyLoader) {
+        lazyLoader.refresh();
+        console.log('Lazy loader refreshed');
+      }
+    }
+    
+    function scrollToBottom() {
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
+    
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+    
+    // Initialize on load
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initLazyLoader);
+    } else {
+      initLazyLoader();
+    }
+  </script>
+</body>
+</html>

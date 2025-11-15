@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cross-Browser Testing Suite</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #1a1a1a;
+      color: #ffffff;
+      padding: 2rem;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #e50914;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin: 2rem 0 1rem;
+      color: #ffffff;
+      border-bottom: 2px solid #333;
+      padding-bottom: 0.5rem;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      margin: 1.5rem 0 0.5rem;
+      color: #b3b3b3;
+    }
+
+    .test-section {
+      background: #2a2a2a;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border-radius: 8px;
+      border: 1px solid #333;
+    }
+
+    .test-item {
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      background: #1a1a1a;
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .status {
+      padding: 0.25rem 0.75rem;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+
+    .status.pass {
+      background: #2ea043;
+      color: white;
+    }
+
+    .status.fail {
+      background: #da3633;
+      color: white;
+    }
+
+    .status.warning {
+      background: #f0ad4e;
+      color: #1a1a1a;
+    }
+
+    .status.info {
+      background: #0969da;
+      color: white;
+    }
+
+    .browser-info {
+      background: #333;
+      padding: 1rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+    }
+
+    .browser-info p {
+      margin: 0.25rem 0;
+    }
+
+    button {
+      background: #e50914;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin: 0.5rem 0.5rem 0.5rem 0;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background: #f40612;
+    }
+
+    button:disabled {
+      background: #666;
+      cursor: not-allowed;
+    }
+
+    .code-block {
+      background: #0d1117;
+      padding: 1rem;
+      border-radius: 4px;
+      overflow-x: auto;
+      margin: 0.5rem 0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+    }
+
+    .results {
+      margin-top: 1rem;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .summary-card {
+      background: #333;
+      padding: 1rem;
+      border-radius: 4px;
+      text-align: center;
+    }
+
+    .summary-card .number {
+      font-size: 2rem;
+      font-weight: bold;
+      margin: 0.5rem 0;
+    }
+
+    .summary-card .label {
+      color: #b3b3b3;
+      font-size: 0.875rem;
+    }
+
+    .iframe-container {
+      margin: 1rem 0;
+      border: 2px solid #333;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🧪 Cross-Browser Testing Suite</h1>
+    <p>Comprehensive testing for Netflix-style portfolio website</p>
+
+    <!-- Browser Information -->
+    <div class="test-section">
+      <h2>Browser Information</h2>
+      <div class="browser-info" id="browserInfo">
+        <p><strong>User Agent:</strong> <span id="userAgent"></span></p>
+        <p><strong>Browser:</strong> <span id="browserName"></span></p>
+        <p><strong>Version:</strong> <span id="browserVersion"></span></p>
+        <p><strong>Platform:</strong> <span id="platform"></span></p>
+        <p><strong>Screen Size:</strong> <span id="screenSize"></span></p>
+        <p><strong>Viewport Size:</strong> <span id="viewportSize"></span></p>
+      </div>
+    </div>
+
+    <!-- Feature Detection -->
+    <div class="test-section">
+      <h2>Feature Detection</h2>
+      <div id="featureTests"></div>
+    </div>
+
+    <!-- CSS Support -->
+    <div class="test-section">
+      <h2>CSS Support</h2>
+      <div id="cssTests"></div>
+    </div>
+
+    <!-- JavaScript API Support -->
+    <div class="test-section">
+      <h2>JavaScript API Support</h2>
+      <div id="jsApiTests"></div>
+    </div>
+
+    <!-- Performance Tests -->
+    <div class="test-section">
+      <h2>Performance Tests</h2>
+      <button onclick="runPerformanceTests()">Run Performance Tests</button>
+      <div id="performanceResults"></div>
+    </div>
+
+    <!-- Accessibility Tests -->
+    <div class="test-section">
+      <h2>Accessibility Tests</h2>
+      <button onclick="runAccessibilityTests()">Run Accessibility Tests</button>
+      <div id="accessibilityResults"></div>
+    </div>
+
+    <!-- HTML Validation -->
+    <div class="test-section">
+      <h2>HTML Validation</h2>
+      <button onclick="validateHTML()">Validate HTML Structure</button>
+      <div id="htmlValidationResults"></div>
+    </div>
+
+    <!-- Keyboard Navigation Test -->
+    <div class="test-section">
+      <h2>Keyboard Navigation Test</h2>
+      <button onclick="openKeyboardTest()">Open Keyboard Test</button>
+      <p style="margin-top: 1rem; color: #b3b3b3;">
+        Test keyboard navigation: Tab, Arrow keys, Enter, Escape, Home, End
+      </p>
+    </div>
+
+    <!-- Live Preview -->
+    <div class="test-section">
+      <h2>Live Preview</h2>
+      <button onclick="loadPreview()">Load Portfolio Preview</button>
+      <div class="iframe-container" id="previewContainer" style="display: none;">
+        <iframe id="portfolioPreview" src=""></iframe>
+      </div>
+    </div>
+
+    <!-- Test Summary -->
+    <div class="test-section">
+      <h2>Test Summary</h2>
+      <div class="summary" id="testSummary"></div>
+    </div>
+  </div>
+
+  <script>
+    // Browser Detection
+    function detectBrowser() {
+      const ua = navigator.userAgent;
+      let browserName = 'Unknown';
+      let browserVersion = 'Unknown';
+
+      if (ua.indexOf('Firefox') > -1) {
+        browserName = 'Firefox';
+        browserVersion = ua.match(/Firefox\/(\d+)/)?.[1] || 'Unknown';
+      } else if (ua.indexOf('Edg') > -1) {
+        browserName = 'Edge';
+        browserVersion = ua.match(/Edg\/(\d+)/)?.[1] || 'Unknown';
+      } else if (ua.indexOf('Chrome') > -1) {
+        browserName = 'Chrome';
+        browserVersion = ua.match(/Chrome\/(\d+)/)?.[1] || 'Unknown';
+      } else if (ua.indexOf('Safari') > -1) {
+        browserName = 'Safari';
+        browserVersion = ua.match(/Version\/(\d+)/)?.[1] || 'Unknown';
+      }
+
+      document.getElementById('userAgent').textContent = ua;
+      document.getElementById('browserName').textContent = browserName;
+      document.getElementById('browserVersion').textContent = browserVersion;
+      document.getElementById('platform').textContent = navigator.platform;
+      document.getElementById('screenSize').textContent = `${screen.width}x${screen.height}`;
+      document.getElementById('viewportSize').textContent = `${window.innerWidth}x${window.innerHeight}`;
+    }
+
+    // Feature Detection Tests
+    function runFeatureTests() {
+      const tests = [
+        { name: 'CSS Grid', test: () => CSS.supports('display', 'grid') },
+        { name: 'CSS Flexbox', test: () => CSS.supports('display', 'flex') },
+        { name: 'CSS Custom Properties', test: () => CSS.supports('--test', '0') },
+        { name: 'CSS Transforms', test: () => CSS.supports('transform', 'scale(1)') },
+        { name: 'CSS Transitions', test: () => CSS.supports('transition', 'all 0.3s') },
+        { name: 'CSS Animations', test: () => CSS.supports('animation', 'test 1s') },
+        { name: 'Intersection Observer', test: () => 'IntersectionObserver' in window },
+        { name: 'Fetch API', test: () => 'fetch' in window },
+        { name: 'LocalStorage', test: () => 'localStorage' in window },
+        { name: 'SessionStorage', test: () => 'sessionStorage' in window },
+        { name: 'Touch Events', test: () => 'ontouchstart' in window },
+        { name: 'Pointer Events', test: () => 'PointerEvent' in window },
+      ];
+
+      const container = document.getElementById('featureTests');
+      tests.forEach(({ name, test }) => {
+        const result = test();
+        const div = document.createElement('div');
+        div.className = 'test-item';
+        div.innerHTML = `
+          <span>${name}</span>
+          <span class="status ${result ? 'pass' : 'fail'}">${result ? 'PASS' : 'FAIL'}</span>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    // CSS Support Tests
+    function runCSSTests() {
+      const tests = [
+        { name: 'scroll-behavior: smooth', prop: 'scroll-behavior', value: 'smooth' },
+        { name: 'scroll-snap-type', prop: 'scroll-snap-type', value: 'x mandatory' },
+        { name: 'backdrop-filter', prop: 'backdrop-filter', value: 'blur(10px)' },
+        { name: 'aspect-ratio', prop: 'aspect-ratio', value: '16/9' },
+        { name: 'gap (Grid)', prop: 'gap', value: '1rem' },
+        { name: 'object-fit', prop: 'object-fit', value: 'cover' },
+        { name: 'will-change', prop: 'will-change', value: 'transform' },
+        { name: 'filter', prop: 'filter', value: 'blur(5px)' },
+      ];
+
+      const container = document.getElementById('cssTests');
+      tests.forEach(({ name, prop, value }) => {
+        const result = CSS.supports(prop, value);
+        const div = document.createElement('div');
+        div.className = 'test-item';
+        div.innerHTML = `
+          <span>${name}</span>
+          <span class="status ${result ? 'pass' : 'warning'}">${result ? 'SUPPORTED' : 'NOT SUPPORTED'}</span>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    // JavaScript API Tests
+    function runJSApiTests() {
+      const tests = [
+        { name: 'Promise', test: () => typeof Promise !== 'undefined' },
+        { name: 'async/await', test: () => {
+          try {
+            eval('(async () => {})');
+            return true;
+          } catch (e) {
+            return false;
+          }
+        }},
+        { name: 'Arrow Functions', test: () => {
+          try {
+            eval('(() => {})');
+            return true;
+          } catch (e) {
+            return false;
+          }
+        }},
+        { name: 'Template Literals', test: () => {
+          try {
+            eval('`test`');
+            return true;
+          } catch (e) {
+            return false;
+          }
+        }},
+        { name: 'Destructuring', test: () => {
+          try {
+            eval('const {a} = {a: 1}');
+            return true;
+          } catch (e) {
+            return false;
+          }
+        }},
+        { name: 'Spread Operator', test: () => {
+          try {
+            eval('[...[1,2,3]]');
+            return true;
+          } catch (e) {
+            return false;
+          }
+        }},
+        { name: 'requestAnimationFrame', test: () => 'requestAnimationFrame' in window },
+        { name: 'ResizeObserver', test: () => 'ResizeObserver' in window },
+      ];
+
+      const container = document.getElementById('jsApiTests');
+      tests.forEach(({ name, test }) => {
+        const result = test();
+        const div = document.createElement('div');
+        div.className = 'test-item';
+        div.innerHTML = `
+          <span>${name}</span>
+          <span class="status ${result ? 'pass' : 'fail'}">${result ? 'PASS' : 'FAIL'}</span>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    // Performance Tests
+    function runPerformanceTests() {
+      const container = document.getElementById('performanceResults');
+      container.innerHTML = '<p>Running performance tests...</p>';
+
+      setTimeout(() => {
+        const results = [];
+
+        // Test 1: Animation Frame Rate
+        let frameCount = 0;
+        const startTime = performance.now();
+        function countFrames() {
+          frameCount++;
+          if (performance.now() - startTime < 1000) {
+            requestAnimationFrame(countFrames);
+          } else {
+            results.push({
+              name: 'Animation Frame Rate',
+              value: `${frameCount} fps`,
+              status: frameCount >= 55 ? 'pass' : 'warning'
+            });
+            displayPerformanceResults(results);
+          }
+        }
+        requestAnimationFrame(countFrames);
+
+        // Test 2: Memory Usage (if available)
+        if (performance.memory) {
+          const memoryMB = (performance.memory.usedJSHeapSize / 1048576).toFixed(2);
+          results.push({
+            name: 'JS Heap Size',
+            value: `${memoryMB} MB`,
+            status: memoryMB < 50 ? 'pass' : 'warning'
+          });
+        }
+
+        // Test 3: Navigation Timing
+        if (performance.timing) {
+          const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+          results.push({
+            name: 'Page Load Time',
+            value: `${loadTime} ms`,
+            status: loadTime < 3000 ? 'pass' : 'warning'
+          });
+        }
+      }, 100);
+    }
+
+    function displayPerformanceResults(results) {
+      const container = document.getElementById('performanceResults');
+      container.innerHTML = '';
+      results.forEach(({ name, value, status }) => {
+        const div = document.createElement('div');
+        div.className = 'test-item';
+        div.innerHTML = `
+          <span>${name}</span>
+          <span class="status ${status}">${value}</span>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    // Accessibility Tests
+    function runAccessibilityTests() {
+      const container = document.getElementById('accessibilityResults');
+      container.innerHTML = '<p>Running accessibility tests...</p>';
+
+      // Load the main page in an iframe to test
+      const iframe = document.createElement('iframe');
+      iframe.src = 'index-netflix.html';
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
+
+      iframe.onload = () => {
+        const doc = iframe.contentDocument;
+        const results = [];
+
+        // Test 1: HTML lang attribute
+        results.push({
+          name: 'HTML lang attribute',
+          status: doc.documentElement.hasAttribute('lang') ? 'pass' : 'fail'
+        });
+
+        // Test 2: Page title
+        results.push({
+          name: 'Page title exists',
+          status: doc.title && doc.title.length > 0 ? 'pass' : 'fail'
+        });
+
+        // Test 3: Alt text on images
+        const images = doc.querySelectorAll('img');
+        const imagesWithAlt = Array.from(images).filter(img => img.hasAttribute('alt')).length;
+        results.push({
+          name: `Images with alt text (${imagesWithAlt}/${images.length})`,
+          status: images.length === 0 || imagesWithAlt === images.length ? 'pass' : 'warning'
+        });
+
+        // Test 4: ARIA labels
+        const ariaElements = doc.querySelectorAll('[aria-label], [aria-labelledby]');
+        results.push({
+          name: `Elements with ARIA labels`,
+          status: ariaElements.length > 0 ? 'pass' : 'warning',
+          value: ariaElements.length
+        });
+
+        // Test 5: Heading hierarchy
+        const headings = doc.querySelectorAll('h1, h2, h3, h4, h5, h6');
+        results.push({
+          name: 'Heading elements found',
+          status: headings.length > 0 ? 'pass' : 'warning',
+          value: headings.length
+        });
+
+        // Test 6: Skip links
+        const skipLinks = doc.querySelectorAll('a[href^="#"]');
+        results.push({
+          name: 'Skip navigation links',
+          status: skipLinks.length > 0 ? 'pass' : 'info',
+          value: skipLinks.length
+        });
+
+        // Test 7: Form labels
+        const inputs = doc.querySelectorAll('input, textarea, select');
+        const inputsWithLabels = Array.from(inputs).filter(input => 
+          input.hasAttribute('aria-label') || 
+          input.hasAttribute('aria-labelledby') ||
+          doc.querySelector(`label[for="${input.id}"]`)
+        ).length;
+        results.push({
+          name: `Form inputs with labels (${inputsWithLabels}/${inputs.length})`,
+          status: inputs.length === 0 || inputsWithLabels === inputs.length ? 'pass' : 'warning'
+        });
+
+        // Display results
+        container.innerHTML = '';
+        results.forEach(({ name, status, value }) => {
+          const div = document.createElement('div');
+          div.className = 'test-item';
+          div.innerHTML = `
+            <span>${name}${value ? ` (${value})` : ''}</span>
+            <span class="status ${status}">${status.toUpperCase()}</span>
+          `;
+          container.appendChild(div);
+        });
+
+        document.body.removeChild(iframe);
+      };
+    }
+
+    // HTML Validation
+    function validateHTML() {
+      const container = document.getElementById('htmlValidationResults');
+      container.innerHTML = '<p>Validating HTML structure...</p>';
+
+      fetch('index-netflix.html')
+        .then(response => response.text())
+        .then(html => {
+          const results = [];
+
+          // Check DOCTYPE
+          results.push({
+            name: 'DOCTYPE declaration',
+            status: html.trim().startsWith('<!DOCTYPE html>') ? 'pass' : 'fail'
+          });
+
+          // Check meta charset
+          results.push({
+            name: 'Meta charset',
+            status: html.includes('<meta charset="UTF-8">') ? 'pass' : 'fail'
+          });
+
+          // Check viewport meta
+          results.push({
+            name: 'Viewport meta tag',
+            status: html.includes('name="viewport"') ? 'pass' : 'fail'
+          });
+
+          // Check for semantic HTML5 elements
+          const semanticElements = ['header', 'main', 'footer', 'nav', 'section', 'article'];
+          semanticElements.forEach(element => {
+            results.push({
+              name: `<${element}> element`,
+              status: html.includes(`<${element}`) ? 'pass' : 'info'
+            });
+          });
+
+          // Display results
+          container.innerHTML = '';
+          results.forEach(({ name, status }) => {
+            const div = document.createElement('div');
+            div.className = 'test-item';
+            div.innerHTML = `
+              <span>${name}</span>
+              <span class="status ${status}">${status.toUpperCase()}</span>
+            `;
+            container.appendChild(div);
+          });
+        })
+        .catch(error => {
+          container.innerHTML = `<p style="color: #da3633;">Error: ${error.message}</p>`;
+        });
+    }
+
+    // Open Keyboard Test
+    function openKeyboardTest() {
+      window.open('test-keyboard-navigation.html', '_blank');
+    }
+
+    // Load Preview
+    function loadPreview() {
+      const container = document.getElementById('previewContainer');
+      const iframe = document.getElementById('portfolioPreview');
+      iframe.src = 'index-netflix.html';
+      container.style.display = 'block';
+    }
+
+    // Update Test Summary
+    function updateTestSummary() {
+      const allTests = document.querySelectorAll('.status');
+      const passed = document.querySelectorAll('.status.pass').length;
+      const failed = document.querySelectorAll('.status.fail').length;
+      const warnings = document.querySelectorAll('.status.warning').length;
+      const info = document.querySelectorAll('.status.info').length;
+
+      const summary = document.getElementById('testSummary');
+      summary.innerHTML = `
+        <div class="summary-card">
+          <div class="label">Total Tests</div>
+          <div class="number">${allTests.length}</div>
+        </div>
+        <div class="summary-card">
+          <div class="label">Passed</div>
+          <div class="number" style="color: #2ea043;">${passed}</div>
+        </div>
+        <div class="summary-card">
+          <div class="label">Failed</div>
+          <div class="number" style="color: #da3633;">${failed}</div>
+        </div>
+        <div class="summary-card">
+          <div class="label">Warnings</div>
+          <div class="number" style="color: #f0ad4e;">${warnings}</div>
+        </div>
+      `;
+    }
+
+    // Initialize
+    window.addEventListener('DOMContentLoaded', () => {
+      detectBrowser();
+      runFeatureTests();
+      runCSSTests();
+      runJSApiTests();
+      
+      // Update summary after a short delay
+      setTimeout(updateTestSummary, 500);
+    });
+  </script>
+</body>
+</html>

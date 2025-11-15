@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Content Row Structure Test</title>
+  
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      background-color: #141414;
+      padding-top: 80px;
+    }
+    
+    .test-info {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 1rem;
+      margin: 2rem 4vw;
+      border-radius: 8px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .test-info h1 {
+      margin: 0 0 1rem 0;
+      font-size: 1.5rem;
+    }
+    
+    .test-info ul {
+      margin: 0.5rem 0 0 1.5rem;
+    }
+    
+    .test-info li {
+      margin: 0.25rem 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-info">
+    <h1>Content Row Structure Test</h1>
+    <p>Testing Requirements:</p>
+    <ul>
+      <li>✓ Content Row with h2 title (proper semantics)</li>
+      <li>✓ Row carousel container structure</li>
+      <li>✓ Consistent spacing (3-4rem between rows)</li>
+      <li>✓ Full viewport width without horizontal scroll</li>
+      <li>✓ Horizontal scrolling within carousel</li>
+    </ul>
+  </div>
+
+  <div class="content-rows-container">
+    <!-- Content Row 1: About Me -->
+    <section class="content-row" aria-labelledby="about-me-heading">
+      <h2 id="about-me-heading" class="row-title">About Me</h2>
+      <div class="row-carousel" role="region" aria-label="About Me items">
+        <div class="carousel-track">
+          <article class="content-card" role="button" tabindex="0" aria-label="View details for Introduction">
+            <div class="card-image-container">
+              <img src="assets/images/profile-1.jpg" alt="Introduction" class="card-image" loading="lazy">
+              <div class="card-overlay"></div>
+            </div>
+            <div class="card-info">
+              <h3 class="card-title">Introduction</h3>
+              <p class="card-subtitle">Electrical Engineer</p>
+              <p class="card-meta">Udaipur, India</p>
+            </div>
+            <div class="card-hover-details">
+              <p class="card-description">Passionate about IoT security and embedded systems</p>
+            </div>
+          </article>
+          
+          <!-- Duplicate cards for testing scroll -->
+          <article class="content-card" role="button" tabindex="0">
+            <div class="card-image-container">
+              <img src="assets/images/profile-1.jpg" alt="Card 2" class="card-image" loading="lazy">
+              <div class="card-overlay"></div>
+            </div>
+            <div class="card-info">
+              <h3 class="card-title">Card 2</h3>
+              <p class="card-subtitle">Test Card</p>
+              <p class="card-meta">Test</p>
+            </div>
+          </article>
+          
+          <article class="content-card" role="button" tabindex="0">
+            <div class="card-image-container">
+              <img src="assets/images/profile-1.jpg" alt="Card 3" class="card-image" loading="lazy">
+              <div class="card-overlay"></div>
+            </div>
+            <div class="card-info">
+              <h3 class="card-title">Card 3</h3>
+              <p class="card-subtitle">Test Card</p>
+              <p class="card-meta">Test</p>
+            </div>
+          </article>
+          
+          <article class="content-card" role="button" tabindex="0">
+            <div class="card-image-container">
+              <img src="assets/images/profile-1.jpg" alt="Card 4" class="card-image" loading="lazy">
+              <div class="card-overlay"></div>
+            </div>
+            <div class="card-info">
+              <h3 class="card-title">Card 4</h3>
+              <p class="card-subtitle">Test Card</p>
+              <p class="card-meta">Test</p>
+            </div>
+          </article>
+          
+          <article class="content-card" role="button" tabindex="0">
+            <div class="card-image-container">
+              <img src="assets/images/profile-1.jpg" alt="Card 5" class="card-image" loading="lazy">
+              <div class="card-overlay"></div>
+            </div>
+            <div class="card-info">
+              <h3 class="card-title">Card 5</h3>
+              <p class="card-subtitle">Test Card</p>
+              <p class="card-meta">Test</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Content Row 2: Education -->
+    <section class="content-row" aria-labelledby="education-heading">
+      <h2 id="education-heading" class="row-title">Education</h2>
+      <div class="row-carousel" role="region" aria-label="Education items">
+        <div class="carousel-track">
+          <article class="content-card" role="button" tabindex="0">
+            <div class="card-image-container">
+              <img src="assets/images/graduation-photo.jpg" alt="CTAE MTech" class="card-image" loading="lazy">
+              <div class="card-overlay"></div>
+            </div>
+            <div class="card-info">
+              <h3 class="card-title">CTAE, Udaipur</h3>
+              <p class="card-subtitle">MTech Power Electronics</p>
+              <p class="card-meta">2027</p>
+            </div>
+          </article>
+          
+          <article class="content-card" role="button" tabindex="0">
+            <div class="card-image-container">
+              <img src="assets/images/graduation-photo.jpg" alt="GITS BTech" class="card-image" loading="lazy">
+              <div class="card-overlay"></div>
+            </div>
+            <div class="card-info">
+              <h3 class="card-title">GITS, Udaipur</h3>
+              <p class="card-subtitle">BTech Electrical Engineering</p>
+              <p class="card-meta">2024</p>
+            </div>
+          </article>
+          
+          <article class="content-card" role="button" tabindex="0">
+            <div class="card-image-container">
+              <img src="assets/images/graduation-photo.jpg" alt="Central Academy" class="card-image" loading="lazy">
+              <div class="card-overlay"></div>
+            </div>
+            <div class="card-info">
+              <h3 class="card-title">Central Academy</h3>
+              <p class="card-subtitle">CBSE</p>
+              <p class="card-meta">2020</p>
+            </div>
+          </article>
+          
+          <article class="content-card" role="button" tabindex="0">
+            <div class="card-image-container">
+              <img src="assets/images/graduation-photo.jpg" alt="Indo American" class="card-image" loading="lazy">
+              <div class="card-overlay"></div>
+            </div>
+            <div class="card-info">
+              <h3 class="card-title">Indo American Public School</h3>
+              <p class="card-subtitle">CBSE</p>
+              <p class="card-meta">2018</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Content Row 3: Experience -->
+    <section class="content-row" aria-labelledby="experience-heading">
+      <h2 id="experience-heading" class="row-title">Experience</h2>
+      <div class="row-carousel" role="region" aria-label="Experience items">
+        <div class="carousel-track">
+          <article class="content-card" role="button" tabindex="0">
+            <div class="card-image-container">
+              <img src="assets/images/experience-1.jpg" alt="AICTE IDEA Lab" class="card-image" loading="lazy">
+              <div class="card-overlay"></div>
+            </div>
+            <div class="card-info">
+              <h3 class="card-title">AICTE IDEA Lab</h3>
+              <p class="card-subtitle">Technical Assistant</p>
+              <p class="card-meta">Sept 2025 – Present</p>
+            </div>
+          </article>
+          
+          <article class="content-card" role="button" tabindex="0">
+            <div class="card-image-container">
+              <img src="assets/images/experience-2.jpg" alt="Shieldlink" class="card-image" loading="lazy">
+              <div class="card-overlay"></div>
+            </div>
+            <div class="card-info">
+              <h3 class="card-title">Shieldlink Technolytix</h3>
+              <p class="card-subtitle">Founder & CEO</p>
+              <p class="card-meta">Aug 2023 – Nov 2024</p>
+            </div>
+          </article>
+          
+          <article class="content-card" role="button" tabindex="0">
+            <div class="card-image-container">
+              <img src="assets/images/experience-3.jpg" alt="Oriana Power" class="card-image" loading="lazy">
+              <div class="card-overlay"></div>
+            </div>
+            <div class="card-info">
+              <h3 class="card-title">Oriana Power</h3>
+              <p class="card-subtitle">Solar Technician Internship</p>
+              <p class="card-meta">July – Aug 2022</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Test script to verify structure
+    console.log('Content Row Structure Test');
+    console.log('===========================');
+    
+    const rows = document.querySelectorAll('.content-row');
+    console.log(`✓ Found ${rows.length} content rows`);
+    
+    rows.forEach((row, index) => {
+      const title = row.querySelector('.row-title');
+      const carousel = row.querySelector('.row-carousel');
+      const track = row.querySelector('.carousel-track');
+      const cards = row.querySelectorAll('.content-card');
+      
+      console.log(`\nRow ${index + 1}:`);
+      console.log(`  - Title: ${title ? title.textContent : 'MISSING'}`);
+      console.log(`  - Title is h2: ${title && title.tagName === 'H2' ? 'YES' : 'NO'}`);
+      console.log(`  - Has carousel: ${carousel ? 'YES' : 'NO'}`);
+      console.log(`  - Has track: ${track ? 'YES' : 'NO'}`);
+      console.log(`  - Cards: ${cards.length}`);
+      
+      // Check spacing
+      const style = window.getComputedStyle(row);
+      const marginBottom = style.marginBottom;
+      console.log(`  - Margin bottom: ${marginBottom}`);
+    });
+    
+    // Check for horizontal scroll at page level
+    const body = document.body;
+    const hasHorizontalScroll = body.scrollWidth > body.clientWidth;
+    console.log(`\n✓ Page horizontal scroll: ${hasHorizontalScroll ? 'PRESENT (BAD)' : 'NONE (GOOD)'}`);
+    
+    // Check carousel scrollability
+    const firstTrack = document.querySelector('.carousel-track');
+    if (firstTrack) {
+      const isScrollable = firstTrack.scrollWidth > firstTrack.clientWidth;
+      console.log(`✓ Carousel scrollable: ${isScrollable ? 'YES (GOOD)' : 'NO (BAD)'}`);
+    }
+  </script>
+</body>
+</html>

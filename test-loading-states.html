@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loading States Test</title>
+  
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/loading-states.css">
+  
+  <style>
+    body {
+      background-color: #141414;
+      color: #fff;
+      padding: 2rem;
+    }
+    
+    .test-section {
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+    }
+    
+    .test-section h2 {
+      margin-bottom: 1.5rem;
+      color: #fff;
+      font-size: 1.5rem;
+    }
+    
+    .test-controls {
+      margin-bottom: 1rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    
+    .test-btn {
+      padding: 0.75rem 1.5rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 4px;
+      color: #fff;
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+    
+    .test-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+    
+    .test-output {
+      min-height: 200px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 4px;
+      padding: 1rem;
+    }
+    
+    .carousel-track {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      padding: 1rem 0;
+    }
+  </style>
+</head>
+<body>
+  <h1 style="margin-bottom: 2rem; font-size: 2rem;">Loading States Test Suite</h1>
+  
+  <!-- Test 1: Skeleton Cards -->
+  <div class="test-section">
+    <h2>1. Skeleton Cards (Requirement 19.1)</h2>
+    <div class="test-controls">
+      <button class="test-btn" onclick="testSkeletonCards()">Show Skeleton Cards</button>
+      <button class="test-btn" onclick="clearTest1()">Clear</button>
+    </div>
+    <div id="test1-output" class="test-output">
+      <div class="carousel-track"></div>
+    </div>
+  </div>
+  
+  <!-- Test 2: Loading Spinners -->
+  <div class="test-section">
+    <h2>2. Loading Spinners (Requirement 19.2)</h2>
+    <div class="test-controls">
+      <button class="test-btn" onclick="testSpinnerSmall()">Small Spinner</button>
+      <button class="test-btn" onclick="testSpinnerMedium()">Medium Spinner</button>
+      <button class="test-btn" onclick="testSpinnerLarge()">Large Spinner</button>
+      <button class="test-btn" onclick="testLoadingOverlay()">Full Page Overlay</button>
+      <button class="test-btn" onclick="clearTest2()">Clear</button>
+    </div>
+    <div id="test2-output" class="test-output"></div>
+  </div>
+  
+  <!-- Test 3: Image Loading States -->
+  <div class="test-section">
+    <h2>3. Image Loading States (Requirement 19.3)</h2>
+    <div class="test-controls">
+      <button class="test-btn" onclick="testImageLoading()">Test Image Loading</button>
+      <button class="test-btn" onclick="testImageError()">Test Image Error</button>
+      <button class="test-btn" onclick="clearTest3()">Clear</button>
+    </div>
+    <div id="test3-output" class="test-output"></div>
+  </div>
+  
+  <!-- Test 4: Error Messages -->
+  <div class="test-section">
+    <h2>4. Error Messages with Retry (Requirement 19.4)</h2>
+    <div class="test-controls">
+      <button class="test-btn" onclick="testErrorMessage()">Show Error Message</button>
+      <button class="test-btn" onclick="clearTest4()">Clear</button>
+    </div>
+    <div id="test4-output" class="test-output"></div>
+  </div>
+  
+  <!-- Test 5: Performance Timing -->
+  <div class="test-section">
+    <h2>5. Initial Render Performance (Requirement 19.5)</h2>
+    <div class="test-controls">
+      <button class="test-btn" onclick="testPerformanceTiming()">Test Load Timer</button>
+    </div>
+    <div id="test5-output" class="test-output">
+      <p style="color: #b3b3b3;">Click the button to test performance timing (target: <1500ms)</p>
+    </div>
+  </div>
+  
+  <!-- JavaScript -->
+  <script src="js/loading-states.js"></script>
+  <script>
+    const loadingStates = new LoadingStates();
+    
+    // Test 1: Skeleton Cards
+    function testSkeletonCards() {
+      const output = document.querySelector('#test1-output .carousel-track');
+      output.innerHTML = loadingStates.createSkeletonCards(5);
+    }
+    
+    function clearTest1() {
+      document.querySelector('#test1-output .carousel-track').innerHTML = '';
+    }
+    
+    // Test 2: Loading Spinners
+    function testSpinnerSmall() {
+      const output = document.getElementById('test2-output');
+      output.innerHTML = loadingStates.createLoadingSpinner('small', 'Loading...');
+    }
+    
+    function testSpinnerMedium() {
+      const output = document.getElementById('test2-output');
+      output.innerHTML = loadingStates.createLoadingSpinner('medium', 'Loading content...');
+    }
+    
+    function testSpinnerLarge() {
+      const output = document.getElementById('test2-output');
+      output.innerHTML = loadingStates.createLoadingSpinner('large', 'Please wait...');
+    }
+    
+    function testLoadingOverlay() {
+      loadingStates.showLoadingOverlay('Loading portfolio...');
+      setTimeout(() => {
+        loadingStates.hideLoadingOverlay();
+      }, 3000);
+    }
+    
+    function clearTest2() {
+      document.getElementById('test2-output').innerHTML = '';
+    }
+    
+    // Test 3: Image Loading States
+    function testImageLoading() {
+      const output = document.getElementById('test3-output');
+      output.innerHTML = `
+        <div style="display: flex; gap: 1rem;">
+          <div class="content-card" style="width: 300px;">
+            <div class="card-image-container card-image-loading">
+              <img src="https://via.placeholder.com/300x169" alt="Test" class="card-image" style="display: none;">
+            </div>
+            <div class="card-info">
+              <h3 class="card-title">Loading Image</h3>
+              <p class="card-subtitle">Simulating load...</p>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      // Simulate image load after 2 seconds
+      setTimeout(() => {
+        const container = output.querySelector('.card-image-container');
+        const img = output.querySelector('.card-image');
+        container.classList.remove('card-image-loading');
+        container.classList.add('card-image-loaded');
+        img.style.display = 'block';
+      }, 2000);
+    }
+    
+    function testImageError() {
+      const output = document.getElementById('test3-output');
+      output.innerHTML = `
+        <div style="display: flex; gap: 1rem;">
+          <div class="content-card" style="width: 300px;">
+            <div class="card-image-container card-image-error" style="padding-bottom: 56.25%;">
+            </div>
+            <div class="card-info">
+              <h3 class="card-title">Failed Image</h3>
+              <p class="card-subtitle">Image failed to load</p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    
+    function clearTest3() {
+      document.getElementById('test3-output').innerHTML = '';
+    }
+    
+    // Test 4: Error Messages
+    function testErrorMessage() {
+      const output = document.getElementById('test4-output');
+      let retryCount = 0;
+      
+      const retryCallback = () => {
+        retryCount++;
+        output.innerHTML = `<p style="color: #4caf50;">Retry clicked ${retryCount} time(s)!</p>`;
+        setTimeout(() => {
+          testErrorMessage();
+        }, 1000);
+      };
+      
+      output.innerHTML = loadingStates.createErrorMessage(
+        'Failed to Load Content',
+        'Unable to fetch portfolio data. Please check your connection and try again.',
+        retryCallback
+      );
+    }
+    
+    function clearTest4() {
+      document.getElementById('test4-output').innerHTML = '';
+    }
+    
+    // Test 5: Performance Timing
+    function testPerformanceTiming() {
+      const output = document.getElementById('test5-output');
+      
+      loadingStates.startLoadTimer();
+      
+      // Simulate some work
+      output.innerHTML = '<p style="color: #b3b3b3;">Simulating initial render...</p>';
+      
+      setTimeout(() => {
+        const loadTime = loadingStates.endLoadTimer();
+        const meetsTarget = loadTime <= 1500;
+        
+        output.innerHTML = `
+          <div style="padding: 1rem;">
+            <p style="font-size: 1.25rem; margin-bottom: 1rem; color: ${meetsTarget ? '#4caf50' : '#e50914'};">
+              ${meetsTarget ? '✓' : '✗'} Load Time: ${loadTime.toFixed(2)}ms
+            </p>
+            <p style="color: #b3b3b3;">
+              Target: &lt;1500ms<br>
+              Status: ${meetsTarget ? 'PASSED' : 'FAILED'}
+            </p>
+          </div>
+        `;
+      }, Math.random() * 2000); // Random delay between 0-2000ms
+    }
+    
+    // Log initialization
+    console.log('Loading States Test Suite initialized');
+    console.log('LoadingStates instance:', loadingStates);
+  </script>
+</body>
+</html>

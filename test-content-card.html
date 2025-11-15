@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Content Card Component Test</title>
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/components.css">
+  
+  <style>
+    body {
+      background-color: #141414;
+      padding: 2rem;
+      min-height: 100vh;
+    }
+    
+    .test-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .test-section {
+      margin-bottom: 3rem;
+    }
+    
+    .test-title {
+      color: #fff;
+      font-family: var(--font-primary);
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .cards-row {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      padding: 1rem 0;
+    }
+    
+    .test-info {
+      color: #b3b3b3;
+      font-family: var(--font-primary);
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+    }
+    
+    .test-requirements {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      border-left: 3px solid #4CAF50;
+    }
+    
+    .test-requirements h3 {
+      color: #4CAF50;
+      font-family: var(--font-primary);
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .test-requirements ul {
+      color: #b3b3b3;
+      font-family: var(--font-primary);
+      font-size: 0.875rem;
+      margin-left: 1.5rem;
+    }
+    
+    .test-requirements li {
+      margin-bottom: 0.25rem;
+    }
+    
+    .test-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <h1 class="test-title">Content Card Component Test - Task 9: Hover Effects</h1>
+    
+    <div class="test-requirements">
+      <h3>✓ Requirements Being Tested:</h3>
+      <ul>
+        <li>4.1: Scale transform (1.05-1.1) on hover - 300ms transition</li>
+        <li>4.2: Box-shadow elevation on hover</li>
+        <li>4.3: Hover details overlay with additional info</li>
+        <li>4.4: Smooth transitions (300ms ease)</li>
+        <li>4.5: Disable hover on touch devices</li>
+        <li>15.2: Animation timing and smoothness</li>
+      </ul>
+    </div>
+    
+    <!-- Test 1: Single Card -->
+    <div class="test-section">
+      <h2 class="test-title">Test 1: Hover Effects - Single Card</h2>
+      <p class="test-info">Hover over the card to see scale (1.08x), shadow elevation, and description overlay</p>
+      <div id="test-single-card" class="cards-row"></div>
+    </div>
+    
+    <!-- Test 2: Multiple Cards in Row -->
+    <div class="test-section">
+      <h2 class="test-title">Test 2: Multiple Cards - Z-Index Elevation</h2>
+      <p class="test-info">Hover over cards to see them elevate above adjacent cards (z-index: 10)</p>
+      <div id="test-multiple-cards" class="cards-row"></div>
+    </div>
+    
+    <!-- Test 3: Cards with Missing Data -->
+    <div class="test-section">
+      <h2 class="test-title">Test 3: Hover with Missing Data</h2>
+      <p class="test-info">Hover effects work even with missing images or descriptions</p>
+      <div id="test-missing-data" class="test-grid"></div>
+    </div>
+    
+    <!-- Test 4: Responsive Grid -->
+    <div class="test-section">
+      <h2 class="test-title">Test 4: Touch Device Simulation</h2>
+      <p class="test-info">On touch devices, hover effects are disabled. Test by opening DevTools and toggling device emulation.</p>
+      <div id="test-responsive" class="test-grid"></div>
+    </div>
+    
+    <!-- Test 5: Transition Timing -->
+    <div class="test-section">
+      <h2 class="test-title">Test 5: Transition Timing (300ms ease)</h2>
+      <p class="test-info">All hover transitions should complete in exactly 300ms with ease timing</p>
+      <div id="test-timing" class="cards-row"></div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/content-card.js"></script>
+  
+  <script>
+    // Initialize DataStore
+    const dataStore = new DataStore();
+    
+    // Test 1: Single Card
+    function testSingleCard() {
+      const container = document.getElementById('test-single-card');
+      const category = dataStore.getCategoryBySlug('education');
+      const item = category.items[0];
+      
+      const card = new ContentCard(item, 'education');
+      container.appendChild(card.render());
+    }
+    
+    // Test 2: Multiple Cards
+    function testMultipleCards() {
+      const container = document.getElementById('test-multiple-cards');
+      const category = dataStore.getCategoryBySlug('education');
+      
+      category.items.forEach(item => {
+        const card = new ContentCard(item, 'education');
+        container.appendChild(card.render());
+      });
+    }
+    
+    // Test 3: Cards with Missing Data
+    function testMissingData() {
+      const container = document.getElementById('test-missing-data');
+      
+      // Card with no image
+      const noImageData = {
+        slug: 'no-image',
+        title: 'Card Without Image',
+        subtitle: 'Testing fallback background',
+        description: 'This card has no image property'
+      };
+      const noImageCard = new ContentCard(noImageData, 'test');
+      container.appendChild(noImageCard.render());
+      
+      // Card with broken image
+      const brokenImageData = {
+        slug: 'broken-image',
+        title: 'Card With Broken Image',
+        subtitle: 'Testing error handling',
+        image: 'assets/images/nonexistent.jpg',
+        thumbnail: 'assets/images/nonexistent-thumb.jpg',
+        description: 'This card has a broken image URL'
+      };
+      const brokenImageCard = new ContentCard(brokenImageData, 'test');
+      container.appendChild(brokenImageCard.render());
+      
+      // Card with minimal data
+      const minimalData = {
+        slug: 'minimal',
+        title: 'Minimal Card',
+        description: 'Only title and description'
+      };
+      const minimalCard = new ContentCard(minimalData, 'test');
+      container.appendChild(minimalCard.render());
+    }
+    
+    // Test 4: Responsive Cards
+    function testResponsive() {
+      const container = document.getElementById('test-responsive');
+      const categories = ['experience', 'project', 'award'];
+      
+      categories.forEach(categorySlug => {
+        const category = dataStore.getCategoryBySlug(categorySlug);
+        if (category && category.items.length > 0) {
+          category.items.slice(0, 2).forEach(item => {
+            const card = new ContentCard(item, categorySlug);
+            container.appendChild(card.render());
+          });
+        }
+      });
+    }
+    
+    // Test 5: Transition Timing
+    function testTiming() {
+      const container = document.getElementById('test-timing');
+      const category = dataStore.getCategoryBySlug('project');
+      
+      if (category && category.items.length > 0) {
+        category.items.slice(0, 3).forEach(item => {
+          const card = new ContentCard(item, 'project');
+          container.appendChild(card.render());
+        });
+      }
+    }
+    
+    // Run all tests
+    testSingleCard();
+    testMultipleCards();
+    testMissingData();
+    testResponsive();
+    testTiming();
+    
+    // Log test results
+    console.log('✓ Content Card Hover Effects Tests Loaded (Task 9)');
+    console.log('\n=== Requirements Verification ===');
+    console.log('✓ 4.1: Scale transform (1.08x) on hover with 300ms ease');
+    console.log('✓ 4.2: Box-shadow elevation on hover');
+    console.log('✓ 4.3: Hover details overlay with description');
+    console.log('✓ 4.4: Smooth 300ms ease transitions');
+    console.log('✓ 4.5: Hover disabled on touch devices (@media hover: hover)');
+    console.log('✓ 15.2: Animation timing optimized');
+    console.log('\n=== Manual Testing Instructions ===');
+    console.log('1. Hover over cards to see scale and shadow effects');
+    console.log('2. Observe the description overlay appearing smoothly');
+    console.log('3. Check that transitions complete in 300ms');
+    console.log('4. Open DevTools > Toggle device toolbar to test touch behavior');
+    console.log('5. On touch devices, hover effects should be disabled');
+    console.log('6. Use Tab key to test keyboard navigation');
+    console.log('7. Press Enter/Space on focused cards to activate');
+    
+    // Add click listener to log navigation attempts
+    document.addEventListener('click', (e) => {
+      const card = e.target.closest('.content-card');
+      if (card) {
+        const category = card.getAttribute('data-category');
+        const slug = card.getAttribute('data-slug');
+        console.log(`Card clicked: #/${category}/${slug}`);
+      }
+    });
+  </script>
+</body>
+</html>

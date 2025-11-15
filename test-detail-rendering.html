@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detail Page Rendering Test</title>
+  
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      background-color: #141414;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .test-controls {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.95);
+      padding: 1.5rem;
+      border-radius: 8px;
+      z-index: 1000;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      max-width: 300px;
+    }
+    
+    .test-controls h3 {
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      margin: 0 0 1rem 0;
+      font-weight: 600;
+    }
+    
+    .test-controls button {
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 0.5rem;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      transition: all 0.2s;
+    }
+    
+    .test-controls button:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-1px);
+    }
+    
+    .test-status {
+      margin-top: 1rem;
+      padding: 0.75rem;
+      background: rgba(0, 255, 0, 0.1);
+      border: 1px solid rgba(0, 255, 0, 0.3);
+      border-radius: 4px;
+      color: #0f0;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      display: none;
+    }
+    
+    .test-status.error {
+      background: rgba(255, 0, 0, 0.1);
+      border-color: rgba(255, 0, 0, 0.3);
+      color: #f00;
+    }
+    
+    .test-status.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  
+  <div class="test-controls">
+    <h3>Detail Page Rendering Tests</h3>
+    <button onclick="testEducationDetail()">Test Education Detail</button>
+    <button onclick="testProjectDetail()">Test Project Detail</button>
+    <button onclick="testAwardDetail()">Test Award Detail</button>
+    <button onclick="testMissingItem()">Test Missing Item (404)</button>
+    <button onclick="testItemWithGallery()">Test Item with Gallery</button>
+    <button onclick="testItemWithoutOptionalFields()">Test Minimal Item</button>
+    <div id="test-status" class="test-status"></div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/view-manager.js"></script>
+  <script src="js/row-carousel.js"></script>
+  
+  <script>
+    // Initialize
+    const dataStore = new DataStore();
+    const appContainer = document.getElementById('app');
+    const viewManager = new ViewManager(appContainer, dataStore);
+    const statusEl = document.getElementById('test-status');
+    
+    function showStatus(message, isError = false) {
+      statusEl.textContent = message;
+      statusEl.className = 'test-status show' + (isError ? ' error' : '');
+      setTimeout(() => {
+        statusEl.classList.remove('show');
+      }, 3000);
+    }
+    
+    function testEducationDetail() {
+      try {
+        viewManager.renderDetailPage('education', 'gits-btech');
+        showStatus('✓ Education detail rendered successfully');
+        
+        // Verify elements exist
+        setTimeout(() => {
+          const checks = [
+            document.querySelector('.detail-page') !== null,
+            document.querySelector('.detail-title') !== null,
+            document.querySelector('.detail-subtitle') !== null,
+            document.querySelector('.detail-description') !== null,
+            document.querySelector('.back-button') !== null,
+            document.querySelector('.close-button') !== null
+          ];
+          
+          if (checks.every(c => c)) {
+            showStatus('✓ All required elements present');
+          } else {
+            showStatus('✗ Some elements missing', true);
+          }
+        }, 100);
+      } catch (error) {
+        showStatus('✗ Error: ' + error.message, true);
+      }
+    }
+    
+    function testProjectDetail() {
+      try {
+        viewManager.renderDetailPage('project', 'iot-security-product');
+        showStatus('✓ Project detail rendered successfully');
+      } catch (error) {
+        showStatus('✗ Error: ' + error.message, true);
+      }
+    }
+    
+    function testAwardDetail() {
+      try {
+        viewManager.renderDetailPage('award', 'kavach-2023');
+        showStatus('✓ Award detail rendered successfully');
+        
+        // Check for details field rendering
+        setTimeout(() => {
+          const detailFields = document.querySelector('.detail-fields');
+          if (detailFields) {
+            showStatus('✓ Detail fields rendered correctly');
+          }
+        }, 100);
+      } catch (error) {
+        showStatus('✗ Error: ' + error.message, true);
+      }
+    }
+    
+    function testMissingItem() {
+      try {
+        viewManager.renderDetailPage('education', 'non-existent-item');
+        
+        // Should render 404
+        setTimeout(() => {
+          const notFound = document.querySelector('.not-found');
+          if (notFound) {
+            showStatus('✓ 404 page rendered correctly');
+          } else {
+            showStatus('✗ 404 page not rendered', true);
+          }
+        }, 100);
+      } catch (error) {
+        showStatus('✗ Error: ' + error.message, true);
+      }
+    }
+    
+    function testItemWithGallery() {
+      try {
+        // Test with an item that might have gallery
+        viewManager.renderDetailPage('project', 'iot-security-product');
+        showStatus('✓ Item with potential gallery rendered');
+      } catch (error) {
+        showStatus('✗ Error: ' + error.message, true);
+      }
+    }
+    
+    function testItemWithoutOptionalFields() {
+      try {
+        // Test with minimal data
+        viewManager.renderDetailPage('about-me', 'introduction');
+        
+        setTimeout(() => {
+          const page = document.querySelector('.detail-page');
+          if (page) {
+            showStatus('✓ Minimal item rendered gracefully');
+          }
+        }, 100);
+      } catch (error) {
+        showStatus('✗ Error: ' + error.message, true);
+      }
+    }
+    
+    // Run initial test
+    testEducationDetail();
+  </script>
+</body>
+</html>

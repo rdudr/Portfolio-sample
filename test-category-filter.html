@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Category Filter Test</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    body {
+      background: #141414;
+      color: #fff;
+      padding: 2rem;
+    }
+    .test-section {
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+    }
+    .test-section h2 {
+      margin-bottom: 1rem;
+      color: #e50914;
+    }
+    .test-result {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    .success {
+      color: #4caf50;
+    }
+    .error {
+      color: #f44336;
+    }
+    .info {
+      color: #2196f3;
+    }
+    .mock-header {
+      background: rgba(0, 0, 0, 0.9);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+    .header-center {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .main-nav {
+      display: flex;
+      gap: 1rem;
+    }
+    .nav-link {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+    }
+    #app {
+      min-height: 400px;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 8px;
+      padding: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Category Filter Test</h1>
+  
+  <!-- Mock Header -->
+  <div class="mock-header">
+    <div class="header-center">
+      <nav class="main-nav">
+        <a href="#/" class="nav-link">Home</a>
+        <a href="#/about-me" class="nav-link">About</a>
+        <a href="#/education" class="nav-link">Education</a>
+      </nav>
+      <!-- Category filter will be inserted here -->
+    </div>
+  </div>
+
+  <!-- App Container -->
+  <div id="app">
+    <p>Browse Hub will be rendered here...</p>
+  </div>
+
+  <!-- Test Results -->
+  <div class="test-section">
+    <h2>Test Results</h2>
+    <div id="test-results"></div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/touch-handler.js"></script>
+  <script src="js/row-carousel.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/view-manager.js"></script>
+  <script src="js/back-navigation.js"></script>
+  <script src="js/keyboard-navigation.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/category-filter.js"></script>
+
+  <script>
+    // Test suite
+    const testResults = document.getElementById('test-results');
+    
+    function logTest(message, type = 'info') {
+      const div = document.createElement('div');
+      div.className = `test-result ${type}`;
+      div.textContent = `${new Date().toLocaleTimeString()} - ${message}`;
+      testResults.appendChild(div);
+    }
+
+    // Initialize components
+    let dataStore, viewManager, router, categoryFilter;
+
+    try {
+      logTest('Initializing DataStore...', 'info');
+      dataStore = new DataStore();
+      logTest(`✓ DataStore initialized with ${dataStore.getAllCategories().length} categories`, 'success');
+
+      logTest('Initializing ViewManager...', 'info');
+      const appContainer = document.getElementById('app');
+      viewManager = new ViewManager(appContainer, dataStore);
+      logTest('✓ ViewManager initialized', 'success');
+
+      logTest('Initializing Router...', 'info');
+      router = new Router(viewManager);
+      router.init();
+      logTest('✓ Router initialized', 'success');
+
+      // Wait for initial render
+      setTimeout(() => {
+        logTest('Initializing CategoryFilter...', 'info');
+        categoryFilter = new CategoryFilter(dataStore, viewManager, router);
+        categoryFilter.init();
+        logTest('✓ CategoryFilter initialized', 'success');
+
+        // Test 1: Check if filter UI was created
+        const filterContainer = document.querySelector('.category-filter');
+        if (filterContainer) {
+          logTest('✓ Test 1: Filter UI created successfully', 'success');
+          
+          const filterButtons = filterContainer.querySelectorAll('.filter-btn');
+          logTest(`✓ Found ${filterButtons.length} filter buttons (expected ${dataStore.getAllCategories().length + 1})`, 'success');
+        } else {
+          logTest('✗ Test 1: Filter UI not found', 'error');
+        }
+
+        // Test 2: Check "All" button is active by default
+        const allButton = document.querySelector('.filter-btn[data-category="all"]');
+        if (allButton && allButton.classList.contains('active')) {
+          logTest('✓ Test 2: "All" button is active by default', 'success');
+        } else {
+          logTest('✗ Test 2: "All" button is not active', 'error');
+        }
+
+        // Test 3: Test filtering by category
+        setTimeout(() => {
+          logTest('Testing filter by "education" category...', 'info');
+          const educationButton = document.querySelector('.filter-btn[data-category="education"]');
+          if (educationButton) {
+            educationButton.click();
+            
+            setTimeout(() => {
+              if (educationButton.classList.contains('active')) {
+                logTest('✓ Test 3: Education filter applied successfully', 'success');
+                
+                // Check if only education row is visible
+                const contentRows = document.querySelectorAll('.content-row');
+                if (contentRows.length === 1) {
+                  logTest(`✓ Test 3b: Only 1 content row visible (filtered)`, 'success');
+                } else {
+                  logTest(`✗ Test 3b: Expected 1 row, found ${contentRows.length}`, 'error');
+                }
+              } else {
+                logTest('✗ Test 3: Education filter not applied', 'error');
+              }
+
+              // Test 4: Test clearing filter
+              setTimeout(() => {
+                logTest('Testing clear filter (All button)...', 'info');
+                const allBtn = document.querySelector('.filter-btn[data-category="all"]');
+                if (allBtn) {
+                  allBtn.click();
+                  
+                  setTimeout(() => {
+                    if (allBtn.classList.contains('active')) {
+                      logTest('✓ Test 4: Filter cleared successfully', 'success');
+                      
+                      const allRows = document.querySelectorAll('.content-row');
+                      if (allRows.length === dataStore.getAllCategories().length) {
+                        logTest(`✓ Test 4b: All ${allRows.length} content rows visible`, 'success');
+                      } else {
+                        logTest(`✗ Test 4b: Expected ${dataStore.getAllCategories().length} rows, found ${allRows.length}`, 'error');
+                      }
+                    } else {
+                      logTest('✗ Test 4: Filter not cleared', 'error');
+                    }
+
+                    // Test 5: Test URL parameter
+                    logTest('Testing URL parameter...', 'info');
+                    const projectButton = document.querySelector('.filter-btn[data-category="project"]');
+                    if (projectButton) {
+                      projectButton.click();
+                      
+                      setTimeout(() => {
+                        const currentURL = window.location.href;
+                        if (currentURL.includes('filter=project')) {
+                          logTest('✓ Test 5: URL parameter added correctly', 'success');
+                        } else {
+                          logTest(`✗ Test 5: URL parameter not found. URL: ${currentURL}`, 'error');
+                        }
+
+                        logTest('All tests completed!', 'info');
+                      }, 600);
+                    }
+                  }, 600);
+                }
+              }, 600);
+            }, 600);
+          } else {
+            logTest('✗ Test 3: Education button not found', 'error');
+          }
+        }, 500);
+      }, 500);
+
+    } catch (error) {
+      logTest(`✗ Error: ${error.message}`, 'error');
+      console.error(error);
+    }
+  </script>
+</body>
+</html>

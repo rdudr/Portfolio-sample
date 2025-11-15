@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Router Test - Netflix Portfolio</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #141414;
+      color: #fff;
+    }
+    h1 { color: #e50914; }
+    .test-section {
+      background: #1a1a1a;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+    }
+    button {
+      background: #e50914;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 5px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover { background: #f40612; }
+    .route-info {
+      background: #2a2a2a;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    .success { color: #46d369; }
+    .error { color: #e50914; }
+  </style>
+</head>
+<body>
+  <h1>Router Test Suite</h1>
+  
+  <div class="test-section">
+    <h2>Current Route Information</h2>
+    <div id="route-info" class="route-info">Loading...</div>
+  </div>
+
+  <div class="test-section">
+    <h2>Navigation Tests</h2>
+    <button onclick="testNavigate('/')">Test: Browse Hub (/)</button>
+    <button onclick="testNavigate('/education')">Test: Category (/education)</button>
+    <button onclick="testNavigate('/education/gits-udaipur')">Test: Detail Page</button>
+    <button onclick="testNavigate('/search?q=iot')">Test: Search Query</button>
+    <button onclick="testNavigate('/invalid/route/path')">Test: 404 Route</button>
+  </div>
+
+  <div class="test-section">
+    <h2>History Tests</h2>
+    <button onclick="router.navigateBack()">Browser Back</button>
+    <button onclick="router.navigateForward()">Browser Forward</button>
+    <button onclick="router.navigateToBrowseHub()">Back to Browse Hub</button>
+  </div>
+
+  <div class="test-section">
+    <h2>Test Results</h2>
+    <div id="test-results"></div>
+  </div>
+
+  <div id="app"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/view-manager.js"></script>
+  <script src="js/router.js"></script>
+
+  <script>
+    // Mock ViewManager for testing
+    const mockViewManager = {
+      renderBrowseHub: (category) => {
+        log(`✓ renderBrowseHub called${category ? ` with category: ${category}` : ''}`, 'success');
+      },
+      renderDetailPage: (category, item) => {
+        log(`✓ renderDetailPage called with: ${category}/${item}`, 'success');
+      },
+      renderNotFound: () => {
+        log('✓ renderNotFound called', 'success');
+      }
+    };
+
+    // Initialize router
+    const router = new Router(mockViewManager);
+    router.init();
+
+    // Add route change listener
+    router.onRouteChange((newRoute, oldRoute) => {
+      updateRouteInfo(newRoute);
+      log(`Route changed from ${oldRoute?.type || 'none'} to ${newRoute.type}`, 'success');
+    });
+
+    // Update route info display
+    function updateRouteInfo(route) {
+      const info = document.getElementById('route-info');
+      info.innerHTML = `
+        <strong>Type:</strong> ${route.type}<br>
+        <strong>Params:</strong> ${JSON.stringify(route.params, null, 2)}<br>
+        <strong>Query:</strong> ${JSON.stringify(route.query, null, 2)}<br>
+        <strong>Hash:</strong> ${window.location.hash || '(empty)'}
+      `;
+    }
+
+    // Test navigation
+    function testNavigate(path) {
+      log(`Testing navigation to: ${path}`, 'info');
+      router.navigate(path);
+    }
+
+    // Log test results
+    function log(message, type = 'info') {
+      const results = document.getElementById('test-results');
+      const entry = document.createElement('div');
+      entry.className = type;
+      entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+      results.appendChild(entry);
+      console.log(message);
+    }
+
+    // Run initial tests
+    setTimeout(() => {
+      log('Router initialized successfully', 'success');
+      updateRouteInfo(router.getCurrentRoute());
+      
+      // Test route parsing
+      log('Testing route parsing...', 'info');
+      
+      const tests = [
+        { hash: '#/', expected: 'browse-hub' },
+        { hash: '#/education', expected: 'category' },
+        { hash: '#/education/gits-udaipur', expected: 'detail' },
+        { hash: '#/invalid/too/many/parts', expected: 'not-found' }
+      ];
+
+      tests.forEach(test => {
+        window.location.hash = test.hash;
+        const route = router.parseRoute();
+        if (route.type === test.expected) {
+          log(`✓ Route parsing test passed: ${test.hash} → ${route.type}`, 'success');
+        } else {
+          log(`✗ Route parsing test failed: ${test.hash} expected ${test.expected}, got ${route.type}`, 'error');
+        }
+      });
+
+      // Reset to home
+      router.navigate('/');
+    }, 100);
+  </script>
+</body>
+</html>

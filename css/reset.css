@@ -1,4 +1,4 @@
-/* CSS Reset and Normalization */
+/* Modern CSS Reset for Netflix-style Portfolio */
 
 /* Box sizing reset */
 *,
@@ -16,6 +16,7 @@
 /* Set core root defaults */
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 /* Set core body defaults */
@@ -25,6 +26,7 @@ body {
   text-rendering: optimizeSpeed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 /* Remove list styles */
@@ -50,6 +52,7 @@ button,
 textarea,
 select {
   font: inherit;
+  color: inherit;
 }
 
 /* Remove button styles */
@@ -57,12 +60,31 @@ button {
   background: none;
   border: none;
   cursor: pointer;
+  padding: 0;
 }
 
 /* Remove default link styles */
 a {
   text-decoration: none;
   color: inherit;
+  cursor: pointer;
+}
+
+/* Focus styles for accessibility */
+:focus-visible {
+  outline: 2px solid #e50914;
+  outline-offset: 2px;
+}
+
+/* Remove focus outline for mouse users */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Smooth scrolling for carousels */
+.carousel-track {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Remove animations for people who've turned them off */
@@ -74,5 +96,13 @@ a {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+  
+  html {
+    scroll-behavior: auto;
+  }
+  
+  .carousel-track {
+    scroll-behavior: auto;
   }
 }

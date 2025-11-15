@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Functionality Test</title>
+  
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      padding: 20px;
+      background: #141414;
+      color: #fff;
+    }
+    
+    .test-section {
+      margin-bottom: 40px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+    }
+    
+    .test-section h2 {
+      margin-bottom: 20px;
+      color: #e50914;
+    }
+    
+    .test-controls {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
+    .test-button {
+      padding: 10px 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 4px;
+      color: #fff;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    
+    .test-button:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+    
+    .test-results {
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 12px;
+    }
+    
+    .success {
+      color: #4caf50;
+    }
+    
+    .error {
+      color: #f44336;
+    }
+    
+    .info {
+      color: #2196f3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Search Functionality Test</h1>
+  
+  <div class="test-section">
+    <h2>1. Search Input Test</h2>
+    <div class="search-container">
+      <input type="search" 
+             class="search-input" 
+             placeholder="Search portfolio..." 
+             aria-label="Search portfolio content">
+      <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
+      </svg>
+    </div>
+    <div class="test-controls">
+      <button class="test-button" onclick="testSearchInput()">Test Search Input</button>
+      <button class="test-button" onclick="testDebounce()">Test Debounce (300ms)</button>
+      <button class="test-button" onclick="testEscapeKey()">Test Escape Key</button>
+    </div>
+    <div class="test-results" id="search-input-results"></div>
+  </div>
+
+  <div class="test-section">
+    <h2>2. Search Filtering Test</h2>
+    <div class="test-controls">
+      <button class="test-button" onclick="testSearchQuery('iot')">Search: "iot"</button>
+      <button class="test-button" onclick="testSearchQuery('python')">Search: "python"</button>
+      <button class="test-button" onclick="testSearchQuery('security')">Search: "security"</button>
+      <button class="test-button" onclick="testSearchQuery('xyz123')">Search: "xyz123" (no results)</button>
+      <button class="test-button" onclick="testClearSearch()">Clear Search</button>
+    </div>
+    <div class="test-results" id="search-filter-results"></div>
+  </div>
+
+  <div class="test-section">
+    <h2>3. Browse Hub with Content</h2>
+    <div id="app">
+      <!-- Content will be rendered here -->
+    </div>
+  </div>
+
+  <!-- JavaScript Modules -->
+  <script src="js/data.js"></script>
+  <script src="js/touch-handler.js"></script>
+  <script src="js/row-carousel.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/view-manager.js"></script>
+  <script src="js/back-navigation.js"></script>
+  <script src="js/keyboard-navigation.js"></script>
+  <script src="js/search.js"></script>
+  
+  <script>
+    // Initialize components
+    let dataStore;
+    let viewManager;
+    let searchComponent;
+    
+    function init() {
+      const appContainer = document.getElementById('app');
+      dataStore = new DataStore();
+      viewManager = new ViewManager(appContainer, dataStore);
+      
+      // Render browse hub
+      viewManager.renderBrowseHub();
+      
+      // Initialize search after a short delay
+      setTimeout(() => {
+        searchComponent = new SearchComponent(dataStore, viewManager);
+        searchComponent.init();
+        log('search-input-results', 'SearchComponent initialized', 'success');
+      }, 500);
+    }
+    
+    function log(elementId, message, type = 'info') {
+      const element = document.getElementById(elementId);
+      if (element) {
+        const timestamp = new Date().toLocaleTimeString();
+        element.innerHTML += `<div class="${type}">[${timestamp}] ${message}</div>`;
+        element.scrollTop = element.scrollHeight;
+      }
+    }
+    
+    function testSearchInput() {
+      const searchInput = document.querySelector('.search-input');
+      if (searchInput) {
+        log('search-input-results', 'Search input found ✓', 'success');
+        log('search-input-results', `Placeholder: "${searchInput.placeholder}"`, 'info');
+        log('search-input-results', `ARIA label: "${searchInput.getAttribute('aria-label')}"`, 'info');
+      } else {
+        log('search-input-results', 'Search input not found ✗', 'error');
+      }
+    }
+    
+    function testDebounce() {
+      log('search-input-results', 'Testing debounce...', 'info');
+      const searchInput = document.querySelector('.search-input');
+      if (searchInput) {
+        searchInput.value = 'test';
+        searchInput.dispatchEvent(new Event('input'));
+        log('search-input-results', 'Input event dispatched, waiting 300ms...', 'info');
+        
+        setTimeout(() => {
+          log('search-input-results', 'Debounce period complete ✓', 'success');
+        }, 350);
+      }
+    }
+    
+    function testEscapeKey() {
+      const searchInput = document.querySelector('.search-input');
+      if (searchInput) {
+        searchInput.value = 'test query';
+        const event = new KeyboardEvent('keydown', { key: 'Escape' });
+        searchInput.dispatchEvent(event);
+        
+        setTimeout(() => {
+          if (searchInput.value === '') {
+            log('search-input-results', 'Escape key cleared search ✓', 'success');
+          } else {
+            log('search-input-results', 'Escape key did not clear search ✗', 'error');
+          }
+        }, 100);
+      }
+    }
+    
+    function testSearchQuery(query) {
+      log('search-filter-results', `Searching for: "${query}"`, 'info');
+      
+      if (!searchComponent) {
+        log('search-filter-results', 'SearchComponent not initialized ✗', 'error');
+        return;
+      }
+      
+      const searchInput = document.querySelector('.search-input');
+      if (searchInput) {
+        searchInput.value = query;
+        searchInput.dispatchEvent(new Event('input'));
+        
+        setTimeout(() => {
+          const visibleRows = document.querySelectorAll('.content-row:not(.search-hidden)');
+          const visibleCards = document.querySelectorAll('.content-card:not(.search-hidden)');
+          const highlights = document.querySelectorAll('.search-highlight');
+          
+          log('search-filter-results', `Visible rows: ${visibleRows.length}`, 'info');
+          log('search-filter-results', `Visible cards: ${visibleCards.length}`, 'info');
+          log('search-filter-results', `Highlighted matches: ${highlights.length}`, 'info');
+          
+          if (visibleCards.length > 0) {
+            log('search-filter-results', `Search successful ✓`, 'success');
+          } else {
+            log('search-filter-results', `No results found (expected for invalid queries)`, 'info');
+          }
+        }, 350);
+      }
+    }
+    
+    function testClearSearch() {
+      log('search-filter-results', 'Clearing search...', 'info');
+      
+      if (searchComponent) {
+        searchComponent.clearSearch();
+        
+        setTimeout(() => {
+          const visibleRows = document.querySelectorAll('.content-row:not(.search-hidden)');
+          const allRows = document.querySelectorAll('.content-row');
+          
+          if (visibleRows.length === allRows.length) {
+            log('search-filter-results', `All rows restored (${visibleRows.length}/${allRows.length}) ✓`, 'success');
+          } else {
+            log('search-filter-results', `Not all rows restored (${visibleRows.length}/${allRows.length}) ✗`, 'error');
+          }
+        }, 100);
+      }
+    }
+    
+    // Initialize on load
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  </script>
+</body>
+</html>

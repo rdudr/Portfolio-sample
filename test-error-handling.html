@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Error Handling Test</title>
+  
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/loading-states.css">
+  <link rel="stylesheet" href="css/error-handling.css">
+  
+  <style>
+    body {
+      padding: 2rem;
+      background: var(--color-bg-primary, #141414);
+      color: var(--color-text-primary, #ffffff);
+    }
+    
+    .test-section {
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: var(--color-bg-secondary, #1a1a1a);
+      border-radius: 8px;
+    }
+    
+    .test-section h2 {
+      margin-bottom: 1rem;
+      color: var(--color-accent, #e50914);
+    }
+    
+    .test-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+    
+    .test-button {
+      padding: 0.75rem 1.5rem;
+      background: var(--color-accent, #e50914);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    
+    .test-button:hover {
+      background: #f40612;
+    }
+    
+    .test-image-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .test-card {
+      aspect-ratio: 16 / 9;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .card-image-container {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+    
+    .card-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .log-output {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #000;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.875rem;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    
+    .log-entry {
+      margin-bottom: 0.5rem;
+      padding: 0.25rem;
+    }
+    
+    .log-error { color: #ff6b6b; }
+    .log-warn { color: #ffa500; }
+    .log-info { color: #4dabf7; }
+  </style>
+</head>
+<body>
+  <h1>Error Handling Test Suite</h1>
+  <p>Test various error handling scenarios</p>
+  
+  <!-- Test 1: Toast Notifications -->
+  <div class="test-section">
+    <h2>1. Toast Notifications</h2>
+    <p>Test different types of toast messages</p>
+    <div class="test-buttons">
+      <button class="test-button" onclick="testToast('error')">Error Toast</button>
+      <button class="test-button" onclick="testToast('warn')">Warning Toast</button>
+      <button class="test-button" onclick="testToast('success')">Success Toast</button>
+      <button class="test-button" onclick="testToast('info')">Info Toast</button>
+    </div>
+  </div>
+  
+  <!-- Test 2: Image Error Handling -->
+  <div class="test-section">
+    <h2>2. Image Error Handling</h2>
+    <p>Test image loading errors with fallback and retry</p>
+    <div class="test-buttons">
+      <button class="test-button" onclick="testImageError()">Load Broken Images</button>
+      <button class="test-button" onclick="clearImages()">Clear Images</button>
+    </div>
+    <div class="test-image-container" id="imageContainer"></div>
+  </div>
+  
+  <!-- Test 3: 404 Page -->
+  <div class="test-section">
+    <h2>3. 404 Not Found Page</h2>
+    <p>Test 404 error page rendering</p>
+    <div class="test-buttons">
+      <button class="test-button" onclick="test404()">Show 404 Page</button>
+      <button class="test-button" onclick="clear404()">Clear 404</button>
+    </div>
+    <div id="notFoundContainer"></div>
+  </div>
+  
+  <!-- Test 4: Error Messages -->
+  <div class="test-section">
+    <h2>4. Error Messages with Retry</h2>
+    <p>Test error messages with retry functionality</p>
+    <div class="test-buttons">
+      <button class="test-button" onclick="testErrorMessage()">Show Error Message</button>
+      <button class="test-button" onclick="clearErrorMessage()">Clear Error</button>
+    </div>
+    <div id="errorContainer"></div>
+  </div>
+  
+  <!-- Test 5: Error Log -->
+  <div class="test-section">
+    <h2>5. Error Log</h2>
+    <p>View error log and statistics</p>
+    <div class="test-buttons">
+      <button class="test-button" onclick="showErrorLog()">Show Error Log</button>
+      <button class="test-button" onclick="showErrorStats()">Show Statistics</button>
+      <button class="test-button" onclick="clearErrorLog()">Clear Log</button>
+    </div>
+    <div class="log-output" id="logOutput"></div>
+  </div>
+  
+  <!-- Test 6: Retry Handler -->
+  <div class="test-section">
+    <h2>6. Retry Handler</h2>
+    <p>Test retry functionality with exponential backoff</p>
+    <div class="test-buttons">
+      <button class="test-button" onclick="testRetrySuccess()">Test Retry (Success)</button>
+      <button class="test-button" onclick="testRetryFailure()">Test Retry (Failure)</button>
+    </div>
+    <div class="log-output" id="retryOutput"></div>
+  </div>
+  
+  <script src="js/error-handler.js"></script>
+  
+  <script>
+    // Initialize error handler
+    const errorHandler = new ErrorHandler();
+    errorHandler.init();
+    window.errorHandler = errorHandler;
+    
+    // Test 1: Toast Notifications
+    function testToast(type) {
+      const messages = {
+        error: 'This is an error message',
+        warn: 'This is a warning message',
+        success: 'Operation completed successfully!',
+        info: 'This is an informational message'
+      };
+      
+      errorHandler.showUserMessage(messages[type], type);
+    }
+    
+    // Test 2: Image Error Handling
+    function testImageError() {
+      const container = document.getElementById('imageContainer');
+      container.innerHTML = '';
+      
+      // Create test images with broken URLs
+      const brokenUrls = [
+        'https://example.com/broken-image-1.jpg',
+        'https://example.com/broken-image-2.jpg',
+        'https://example.com/broken-image-3.jpg',
+        '/assets/images/nonexistent.jpg'
+      ];
+      
+      brokenUrls.forEach((url, index) => {
+        const card = document.createElement('div');
+        card.className = 'test-card';
+        
+        const imageContainer = document.createElement('div');
+        imageContainer.className = 'card-image-container';
+        
+        const img = document.createElement('img');
+        img.className = 'card-image';
+        img.src = url;
+        img.alt = `Test Image ${index + 1}`;
+        
+        // Attach error handler
+        img.onerror = () => {
+          errorHandler.handleImageError(img, { showRetry: true });
+        };
+        
+        imageContainer.appendChild(img);
+        card.appendChild(imageContainer);
+        container.appendChild(card);
+      });
+    }
+    
+    function clearImages() {
+      document.getElementById('imageContainer').innerHTML = '';
+    }
+    
+    // Test 3: 404 Page
+    function test404() {
+      const container = document.getElementById('notFoundContainer');
+      const route = '#/nonexistent/page';
+      container.innerHTML = errorHandler.handle404(route, { 
+        redirectDelay: 0, 
+        showRetry: true 
+      });
+    }
+    
+    function clear404() {
+      document.getElementById('notFoundContainer').innerHTML = '';
+    }
+    
+    // Test 4: Error Messages
+    function testErrorMessage() {
+      const container = document.getElementById('errorContainer');
+      let retryCount = 0;
+      
+      const retryCallback = () => {
+        retryCount++;
+        errorHandler.showUserMessage(`Retry attempt ${retryCount}`, 'info');
+        
+        if (retryCount >= 3) {
+          errorHandler.showUserMessage('Operation succeeded after retries!', 'success');
+          clearErrorMessage();
+        }
+      };
+      
+      container.innerHTML = errorHandler.createErrorMessage(
+        'Operation Failed',
+        'The requested operation could not be completed. Please try again.',
+        retryCallback
+      );
+    }
+    
+    function clearErrorMessage() {
+      document.getElementById('errorContainer').innerHTML = '';
+    }
+    
+    // Test 5: Error Log
+    function showErrorLog() {
+      const output = document.getElementById('logOutput');
+      const log = errorHandler.getErrorLog(20);
+      
+      if (log.length === 0) {
+        output.innerHTML = '<div class="log-entry log-info">No errors logged yet</div>';
+        return;
+      }
+      
+      output.innerHTML = log.map(entry => {
+        const levelClass = `log-${entry.level}`;
+        const time = new Date(entry.timestamp).toLocaleTimeString();
+        return `<div class="log-entry ${levelClass}">[${time}] [${entry.level.toUpperCase()}] ${entry.message}</div>`;
+      }).join('');
+    }
+    
+    function showErrorStats() {
+      const output = document.getElementById('logOutput');
+      const stats = errorHandler.getErrorStats();
+      
+      output.innerHTML = `
+        <div class="log-entry log-info">Total Errors: ${stats.total}</div>
+        <div class="log-entry log-error">Errors: ${stats.byLevel.error}</div>
+        <div class="log-entry log-warn">Warnings: ${stats.byLevel.warn}</div>
+        <div class="log-entry log-info">Info: ${stats.byLevel.info}</div>
+        <br>
+        <div class="log-entry log-info">Recent Errors:</div>
+        ${stats.recentErrors.map(entry => {
+          const levelClass = `log-${entry.level}`;
+          return `<div class="log-entry ${levelClass}">${entry.message}</div>`;
+        }).join('')}
+      `;
+    }
+    
+    function clearErrorLog() {
+      errorHandler.clearErrorLog();
+      document.getElementById('logOutput').innerHTML = '<div class="log-entry log-info">Log cleared</div>';
+    }
+    
+    // Test 6: Retry Handler
+    async function testRetrySuccess() {
+      const output = document.getElementById('retryOutput');
+      output.innerHTML = '<div class="log-entry log-info">Testing retry with eventual success...</div>';
+      
+      let attempts = 0;
+      const operation = async () => {
+        attempts++;
+        if (attempts < 3) {
+          throw new Error(`Attempt ${attempts} failed`);
+        }
+        return 'Success!';
+      };
+      
+      const retryOperation = errorHandler.createRetryHandler(operation, {
+        maxRetries: 3,
+        baseDelay: 500
+      });
+      
+      try {
+        const result = await retryOperation();
+        output.innerHTML += `<div class="log-entry log-success">✓ ${result} (after ${attempts} attempts)</div>`;
+      } catch (error) {
+        output.innerHTML += `<div class="log-entry log-error">✗ ${error.message}</div>`;
+      }
+    }
+    
+    async function testRetryFailure() {
+      const output = document.getElementById('retryOutput');
+      output.innerHTML = '<div class="log-entry log-info">Testing retry with all failures...</div>';
+      
+      let attempts = 0;
+      const operation = async () => {
+        attempts++;
+        throw new Error(`Attempt ${attempts} failed`);
+      };
+      
+      const retryOperation = errorHandler.createRetryHandler(operation, {
+        maxRetries: 3,
+        baseDelay: 500
+      });
+      
+      try {
+        await retryOperation();
+      } catch (error) {
+        output.innerHTML += `<div class="log-entry log-error">✗ All retries failed after ${attempts} attempts</div>`;
+      }
+    }
+    
+    // Log some test errors on load
+    errorHandler.log('Test application initialized', 'info');
+    errorHandler.log('This is a test warning', 'warn');
+    errorHandler.log('This is a test error', 'error', { test: true });
+  </script>
+</body>
+</html>

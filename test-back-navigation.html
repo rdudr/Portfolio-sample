@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Back Navigation Test - Netflix Portfolio</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    body {
+      padding: 2rem;
+      background: var(--color-bg-primary);
+      color: var(--color-text-primary);
+    }
+
+    .test-section {
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: var(--color-bg-secondary);
+      border-radius: 8px;
+    }
+
+    .test-section h2 {
+      margin-bottom: 1rem;
+      color: var(--color-accent);
+    }
+
+    .test-controls {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .test-button {
+      padding: 0.75rem 1.5rem;
+      background: var(--color-accent);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .test-button:hover {
+      opacity: 0.9;
+    }
+
+    .test-button.secondary {
+      background: #555;
+    }
+
+    .test-output {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #000;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.9rem;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .test-output .log-entry {
+      margin-bottom: 0.5rem;
+      padding: 0.25rem;
+    }
+
+    .test-output .log-entry.success {
+      color: #4ade80;
+    }
+
+    .test-output .log-entry.error {
+      color: #f87171;
+    }
+
+    .test-output .log-entry.info {
+      color: #60a5fa;
+    }
+
+    #app {
+      margin-top: 2rem;
+      min-height: 400px;
+    }
+
+    .status-indicator {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 0.5rem;
+    }
+
+    .status-indicator.active {
+      background: #4ade80;
+    }
+
+    .status-indicator.inactive {
+      background: #555;
+    }
+  </style>
+</head>
+<body>
+  <h1>Back Navigation Test Suite</h1>
+  <p>Testing Requirements 18.1, 18.2, 18.3, 18.4, 18.5</p>
+
+  <!-- Test 1: Back Button Click -->
+  <div class="test-section">
+    <h2>Test 1: Back Button Click Handler</h2>
+    <p>Requirement 18.1: Add click handler to back button</p>
+    <div class="test-controls">
+      <button class="test-button" onclick="testBackButton()">Navigate to Detail Page</button>
+      <button class="test-button secondary" onclick="clearLog()">Clear Log</button>
+    </div>
+    <div class="test-output" id="test1-output"></div>
+  </div>
+
+  <!-- Test 2: Router Navigation -->
+  <div class="test-section">
+    <h2>Test 2: Navigate to Browse Hub Using Router</h2>
+    <p>Requirement 18.2: Navigate to Browse Hub using router</p>
+    <div class="test-controls">
+      <button class="test-button" onclick="testRouterNavigation()">Test Router Navigation</button>
+      <button class="test-button secondary" onclick="clearLog()">Clear Log</button>
+    </div>
+    <div class="test-output" id="test2-output"></div>
+  </div>
+
+  <!-- Test 3: Scroll Position Restoration -->
+  <div class="test-section">
+    <h2>Test 3: Scroll Position Restoration</h2>
+    <p>Requirement 18.3: Restore previous scroll position</p>
+    <div class="test-controls">
+      <button class="test-button" onclick="testScrollRestoration()">Test Scroll Restoration</button>
+      <button class="test-button secondary" onclick="clearLog()">Clear Log</button>
+    </div>
+    <div class="test-output" id="test3-output"></div>
+  </div>
+
+  <!-- Test 4: Browser Back Button -->
+  <div class="test-section">
+    <h2>Test 4: Browser Back Button Support</h2>
+    <p>Requirement 18.4: Support browser back button</p>
+    <div class="test-controls">
+      <button class="test-button" onclick="testBrowserBackButton()">Test Browser Back</button>
+      <button class="test-button secondary" onclick="window.history.back()">Use Browser Back</button>
+      <button class="test-button secondary" onclick="clearLog()">Clear Log</button>
+    </div>
+    <div class="test-output" id="test4-output"></div>
+  </div>
+
+  <!-- Test 5: Escape Key Handler -->
+  <div class="test-section">
+    <h2>Test 5: Escape Key Handler</h2>
+    <p>Requirement 18.5: Add Escape key handler to close detail page</p>
+    <div class="test-controls">
+      <button class="test-button" onclick="testEscapeKey()">Navigate to Detail & Press Escape</button>
+      <button class="test-button secondary" onclick="clearLog()">Clear Log</button>
+    </div>
+    <div class="test-output" id="test5-output"></div>
+    <p style="margin-top: 1rem; color: #60a5fa;">
+      <span class="status-indicator" id="escape-status"></span>
+      Press Escape key when on detail page to test
+    </p>
+  </div>
+
+  <!-- Application Container -->
+  <div id="app"></div>
+
+  <!-- JavaScript Modules -->
+  <script src="js/data.js"></script>
+  <script src="js/row-carousel.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/view-manager.js"></script>
+  <script src="js/back-navigation.js"></script>
+
+  <script>
+    // Test utilities
+    let dataStore, viewManager, router, backNavigation;
+    let testLogs = {
+      test1: [],
+      test2: [],
+      test3: [],
+      test4: [],
+      test5: []
+    };
+
+    function log(testId, message, type = 'info') {
+      const timestamp = new Date().toLocaleTimeString();
+      const entry = { timestamp, message, type };
+      testLogs[testId].push(entry);
+      updateTestOutput(testId);
+    }
+
+    function updateTestOutput(testId) {
+      const output = document.getElementById(`${testId}-output`);
+      if (!output) return;
+
+      output.innerHTML = testLogs[testId].map(entry => 
+        `<div class="log-entry ${entry.type}">[${entry.timestamp}] ${entry.message}</div>`
+      ).join('');
+      output.scrollTop = output.scrollHeight;
+    }
+
+    function clearLog() {
+      Object.keys(testLogs).forEach(key => {
+        testLogs[key] = [];
+        updateTestOutput(key);
+      });
+    }
+
+    // Initialize application
+    function initApp() {
+      try {
+        const appContainer = document.getElementById('app');
+        
+        dataStore = new DataStore();
+        log('test1', `DataStore initialized with ${dataStore.getAllCategories().length} categories`, 'success');
+
+        viewManager = new ViewManager(appContainer, dataStore);
+        log('test1', 'ViewManager initialized', 'success');
+
+        router = new Router(viewManager);
+        log('test1', 'Router initialized', 'success');
+
+        backNavigation = new BackNavigation(router, viewManager);
+        backNavigation.init();
+        viewManager.setBackNavigation(backNavigation);
+        log('test1', 'BackNavigation initialized', 'success');
+
+        router.init();
+        log('test1', 'Application ready', 'success');
+
+        // Monitor route changes
+        router.onRouteChange((newRoute, oldRoute) => {
+          const routeType = newRoute.type;
+          log('test2', `Route changed: ${oldRoute?.type || 'none'} → ${routeType}`, 'info');
+          
+          if (routeType === 'detail') {
+            document.getElementById('escape-status').classList.add('active');
+            document.getElementById('escape-status').classList.remove('inactive');
+          } else {
+            document.getElementById('escape-status').classList.remove('active');
+            document.getElementById('escape-status').classList.add('inactive');
+          }
+        });
+
+        // Monitor escape key
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            const currentRoute = router.getCurrentRoute();
+            if (currentRoute && currentRoute.type === 'detail') {
+              log('test5', 'Escape key pressed on detail page', 'success');
+            }
+          }
+        });
+
+      } catch (error) {
+        log('test1', `Initialization error: ${error.message}`, 'error');
+      }
+    }
+
+    // Test 1: Back Button Click
+    function testBackButton() {
+      log('test1', 'Starting back button test...', 'info');
+      
+      // Navigate to detail page
+      const categories = dataStore.getAllCategories();
+      if (categories.length > 0 && categories[0].items.length > 0) {
+        const category = categories[0];
+        const item = category.items[0];
+        
+        log('test1', `Navigating to detail page: ${category.slug}/${item.slug}`, 'info');
+        router.navigate(`/${category.slug}/${item.slug}`);
+        
+        setTimeout(() => {
+          const backButton = document.querySelector('.back-button');
+          if (backButton) {
+            log('test1', 'Back button found in DOM', 'success');
+            log('test1', 'Click the back button to test navigation', 'info');
+          } else {
+            log('test1', 'Back button not found in DOM', 'error');
+          }
+        }, 500);
+      } else {
+        log('test1', 'No data available for testing', 'error');
+      }
+    }
+
+    // Test 2: Router Navigation
+    function testRouterNavigation() {
+      log('test2', 'Starting router navigation test...', 'info');
+      
+      const categories = dataStore.getAllCategories();
+      if (categories.length > 0 && categories[0].items.length > 0) {
+        const category = categories[0];
+        const item = category[0].items[0];
+        
+        // Navigate to detail
+        log('test2', 'Navigating to detail page...', 'info');
+        router.navigate(`/${category.slug}/${item.slug}`);
+        
+        setTimeout(() => {
+          log('test2', 'Navigating back to browse hub using router...', 'info');
+          router.navigateToBrowseHub();
+          
+          setTimeout(() => {
+            const currentRoute = router.getCurrentRoute();
+            if (currentRoute.type === 'browse-hub') {
+              log('test2', 'Successfully navigated back to browse hub', 'success');
+            } else {
+              log('test2', `Unexpected route: ${currentRoute.type}`, 'error');
+            }
+          }, 500);
+        }, 1000);
+      }
+    }
+
+    // Test 3: Scroll Position Restoration
+    function testScrollRestoration() {
+      log('test3', 'Starting scroll restoration test...', 'info');
+      
+      // Navigate to browse hub and scroll
+      router.navigateToBrowseHub();
+      
+      setTimeout(() => {
+        const scrollAmount = 500;
+        window.scrollTo(0, scrollAmount);
+        log('test3', `Scrolled to position: ${scrollAmount}px`, 'info');
+        
+        setTimeout(() => {
+          const savedPosition = window.scrollY;
+          log('test3', `Current scroll position: ${savedPosition}px`, 'info');
+          
+          // Navigate to detail page
+          const categories = dataStore.getAllCategories();
+          if (categories.length > 0 && categories[0].items.length > 0) {
+            const category = categories[0];
+            const item = category.items[0];
+            
+            log('test3', 'Navigating to detail page...', 'info');
+            router.navigate(`/${category.slug}/${item.slug}`);
+            
+            setTimeout(() => {
+              log('test3', 'Navigating back to browse hub...', 'info');
+              router.navigateToBrowseHub();
+              
+              setTimeout(() => {
+                const restoredPosition = window.scrollY;
+                log('test3', `Restored scroll position: ${restoredPosition}px`, 'info');
+                
+                if (Math.abs(restoredPosition - savedPosition) < 50) {
+                  log('test3', 'Scroll position restored successfully!', 'success');
+                } else {
+                  log('test3', `Scroll position mismatch: expected ~${savedPosition}px, got ${restoredPosition}px`, 'error');
+                }
+              }, 500);
+            }, 1000);
+          }
+        }, 500);
+      }, 500);
+    }
+
+    // Test 4: Browser Back Button
+    function testBrowserBackButton() {
+      log('test4', 'Starting browser back button test...', 'info');
+      log('test4', 'This test requires manual interaction', 'info');
+      
+      const categories = dataStore.getAllCategories();
+      if (categories.length > 0 && categories[0].items.length > 0) {
+        const category = categories[0];
+        const item = category.items[0];
+        
+        log('test4', 'Navigating to detail page...', 'info');
+        router.navigate(`/${category.slug}/${item.slug}`);
+        
+        setTimeout(() => {
+          log('test4', 'Now click the "Use Browser Back" button above', 'info');
+          log('test4', 'Or use your browser\'s back button', 'info');
+        }, 500);
+      }
+    }
+
+    // Test 5: Escape Key Handler
+    function testEscapeKey() {
+      log('test5', 'Starting escape key test...', 'info');
+      
+      const categories = dataStore.getAllCategories();
+      if (categories.length > 0 && categories[0].items.length > 0) {
+        const category = categories[0];
+        const item = category.items[0];
+        
+        log('test5', 'Navigating to detail page...', 'info');
+        router.navigate(`/${category.slug}/${item.slug}`);
+        
+        setTimeout(() => {
+          log('test5', 'Detail page loaded. Press Escape key to test.', 'info');
+          log('test5', 'The page should navigate back to browse hub.', 'info');
+        }, 500);
+      }
+    }
+
+    // Initialize on load
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initApp);
+    } else {
+      initApp();
+    }
+  </script>
+</body>
+</html>

@@ -1,74 +1,153 @@
-/* CSS Custom Properties */
+/* CSS Custom Properties - Netflix-style Portfolio */
 
 :root {
-  /* Colors - WCAG AA compliant contrast ratios */
-  --color-primary: #ffffff;        /* White text on dark overlay: 21:1 contrast ratio */
-  --color-secondary: #f5f5f5;      /* Light gray text on dark overlay: 19.6:1 contrast ratio */
-  --color-accent-red: #d32f2f;
-  --color-accent-red-hover: #b71c1c;
-  --color-overlay: rgba(0, 0, 0, 0.6);
+  /* Colors - Netflix-inspired dark theme */
+  --color-bg-primary: #141414;
+  --color-bg-secondary: #1a1a1a;
+  --color-bg-tertiary: #0a0a0a;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #b3b3b3;
+  --color-text-muted: #808080;
+  --color-accent: #e50914;
+  --color-accent-hover: #f40612;
+  --color-overlay: rgba(0, 0, 0, 0.7);
+  --color-overlay-light: rgba(0, 0, 0, 0.5);
+  --color-overlay-heavy: rgba(0, 0, 0, 0.85);
   --color-shadow: rgba(0, 0, 0, 0.3);
-  --color-shadow-dark: rgba(0, 0, 0, 0.4);
-  --color-header-bg: rgba(0, 0, 0, 0.7);
-  --color-button-gradient-start: rgba(255, 255, 255, 0.1);
-  --color-button-gradient-end: rgba(255, 255, 255, 0.05);
-  --color-bevel-highlight: rgba(255, 255, 255, 0.1);
+  --color-shadow-dark: rgba(0, 0, 0, 0.6);
+  --color-card-bg: rgba(20, 20, 20, 0.9);
   
   /* Typography */
-  --font-serif: 'Playfair Display', Georgia, serif;
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-size-heading: clamp(2.5rem, 5vw, 4rem);
-  --font-size-subheading: clamp(1.5rem, 3vw, 2rem);
-  --font-size-body: clamp(1rem, 2vw, 1.125rem);
-  --font-size-small: clamp(0.875rem, 1.5vw, 1rem);
+  --font-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-heading: 'Helvetica Neue', Arial, sans-serif;
+  --font-size-hero-title: clamp(2.5rem, 5vw, 4rem);
+  --font-size-hero-subtitle: clamp(1rem, 2vw, 1.5rem);
+  --font-size-row-title: clamp(1.25rem, 2.5vw, 1.75rem);
+  --font-size-card-title: clamp(0.875rem, 1.5vw, 1.125rem);
+  --font-size-card-subtitle: clamp(0.75rem, 1.25vw, 0.875rem);
+  --font-size-body: 1rem;
+  --font-size-small: 0.875rem;
+  --font-weight-light: 300;
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --font-weight-bold: 700;
-  --line-height-heading: 1.2;
-  --line-height-body: 1.6;
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.6;
   
   /* Spacing */
   --spacing-xs: 0.5rem;
   --spacing-sm: 1rem;
   --spacing-md: 2rem;
-  --spacing-lg: 4rem;
-  --spacing-xl: 6rem;
-  --spacing-2xl: 8rem;
+  --spacing-lg: 3rem;
+  --spacing-xl: 4rem;
+  --spacing-2xl: 6rem;
+  
+  /* Content Row Spacing */
+  --row-spacing: 3rem;
+  --row-spacing-mobile: 2rem;
+  
+  /* Card Dimensions - Responsive */
+  --card-width-mobile: 85vw;
+  --card-width-tablet: 40vw;
+  --card-width-desktop: 20vw;
+  --card-aspect-ratio: 16 / 9;
+  --card-gap: 1rem;
+  --card-gap-mobile: 0.75rem;
+  --card-gap-desktop: 1.5rem;
   
   /* Borders */
-  --border-radius-sm: 10px;
-  --border-radius-md: 20px;
-  --border-radius-lg: 25px;
-  --border-radius-full: 50%;
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-card: 8px;
   
   /* Shadows */
-  --shadow-card: 0 10px 40px var(--color-shadow-dark);
-  --shadow-card-hover: 0 15px 50px var(--color-shadow-dark);
-  --shadow-bevel: inset 0 1px 0 var(--color-bevel-highlight);
-  --shadow-button: 0 4px 15px var(--color-shadow);
-  --shadow-button-hover: 0 6px 20px var(--color-shadow);
+  --shadow-card: 0 4px 12px var(--color-shadow);
+  --shadow-card-hover: 0 8px 30px var(--color-shadow-dark);
+  --shadow-elevated: 0 12px 40px var(--color-shadow-dark);
+  --shadow-button: 0 2px 8px var(--color-shadow);
   
   /* Transitions */
-  --transition-fast: 0.2s ease;
-  --transition-normal: 0.3s ease;
-  --transition-slow: 0.5s ease;
-  --transition-carousel: 0.4s ease;
+  --transition-fast: 200ms ease;
+  --transition-normal: 300ms ease;
+  --transition-slow: 500ms ease;
+  --transition-carousel: 400ms ease-out;
+  --transition-page: 600ms ease-in-out;
+  
+  /* Hero Section */
+  --hero-height-mobile: 50vh;
+  --hero-height-tablet: 60vh;
+  --hero-height-desktop: 70vh;
   
   /* Layout */
-  --header-height: 80px;
-  --max-content-width: 1400px;
-  --grid-gap: var(--spacing-lg);
+  --header-height: 70px;
+  --max-content-width: 1920px;
+  --content-padding: 4%;
+  --content-padding-mobile: 5%;
   
   /* Z-index layers */
+  --z-base: 1;
+  --z-content: 10;
+  --z-overlay: 100;
+  --z-carousel-arrow: 200;
   --z-header: 1000;
-  --z-overlay: 10;
-  --z-content: 20;
-  --z-carousel-dots: 30;
+  --z-modal: 2000;
+  --z-tooltip: 3000;
+  
+  /* Carousel */
+  --carousel-scroll-amount: 3;
+  --carousel-arrow-size: 3rem;
+  --carousel-arrow-size-mobile: 2.5rem;
 }
 
-/* Dark theme adjustments (if needed in future) */
-@media (prefers-color-scheme: dark) {
+/* Responsive Breakpoints */
+/* Mobile: < 768px (default above) */
+
+/* Tablet: 768px - 1023px */
+@media (min-width: 768px) and (max-width: 1023px) {
   :root {
-    /* Already dark by default, but can add overrides here */
+    --card-width: var(--card-width-tablet);
+    --card-gap: 1rem;
+    --row-spacing: 2.5rem;
+    --hero-height: var(--hero-height-tablet);
+    --content-padding: 4%;
+  }
+}
+
+/* Desktop: >= 1024px */
+@media (min-width: 1024px) {
+  :root {
+    --card-width: var(--card-width-desktop);
+    --card-gap: var(--card-gap-desktop);
+    --row-spacing: var(--row-spacing);
+    --hero-height: var(--hero-height-desktop);
+    --content-padding: var(--content-padding);
+  }
+}
+
+/* Large Desktop: >= 1440px */
+@media (min-width: 1440px) {
+  :root {
+    --card-width-desktop: 18vw;
+    --content-padding: 3%;
+  }
+}
+
+/* Extra Large Desktop: >= 1920px */
+@media (min-width: 1920px) {
+  :root {
+    --card-width-desktop: 16vw;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-fast: 0ms;
+    --transition-normal: 0ms;
+    --transition-slow: 0ms;
+    --transition-carousel: 0ms;
+    --transition-page: 0ms;
   }
 }

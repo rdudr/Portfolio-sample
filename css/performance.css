@@ -1,0 +1,476 @@
+/**
+ * Performance Optimizations
+ * Requirements: 13.2, 13.4, 13.5
+ * 
+ * This file contains GPU-accelerated animations, will-change properties,
+ * and performance optimizations to ensure smooth 60fps animations
+ * and fast initial load times.
+ */
+
+/* ============================================
+   GPU Acceleration with CSS Transforms
+   Requirement 13.4 - Use CSS transforms for all animations
+   ============================================ */
+
+/* Force GPU acceleration for animated elements */
+.content-card,
+.carousel-track,
+.carousel-arrow,
+.cta-button,
+.image-card,
+.hero-content,
+.detail-hero,
+.view-enter,
+.view-exit {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* ============================================
+   Will-Change Property for Animated Elements
+   Requirement 13.4 - Add will-change property
+   ============================================ */
+
+/* Content cards - hover and scale animations */
+.content-card {
+  will-change: transform;
+}
+
+/* Remove will-change after animation completes to free resources */
+.content-card:not(:hover):not(.animating) {
+  will-change: auto;
+}
+
+/* Carousel track - horizontal scrolling */
+.carousel-track {
+  will-change: scroll-position;
+}
+
+/* Carousel arrows - fade in/out */
+.carousel-arrow {
+  will-change: opacity, transform;
+}
+
+/* CTA buttons - hover effects */
+.cta-button {
+  will-change: transform, box-shadow;
+}
+
+.cta-button:not(:hover):not(:focus) {
+  will-change: auto;
+}
+
+/* Image cards - hover elevation */
+.image-card {
+  will-change: transform, box-shadow;
+}
+
+.image-card:not(:hover) {
+  will-change: auto;
+}
+
+/* Hero content - entrance animations */
+.hero-content,
+.hero-title,
+.hero-tagline {
+  will-change: opacity, transform;
+}
+
+/* Remove will-change after hero animation completes */
+.hero-content.animation-complete,
+.hero-title.animation-complete,
+.hero-tagline.animation-complete {
+  will-change: auto;
+}
+
+/* Detail page hero - entrance animation */
+.detail-hero {
+  will-change: opacity, transform;
+}
+
+.detail-hero.animation-complete {
+  will-change: auto;
+}
+
+/* View transitions */
+.view-enter,
+.view-exit {
+  will-change: opacity, transform;
+}
+
+/* Content rows - stagger animation */
+.content-row {
+  will-change: opacity, transform;
+}
+
+.content-row.animation-complete {
+  will-change: auto;
+}
+
+/* ============================================
+   Optimized Transforms for 60fps
+   Requirement 13.4 - GPU acceleration
+   ============================================ */
+
+/* Use transform instead of top/left for positioning */
+.carousel-arrow-left {
+  transform: translateY(-50%) translateZ(0);
+}
+
+.carousel-arrow-right {
+  transform: translateY(-50%) translateZ(0);
+}
+
+/* Optimize card hover with composite layers */
+@media (hover: hover) and (pointer: fine) {
+  .content-card:hover {
+    transform: scale(1.08) translateZ(0);
+  }
+}
+
+/* Optimize button hover */
+.cta-button:hover {
+  transform: translateY(-2px) translateZ(0);
+}
+
+.image-card:hover {
+  transform: translateY(-4px) translateZ(0);
+}
+
+/* ============================================
+   Contain Layout and Paint
+   Requirement 13.4 - Performance optimization
+   ============================================ */
+
+/* Contain layout changes within cards */
+.content-card {
+  contain: layout style paint;
+}
+
+/* Contain carousel scrolling */
+.carousel-track {
+  contain: layout style;
+}
+
+/* Contain content rows */
+.content-row {
+  contain: layout style;
+}
+
+/* ============================================
+   Optimize Image Loading
+   Requirement 13.2, 13.5 - Fast initial load
+   ============================================ */
+
+/* Lazy load images below the fold */
+.card-image[loading="lazy"] {
+  content-visibility: auto;
+}
+
+/* Optimize image rendering */
+.card-image,
+.gallery-image,
+.detail-hero-background,
+.hero-background {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* ============================================
+   Critical CSS for First 3 Rows
+   Requirement 13.5 - First 3 rows load within 2 seconds
+   ============================================ */
+
+/* Prioritize first 3 content rows */
+.content-row:nth-child(1),
+.content-row:nth-child(2),
+.content-row:nth-child(3) {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 400px;
+}
+
+/* Defer non-critical rows */
+.content-row:nth-child(n+4) {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 400px;
+}
+
+/* ============================================
+   Reduce Repaints and Reflows
+   ============================================ */
+
+/* Prevent layout thrashing during scroll */
+.carousel-track::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* Optimize arrow visibility changes */
+.carousel-arrow {
+  pointer-events: none;
+  transition: opacity 200ms ease;
+}
+
+.carousel-arrow[style*="opacity: 1"] {
+  pointer-events: auto;
+}
+
+/* ============================================
+   Font Loading Optimization
+   ============================================ */
+
+/* Note: font-display: swap should be added to @font-face rules in variables.css
+   This prevents FOIT (Flash of Invisible Text) and improves perceived performance */
+
+/* ============================================
+   Animation Performance
+   ============================================ */
+
+/* Optimize keyframe animations for GPU */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) translateZ(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) translateZ(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateZ(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateZ(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateZ(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateZ(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px) translateZ(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) translateZ(0);
+  }
+}
+
+@keyframes viewFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) translateZ(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) translateZ(0);
+  }
+}
+
+@keyframes viewFadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) translateZ(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px) translateZ(0);
+  }
+}
+
+/* ============================================
+   Reduced Motion Override
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  /* Disable will-change for reduced motion */
+  *,
+  *::before,
+  *::after {
+    will-change: auto !important;
+  }
+  
+  /* Disable GPU acceleration hints */
+  .content-card,
+  .carousel-track,
+  .carousel-arrow,
+  .cta-button,
+  .image-card,
+  .hero-content,
+  .detail-hero {
+    transform: none !important;
+    backface-visibility: visible !important;
+    perspective: none !important;
+  }
+}
+
+/* ============================================
+   Performance Monitoring Hints
+   ============================================ */
+
+/* Mark critical rendering path elements */
+.hero-section,
+.content-row:nth-child(1),
+.content-row:nth-child(2),
+.content-row:nth-child(3) {
+  /* These should load within 2 seconds */
+  /* Use content-visibility for better performance */
+  content-visibility: auto;
+}
+
+/* ============================================
+   Composite Layer Optimization
+   ============================================ */
+
+/* Create composite layers for frequently animated elements */
+.content-card:hover,
+.carousel-arrow:hover,
+.cta-button:hover {
+  /* Force composite layer creation */
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* ============================================
+   Scroll Performance
+   ============================================ */
+
+/* Optimize smooth scrolling */
+.carousel-track {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  /* Use GPU for scroll */
+  transform: translateZ(0);
+}
+
+/* Disable smooth scroll for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .carousel-track {
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================
+   Critical Path Optimization
+   ============================================ */
+
+/* Inline critical styles for above-the-fold content */
+.site-header,
+.hero-section,
+.content-row:first-child {
+  /* These elements are critical for FCP and LCP */
+  /* Ensure they render immediately */
+  contain: layout style;
+}
+
+/* ============================================
+   Resource Hints
+   ============================================ */
+
+/* Preload critical images (handled in HTML) */
+/* <link rel="preload" as="image" href="hero-image.jpg"> */
+
+/* Prefetch next page resources on hover - handled by PreloadManager JavaScript */
+
+/* ============================================
+   Memory Management
+   ============================================ */
+
+/* Clean up will-change after animations */
+.content-card,
+.cta-button,
+.image-card {
+  transition: transform 300ms ease, box-shadow 300ms ease, will-change 0s 300ms;
+}
+
+/* Remove will-change after transition completes */
+.content-card:not(:hover),
+.cta-button:not(:hover),
+.image-card:not(:hover) {
+  will-change: auto;
+}
+
+/* ============================================
+   Paint Optimization
+   ============================================ */
+
+/* Reduce paint areas */
+.card-overlay,
+.card-hover-details {
+  /* Isolate paint to overlay only */
+  isolation: isolate;
+}
+
+/* Optimize shadow rendering */
+.content-card {
+  /* Use transform for shadows when possible */
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.content-card:hover {
+  filter: drop-shadow(0 8px 30px rgba(0, 0, 0, 0.6));
+}
+
+/* ============================================
+   Loading Performance
+   ============================================ */
+
+/* Optimize initial render */
+.browse-hub {
+  /* Contain layout changes */
+  contain: layout style;
+}
+
+/* Defer non-critical content */
+.detail-gallery,
+.detail-sidebar {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
+}
+
+/* ============================================
+   Animation Timing Optimization
+   ============================================ */
+
+/* Use optimal animation durations for 60fps */
+.content-card {
+  transition-duration: 300ms; /* 18 frames at 60fps */
+}
+
+.carousel-arrow {
+  transition-duration: 200ms; /* 12 frames at 60fps */
+}
+
+.cta-button {
+  transition-duration: 250ms; /* 15 frames at 60fps */
+}
+
+/* ============================================
+   Composite Layer Hints
+   ============================================ */
+
+/* Promote frequently animated elements to composite layers */
+.content-card,
+.carousel-track,
+.hero-content {
+  /* Create stacking context */
+  z-index: 0;
+  isolation: isolate;
+}

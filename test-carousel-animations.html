@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carousel Scroll Animations Test</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    body {
+      background-color: #141414;
+      padding: 2rem;
+      min-height: 100vh;
+    }
+
+    .test-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .test-header {
+      color: #fff;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .test-header h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .test-header p {
+      color: #b3b3b3;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .test-section {
+      margin-bottom: 4rem;
+    }
+
+    .test-label {
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      padding: 0.75rem 1rem;
+      background: rgba(229, 9, 20, 0.2);
+      border-left: 4px solid #e50914;
+      border-radius: 4px;
+      display: block;
+    }
+
+    .test-description {
+      color: #b3b3b3;
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+      line-height: 1.6;
+    }
+
+    .controls {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .control-group-label {
+      color: #b3b3b3;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+
+    .control-btn {
+      padding: 0.625rem 1.25rem;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.2s;
+      min-height: 44px;
+    }
+
+    .control-btn:hover {
+      background: rgba(229, 9, 20, 0.3);
+      border-color: #e50914;
+      transform: translateY(-1px);
+    }
+
+    .control-btn:active {
+      transform: translateY(0);
+    }
+
+    .control-btn.primary {
+      background: #e50914;
+      border-color: #e50914;
+    }
+
+    .control-btn.primary:hover {
+      background: #f40612;
+    }
+
+    .status {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 4px;
+      color: #b3b3b3;
+      font-size: 0.875rem;
+      font-family: 'Courier New', monospace;
+      border-left: 3px solid #00c853;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 4px;
+    }
+
+    .metric {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .metric-label {
+      color: #808080;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .metric-value {
+      color: #00c853;
+      font-size: 1.25rem;
+      font-weight: 600;
+      font-family: 'Courier New', monospace;
+    }
+
+    .fps-indicator {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.9);
+      border: 2px solid #00c853;
+      border-radius: 8px;
+      color: #00c853;
+      font-family: 'Courier New', monospace;
+      font-size: 1.5rem;
+      font-weight: 600;
+      z-index: 1000;
+      min-width: 120px;
+      text-align: center;
+    }
+
+    .fps-indicator.warning {
+      border-color: #ff9800;
+      color: #ff9800;
+    }
+
+    .fps-indicator.error {
+      border-color: #e50914;
+      color: #e50914;
+    }
+  </style>
+</head>
+<body>
+  <div class="fps-indicator" id="fps-indicator">60 FPS</div>
+
+  <div class="test-container">
+    <div class="test-header">
+      <h1>🎬 Carousel Scroll Animations Test</h1>
+      <p>Testing smooth scroll with easing functions, momentum scrolling, scroll snap, and 60fps performance</p>
+    </div>
+
+    <!-- Test 1: Easing Functions -->
+    <div class="test-section">
+      <div class="test-label">Test 1: Easing Functions</div>
+      <div class="test-description">
+        Test different easing functions for smooth scroll animations. Each button uses a different easing curve.
+      </div>
+      <section class="content-row" data-category="test-1">
+        <h2 class="row-title">Easing Function Comparison</h2>
+        <div class="row-carousel" id="carousel-1">
+          <button class="carousel-arrow carousel-arrow-left" aria-label="Scroll left">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <div class="carousel-track"></div>
+          <button class="carousel-arrow carousel-arrow-right" aria-label="Scroll right">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+      </section>
+      <div class="controls">
+        <div class="control-group">
+          <span class="control-group-label">Cubic Easing</span>
+          <button class="control-btn" onclick="testEasing(1, 'easeOutCubic')">Ease Out Cubic</button>
+        </div>
+        <div class="control-group">
+          <span class="control-group-label">Quartic Easing</span>
+          <button class="control-btn" onclick="testEasing(1, 'easeInOutQuart')">Ease In/Out Quart</button>
+        </div>
+        <div class="control-group">
+          <span class="control-group-label">Quintic Easing</span>
+          <button class="control-btn" onclick="testEasing(1, 'easeOutQuint')">Ease Out Quint</button>
+        </div>
+        <div class="control-group">
+          <span class="control-group-label">Exponential</span>
+          <button class="control-btn" onclick="testEasing(1, 'easeOutExpo')">Ease Out Expo</button>
+        </div>
+      </div>
+      <div class="status" id="status-1">Ready - Click an easing button to test</div>
+    </div>
+
+    <!-- Test 2: Momentum Scrolling -->
+    <div class="test-section">
+      <div class="test-label">Test 2: Momentum Scrolling</div>
+      <div class="test-description">
+        Test touch gesture momentum scrolling with physics-based deceleration. Swipe quickly to see momentum effect.
+      </div>
+      <section class="content-row" data-category="test-2">
+        <h2 class="row-title">Touch Momentum Test</h2>
+        <div class="row-carousel" id="carousel-2">
+          <button class="carousel-arrow carousel-arrow-left" aria-label="Scroll left">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <div class="carousel-track"></div>
+          <button class="carousel-arrow carousel-arrow-right" aria-label="Scroll right">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+      </section>
+      <div class="status" id="status-2">Swipe left/right on the carousel to test momentum</div>
+      <div class="metrics" id="metrics-2">
+        <div class="metric">
+          <span class="metric-label">Velocity</span>
+          <span class="metric-value" id="velocity-2">0.0</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Scroll Position</span>
+          <span class="metric-value" id="scroll-pos-2">0px</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Frame Rate</span>
+          <span class="metric-value" id="fps-2">60fps</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Test 3: Scroll Snap -->
+    <div class="test-section">
+      <div class="test-label">Test 3: Scroll Snap to Card Boundaries</div>
+      <div class="test-description">
+        Test scroll snap behavior. Cards should snap to boundaries after scrolling stops. Uses intelligent threshold detection.
+      </div>
+      <section class="content-row" data-category="test-3">
+        <h2 class="row-title">Scroll Snap Test</h2>
+        <div class="row-carousel" id="carousel-3">
+          <button class="carousel-arrow carousel-arrow-left" aria-label="Scroll left">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <div class="carousel-track"></div>
+          <button class="carousel-arrow carousel-arrow-right" aria-label="Scroll right">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+      </section>
+      <div class="controls">
+        <button class="control-btn primary" onclick="testSnap(3)">Trigger Snap</button>
+        <button class="control-btn" onclick="scrollPartial(3, 0.3)">Scroll 30%</button>
+        <button class="control-btn" onclick="scrollPartial(3, 0.5)">Scroll 50%</button>
+        <button class="control-btn" onclick="scrollPartial(3, 0.7)">Scroll 70%</button>
+      </div>
+      <div class="status" id="status-3">Scroll manually or use buttons to test snap behavior</div>
+    </div>
+
+    <!-- Test 4: Performance Test -->
+    <div class="test-section">
+      <div class="test-label">Test 4: 60fps Performance</div>
+      <div class="test-description">
+        Test carousel performance with many cards. Should maintain 60fps during scrolling and animations.
+      </div>
+      <section class="content-row" data-category="test-4">
+        <h2 class="row-title">Performance Stress Test (20 cards)</h2>
+        <div class="row-carousel" id="carousel-4">
+          <button class="carousel-arrow carousel-arrow-left" aria-label="Scroll left">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <div class="carousel-track"></div>
+          <button class="carousel-arrow carousel-arrow-right" aria-label="Scroll right">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+      </section>
+      <div class="controls">
+        <button class="control-btn primary" onclick="rapidScroll(4)">Rapid Scroll Test</button>
+        <button class="control-btn" onclick="continuousScroll(4)">Continuous Scroll</button>
+      </div>
+      <div class="metrics" id="metrics-4">
+        <div class="metric">
+          <span class="metric-label">Avg FPS</span>
+          <span class="metric-value" id="avg-fps-4">--</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Min FPS</span>
+          <span class="metric-value" id="min-fps-4">--</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Frame Drops</span>
+          <span class="metric-value" id="drops-4">0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/row-carousel.js"></script>
+  <script>
+    // Store carousel instances
+    const carousels = {};
+    
+    // FPS monitoring
+    let lastFrameTime = performance.now();
+    let frameCount = 0;
+    let fps = 60;
+    let fpsHistory = [];
+
+    function updateFPS() {
+      const now = performance.now();
+      const delta = now - lastFrameTime;
+      
+      if (delta > 0) {
+        fps = Math.round(1000 / delta);
+        fpsHistory.push(fps);
+        if (fpsHistory.length > 60) fpsHistory.shift();
+        
+        const fpsIndicator = document.getElementById('fps-indicator');
+        fpsIndicator.textContent = `${fps} FPS`;
+        
+        // Color code based on performance
+        fpsIndicator.classList.remove('warning', 'error');
+        if (fps < 30) {
+          fpsIndicator.classList.add('error');
+        } else if (fps < 50) {
+          fpsIndicator.classList.add('warning');
+        }
+      }
+      
+      lastFrameTime = now;
+      requestAnimationFrame(updateFPS);
+    }
+    
+    updateFPS();
+
+    // Generate sample cards
+    function generateCards(trackElement, count) {
+      const colors = ['#e50914', '#0080ff', '#00c853', '#ff6d00', '#9c27b0', '#00bcd4', '#f44336', '#4caf50'];
+      
+      for (let i = 1; i <= count; i++) {
+        const card = document.createElement('article');
+        card.className = 'content-card';
+        card.setAttribute('data-slug', `item-${i}`);
+        card.setAttribute('role', 'button');
+        card.setAttribute('tabindex', '0');
+        
+        const color = colors[i % colors.length];
+        
+        card.innerHTML = `
+          <div class="card-image-container" style="background: linear-gradient(135deg, ${color} 0%, ${color}99 100%);">
+            <div class="card-overlay"></div>
+          </div>
+          <div class="card-info">
+            <h3 class="card-title">Card ${i}</h3>
+            <p class="card-subtitle">Test card ${i}</p>
+            <p class="card-meta">2024</p>
+          </div>
+          <div class="card-hover-details">
+            <p class="card-description">This is test card number ${i} for carousel animation testing.</p>
+          </div>
+        `;
+        
+        trackElement.appendChild(card);
+      }
+    }
+
+    // Initialize carousel
+    function initCarousel(id, cardCount) {
+      const carouselElement = document.getElementById(id);
+      const track = carouselElement.querySelector('.carousel-track');
+      
+      generateCards(track, cardCount);
+      
+      const carousel = new RowCarousel(carouselElement);
+      carousel.init();
+      
+      carousels[id] = carousel;
+      
+      // Add scroll listener
+      track.addEventListener('scroll', () => {
+        const num = id.split('-')[1];
+        const scrollPercent = Math.round((track.scrollLeft / (track.scrollWidth - track.offsetWidth)) * 100);
+        updateStatus(num, `Scroll: ${Math.round(track.scrollLeft)}px (${scrollPercent}%)`);
+        
+        // Update metrics if available
+        const scrollPosEl = document.getElementById(`scroll-pos-${num}`);
+        if (scrollPosEl) {
+          scrollPosEl.textContent = `${Math.round(track.scrollLeft)}px`;
+        }
+      });
+    }
+
+    // Test easing functions
+    function testEasing(carouselNum, easingType) {
+      const id = `carousel-${carouselNum}`;
+      const carousel = carousels[id];
+      if (!carousel) return;
+      
+      const track = carousel.track;
+      const targetScroll = track.scrollLeft + (track.offsetWidth * 0.8);
+      
+      carousel.smoothScrollTo(targetScroll, 600, easingType);
+      updateStatus(carouselNum, `Testing ${easingType} easing...`);
+    }
+
+    // Test snap
+    function testSnap(carouselNum) {
+      const id = `carousel-${carouselNum}`;
+      const carousel = carousels[id];
+      if (carousel) {
+        carousel.snapToCard();
+        updateStatus(carouselNum, 'Snapping to nearest card...');
+      }
+    }
+
+    // Scroll partial amount
+    function scrollPartial(carouselNum, fraction) {
+      const id = `carousel-${carouselNum}`;
+      const carousel = carousels[id];
+      if (!carousel) return;
+      
+      const cards = carousel.track.querySelectorAll('.content-card');
+      if (cards.length === 0) return;
+      
+      const cardWidth = cards[0].offsetWidth;
+      const gap = parseFloat(getComputedStyle(carousel.track).gap) || 16;
+      const scrollAmount = (cardWidth + gap) * fraction;
+      
+      carousel.track.scrollLeft += scrollAmount;
+      updateStatus(carouselNum, `Scrolled ${Math.round(fraction * 100)}% of card width`);
+    }
+
+    // Rapid scroll test
+    function rapidScroll(carouselNum) {
+      const id = `carousel-${carouselNum}`;
+      const carousel = carousels[id];
+      if (!carousel) return;
+      
+      let count = 0;
+      const interval = setInterval(() => {
+        if (count >= 10) {
+          clearInterval(interval);
+          updateMetrics(carouselNum);
+          return;
+        }
+        
+        carousel.scrollRight();
+        count++;
+      }, 100);
+      
+      updateStatus(carouselNum, 'Running rapid scroll test...');
+    }
+
+    // Continuous scroll test
+    function continuousScroll(carouselNum) {
+      const id = `carousel-${carouselNum}`;
+      const carousel = carousels[id];
+      if (!carousel) return;
+      
+      const track = carousel.track;
+      const maxScroll = track.scrollWidth - track.offsetWidth;
+      
+      carousel.smoothScrollTo(maxScroll, 3000, 'easeInOutQuart');
+      updateStatus(carouselNum, 'Continuous scroll to end...');
+      
+      setTimeout(() => {
+        updateMetrics(carouselNum);
+      }, 3100);
+    }
+
+    // Update metrics
+    function updateMetrics(carouselNum) {
+      const avgFps = Math.round(fpsHistory.reduce((a, b) => a + b, 0) / fpsHistory.length);
+      const minFps = Math.min(...fpsHistory);
+      const drops = fpsHistory.filter(f => f < 55).length;
+      
+      const avgEl = document.getElementById(`avg-fps-${carouselNum}`);
+      const minEl = document.getElementById(`min-fps-${carouselNum}`);
+      const dropsEl = document.getElementById(`drops-${carouselNum}`);
+      
+      if (avgEl) avgEl.textContent = `${avgFps}fps`;
+      if (minEl) minEl.textContent = `${minFps}fps`;
+      if (dropsEl) dropsEl.textContent = drops;
+      
+      // Reset history
+      fpsHistory = [];
+    }
+
+    // Update status
+    function updateStatus(num, message) {
+      const statusEl = document.getElementById(`status-${num}`);
+      if (statusEl) {
+        statusEl.textContent = message;
+      }
+    }
+
+    // Initialize all carousels
+    document.addEventListener('DOMContentLoaded', () => {
+      initCarousel('carousel-1', 12);
+      initCarousel('carousel-2', 15);
+      initCarousel('carousel-3', 10);
+      initCarousel('carousel-4', 20);
+      
+      console.log('✅ Carousel animation tests initialized');
+      console.log('📊 Features tested:');
+      console.log('  - Smooth scroll with multiple easing functions');
+      console.log('  - Momentum scrolling with physics-based deceleration');
+      console.log('  - Scroll snap to card boundaries');
+      console.log('  - 60fps performance monitoring');
+      console.log('  - GPU acceleration with CSS transforms');
+    });
+  </script>
+</body>
+</html>

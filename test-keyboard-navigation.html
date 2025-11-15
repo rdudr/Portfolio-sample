@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keyboard Navigation Test</title>
+  
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  
+  <style>
+    body {
+      padding: 2rem;
+      background: var(--color-bg-primary, #141414);
+      color: var(--color-text-primary, #ffffff);
+    }
+    
+    .test-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .test-header {
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+    }
+    
+    .test-header h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .keyboard-shortcuts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+    }
+    
+    .shortcut {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .key {
+      padding: 0.25rem 0.5rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.875rem;
+    }
+    
+    .status-indicator {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.9);
+      border: 2px solid var(--color-accent, #e50914);
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 0.875rem;
+      z-index: 10000;
+    }
+    
+    .status-indicator.hidden {
+      display: none;
+    }
+    
+    .test-section {
+      margin-bottom: 3rem;
+    }
+    
+    .test-section h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    /* Focus indicator for testing */
+    .content-card:focus {
+      outline: 3px solid var(--color-accent, #e50914);
+      outline-offset: 4px;
+    }
+    
+    .log-container {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 8px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    
+    .log-entry {
+      font-family: monospace;
+      font-size: 0.875rem;
+      padding: 0.25rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .log-entry:last-child {
+      border-bottom: none;
+    }
+    
+    .log-entry .timestamp {
+      color: #888;
+      margin-right: 0.5rem;
+    }
+    
+    .log-entry .key-pressed {
+      color: var(--color-accent, #e50914);
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <div class="test-header">
+      <h1>🎹 Keyboard Navigation Test</h1>
+      <p>Test comprehensive keyboard navigation for the Netflix-style portfolio</p>
+    </div>
+    
+    <div class="keyboard-shortcuts">
+      <div class="shortcut">
+        <span class="key">←</span>
+        <span class="key">→</span>
+        <span>Navigate cards horizontally</span>
+      </div>
+      <div class="shortcut">
+        <span class="key">↑</span>
+        <span class="key">↓</span>
+        <span>Navigate between rows</span>
+      </div>
+      <div class="shortcut">
+        <span class="key">Enter</span>
+        <span class="key">Space</span>
+        <span>Activate card/button</span>
+      </div>
+      <div class="shortcut">
+        <span class="key">Esc</span>
+        <span>Close detail page</span>
+      </div>
+      <div class="shortcut">
+        <span class="key">Home</span>
+        <span>First card in row</span>
+      </div>
+      <div class="shortcut">
+        <span class="key">End</span>
+        <span>Last card in row</span>
+      </div>
+    </div>
+    
+    <div class="status-indicator hidden" id="statusIndicator">
+      <div>Last Key: <span id="lastKey">-</span></div>
+      <div>Focused: <span id="focusedElement">-</span></div>
+      <div>Position: <span id="cardPosition">-</span></div>
+    </div>
+    
+    <div class="test-section">
+      <h2>Test Area</h2>
+      <div id="app"></div>
+    </div>
+    
+    <div class="log-container">
+      <h3>Event Log</h3>
+      <div id="eventLog"></div>
+    </div>
+  </div>
+
+  <!-- JavaScript Modules -->
+  <script src="js/data.js"></script>
+  <script src="js/row-carousel.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/view-manager.js"></script>
+  <script src="js/back-navigation.js"></script>
+  <script src="js/keyboard-navigation.js"></script>
+  
+  <script>
+    // Test initialization
+    (function() {
+      'use strict';
+      
+      const appContainer = document.getElementById('app');
+      const statusIndicator = document.getElementById('statusIndicator');
+      const eventLog = document.getElementById('eventLog');
+      
+      // Initialize components
+      const dataStore = new DataStore();
+      const viewManager = new ViewManager(appContainer, dataStore);
+      const router = new Router(viewManager);
+      const backNavigation = new BackNavigation(router, viewManager);
+      const keyboardNavigation = new KeyboardNavigationHandler(router, viewManager);
+      
+      // Initialize
+      backNavigation.init();
+      viewManager.setBackNavigation(backNavigation);
+      keyboardNavigation.init();
+      router.init();
+      
+      // Show status indicator
+      statusIndicator.classList.remove('hidden');
+      
+      // Log events
+      function logEvent(message) {
+        const timestamp = new Date().toLocaleTimeString();
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.innerHTML = `<span class="timestamp">${timestamp}</span>${message}`;
+        eventLog.insertBefore(entry, eventLog.firstChild);
+        
+        // Keep only last 50 entries
+        while (eventLog.children.length > 50) {
+          eventLog.removeChild(eventLog.lastChild);
+        }
+      }
+      
+      // Track keyboard events
+      document.addEventListener('keydown', (e) => {
+        const key = e.key;
+        document.getElementById('lastKey').textContent = key;
+        
+        const activeElement = document.activeElement;
+        let elementDesc = activeElement.tagName.toLowerCase();
+        
+        if (activeElement.classList.contains('content-card')) {
+          const title = activeElement.querySelector('.card-title')?.textContent || 'Unknown';
+          elementDesc = `card: ${title}`;
+          
+          // Get position
+          const carousel = activeElement.closest('.row-carousel');
+          if (carousel) {
+            const cards = Array.from(carousel.querySelectorAll('.content-card'));
+            const index = cards.indexOf(activeElement);
+            const row = carousel.closest('.content-row');
+            const rowTitle = row?.querySelector('.row-title')?.textContent || 'Unknown';
+            document.getElementById('cardPosition').textContent = `${rowTitle} [${index + 1}/${cards.length}]`;
+          }
+        }
+        
+        document.getElementById('focusedElement').textContent = elementDesc;
+        
+        // Log the event
+        logEvent(`<span class="key-pressed">${key}</span> pressed on ${elementDesc}`);
+      });
+      
+      // Track focus changes
+      document.addEventListener('focusin', (e) => {
+        const element = e.target;
+        if (element.classList.contains('content-card')) {
+          const title = element.querySelector('.card-title')?.textContent || 'Unknown';
+          logEvent(`Focused card: <strong>${title}</strong>`);
+        }
+      });
+      
+      // Track route changes
+      router.onRouteChange((newRoute, oldRoute) => {
+        logEvent(`Route changed: ${oldRoute?.type || 'none'} → ${newRoute.type}`);
+      });
+      
+      // Initial log
+      logEvent('Keyboard navigation test initialized');
+      logEvent('Press arrow keys to navigate between cards');
+      
+      console.log('Test initialized successfully');
+      console.log('DataStore:', dataStore);
+      console.log('Router:', router);
+      console.log('KeyboardNavigation:', keyboardNavigation);
+    })();
+  </script>
+</body>
+</html>

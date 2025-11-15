@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Detail Page Test - Netflix Portfolio</title>
+  
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      background-color: #141414;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .test-controls {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.9);
+      padding: 1rem;
+      border-radius: 8px;
+      z-index: 1000;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .test-controls h3 {
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      margin: 0 0 0.5rem 0;
+    }
+    
+    .test-controls button {
+      display: block;
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8125rem;
+    }
+    
+    .test-controls button:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  
+  <div class="test-controls">
+    <h3>Test Controls</h3>
+    <button onclick="loadEducationDetail()">Education Detail</button>
+    <button onclick="loadProjectDetail()">Project Detail</button>
+    <button onclick="loadAwardDetail()">Award Detail</button>
+    <button onclick="loadSkillsDetail()">Skills Detail</button>
+  </div>
+
+  <script>
+    // Sample detail page templates for testing
+    
+    function loadEducationDetail() {
+      const detailHTML = `
+        <div class="detail-page view-enter">
+          <header class="detail-header">
+            <button class="back-button" aria-label="Back to browse">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+              <span>Back</span>
+            </button>
+            <button class="close-button" aria-label="Close detail page">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </header>
+          
+          <section class="detail-hero">
+            <div class="detail-hero-background" style="background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%)"></div>
+            <div class="detail-hero-overlay"></div>
+            <div class="detail-hero-content">
+              <h1 class="detail-title">GITS, Udaipur</h1>
+              <p class="detail-subtitle">BTech Electrical Engineering</p>
+            </div>
+          </section>
+
+          <div class="detail-content">
+            <main class="detail-main">
+              <section class="detail-description">
+                <h2>About</h2>
+                <p>Completed undergraduate studies with focus on electrical systems, embedded systems, and IoT. The program provided comprehensive knowledge in power systems, control systems, and modern electrical engineering practices.</p>
+                <p>During my time at GITS, I participated in various technical projects and competitions, developing practical skills in embedded systems design, IoT applications, and industrial automation.</p>
+              </section>
+              
+              <section class="detail-fields">
+                <div class="detail-field">
+                  <strong>Specialization</strong>
+                  Electrical Engineering, Embedded Systems, IoT
+                </div>
+                <div class="detail-field">
+                  <strong>Key Courses</strong>
+                  Power Electronics, Control Systems, Embedded Systems, Digital Signal Processing, Microcontrollers
+                </div>
+                <div class="detail-field">
+                  <strong>Projects</strong>
+                  IoT-based monitoring systems, PLC automation, Embedded system design
+                </div>
+              </section>
+            </main>
+
+            <aside class="detail-sidebar">
+              <div class="detail-meta-item">
+                <strong>Date:</strong>
+                2024
+              </div>
+              <div class="detail-meta-item">
+                <strong>Location:</strong>
+                Udaipur, India
+              </div>
+              <div class="detail-tags">
+                <strong>Tags:</strong>
+                <div class="tag-list">
+                  <span class="tag">btech</span>
+                  <span class="tag">electrical</span>
+                  <span class="tag">engineering</span>
+                  <span class="tag">iot</span>
+                  <span class="tag">embedded</span>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      `;
+      
+      document.getElementById('app').innerHTML = detailHTML;
+      attachEventListeners();
+    }
+    
+    function loadProjectDetail() {
+      const detailHTML = `
+        <div class="detail-page view-enter">
+          <header class="detail-header">
+            <button class="back-button" aria-label="Back to browse">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+              <span>Back</span>
+            </button>
+            <button class="close-button" aria-label="Close detail page">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </header>
+          
+          <section class="detail-hero">
+            <div class="detail-hero-background" style="background-image: linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"></div>
+            <div class="detail-hero-overlay"></div>
+            <div class="detail-hero-content">
+              <h1 class="detail-title">IoT Security Product Development</h1>
+              <p class="detail-subtitle">Comprehensive Security Solutions</p>
+            </div>
+          </section>
+
+          <div class="detail-content">
+            <main class="detail-main">
+              <section class="detail-description">
+                <h2>About</h2>
+                <p>Comprehensive security solutions for IoT ecosystems, protecting connected devices and networks from various cyber threats. This project involved developing end-to-end security frameworks for IoT devices.</p>
+                <p>The solution includes device authentication, secure communication protocols, intrusion detection, and real-time threat monitoring capabilities.</p>
+              </section>
+              
+              <section class="detail-fields">
+                <div class="detail-field">
+                  <strong>Technologies Used</strong>
+                  IoT Protocols, Encryption, Authentication Systems, Network Security
+                </div>
+                <div class="detail-field">
+                  <strong>Key Features</strong>
+                  Device Authentication, Secure Communication, Intrusion Detection, Real-time Monitoring
+                </div>
+                <div class="detail-field">
+                  <strong>Impact</strong>
+                  Enhanced security for IoT devices, Reduced vulnerability to cyber attacks
+                </div>
+              </section>
+            </main>
+
+            <aside class="detail-sidebar">
+              <div class="detail-meta-item">
+                <strong>Status:</strong>
+                Completed
+              </div>
+              <div class="detail-tags">
+                <strong>Tags:</strong>
+                <div class="tag-list">
+                  <span class="tag">iot</span>
+                  <span class="tag">security</span>
+                  <span class="tag">product</span>
+                  <span class="tag">cybersecurity</span>
+                  <span class="tag">encryption</span>
+                </div>
+              </div>
+            </aside>
+          </div>
+
+          <section class="detail-gallery">
+            <h2>Gallery</h2>
+            <div class="gallery-grid">
+              <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); aspect-ratio: 16/9; border-radius: 8px;"></div>
+              <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); aspect-ratio: 16/9; border-radius: 8px;"></div>
+              <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); aspect-ratio: 16/9; border-radius: 8px;"></div>
+            </div>
+          </section>
+        </div>
+      `;
+      
+      document.getElementById('app').innerHTML = detailHTML;
+      attachEventListeners();
+    }
+    
+    function loadAwardDetail() {
+      const detailHTML = `
+        <div class="detail-page view-enter">
+          <header class="detail-header">
+            <button class="back-button" aria-label="Back to browse">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+              <span>Back</span>
+            </button>
+            <button class="close-button" aria-label="Close detail page">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </header>
+          
+          <section class="detail-hero">
+            <div class="detail-hero-background" style="background-image: linear-gradient(135deg, #fa709a 0%, #fee140 100%)"></div>
+            <div class="detail-hero-overlay"></div>
+            <div class="detail-hero-content">
+              <h1 class="detail-title">KAVACH CYBER HACKATHON 2023</h1>
+              <p class="detail-subtitle">Winner - ₹1 Lakh Prize</p>
+            </div>
+          </section>
+
+          <div class="detail-content">
+            <main class="detail-main">
+              <section class="detail-description">
+                <h2>About</h2>
+                <p>Won the KAVACH Cyber Hackathon 2023 with the project "Detection Usage of Lora" focusing on security in wireless communication. This national-level competition brought together top cybersecurity talent from across India.</p>
+                <p>Our solution addressed critical security vulnerabilities in LoRa wireless communication systems, implementing novel detection mechanisms for unauthorized usage and potential security threats.</p>
+              </section>
+              
+              <section class="detail-fields">
+                <div class="detail-field">
+                  <strong>Project</strong>
+                  Detection Usage of Lora
+                </div>
+                <div class="detail-field">
+                  <strong>Prize</strong>
+                  ₹1 Lakh
+                </div>
+                <div class="detail-field">
+                  <strong>Achievement</strong>
+                  First place among hundreds of teams nationwide
+                </div>
+              </section>
+            </main>
+
+            <aside class="detail-sidebar">
+              <div class="detail-meta-item">
+                <strong>Date:</strong>
+                August 2023
+              </div>
+              <div class="detail-meta-item">
+                <strong>Competition:</strong>
+                National Level Hackathon
+              </div>
+              <div class="detail-tags">
+                <strong>Tags:</strong>
+                <div class="tag-list">
+                  <span class="tag">hackathon</span>
+                  <span class="tag">cybersecurity</span>
+                  <span class="tag">winner</span>
+                  <span class="tag">lora</span>
+                  <span class="tag">wireless</span>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      `;
+      
+      document.getElementById('app').innerHTML = detailHTML;
+      attachEventListeners();
+    }
+    
+    function loadSkillsDetail() {
+      const detailHTML = `
+        <div class="detail-page view-enter">
+          <header class="detail-header">
+            <button class="back-button" aria-label="Back to browse">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+              <span>Back</span>
+            </button>
+            <button class="close-button" aria-label="Close detail page">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </header>
+          
+          <section class="detail-hero">
+            <div class="detail-hero-background" style="background-image: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)"></div>
+            <div class="detail-hero-overlay"></div>
+            <div class="detail-hero-content">
+              <h1 class="detail-title">Hardware Skills</h1>
+              <p class="detail-subtitle">Embedded Systems and IoT</p>
+            </div>
+          </section>
+
+          <div class="detail-content">
+            <main class="detail-main">
+              <section class="detail-description">
+                <h2>About</h2>
+                <p>Expertise in Robotics, PLC & SCADA, UART, I2C, SPI, LoRa, Bluetooth, NRF, and RF technologies. Extensive hands-on experience with various communication protocols and embedded systems development.</p>
+              </section>
+              
+              <section class="detail-fields">
+                <div class="detail-field">
+                  <strong>Skills</strong>
+                  Robotics, PLC & SCADA, UART, I2C, SPI, LoRa, Bluetooth, NRF, RF
+                </div>
+                <div class="detail-field">
+                  <strong>Experience Level</strong>
+                  Advanced proficiency in embedded systems and IoT protocols
+                </div>
+              </section>
+            </main>
+
+            <aside class="detail-sidebar">
+              <div class="detail-tags">
+                <strong>Tags:</strong>
+                <div class="tag-list">
+                  <span class="tag">hardware</span>
+                  <span class="tag">embedded</span>
+                  <span class="tag">iot</span>
+                  <span class="tag">protocols</span>
+                  <span class="tag">robotics</span>
+                  <span class="tag">plc</span>
+                  <span class="tag">scada</span>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      `;
+      
+      document.getElementById('app').innerHTML = detailHTML;
+      attachEventListeners();
+    }
+    
+    function attachEventListeners() {
+      const backButton = document.querySelector('.back-button');
+      const closeButton = document.querySelector('.close-button');
+      
+      if (backButton) {
+        backButton.addEventListener('click', () => {
+          alert('Back button clicked - would navigate to browse hub');
+        });
+      }
+      
+      if (closeButton) {
+        closeButton.addEventListener('click', () => {
+          alert('Close button clicked - would navigate to browse hub');
+        });
+      }
+    }
+    
+    // Load education detail by default
+    loadEducationDetail();
+  </script>
+</body>
+</html>
