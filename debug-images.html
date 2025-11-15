@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Debug Tool</title>
+  <style>
+    body {
+      font-family: monospace;
+      background: #1a1a1a;
+      color: #fff;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    h1 { color: #e50914; }
+    .test { 
+      background: #2a2a2a; 
+      padding: 15px; 
+      margin: 10px 0; 
+      border-radius: 5px;
+      border-left: 4px solid #666;
+    }
+    .test.pass { border-left-color: #2ea043; }
+    .test.fail { border-left-color: #da3633; }
+    img { 
+      max-width: 200px; 
+      border: 2px solid #666;
+      margin: 10px 0;
+    }
+    .path { 
+      color: #888; 
+      font-size: 12px; 
+      word-break: break-all;
+    }
+    button {
+      background: #e50914;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      margin: 5px;
+      border-radius: 4px;
+    }
+    button:hover { background: #f40612; }
+    .console { 
+      background: #000; 
+      padding: 15px; 
+      margin: 20px 0;
+      border-radius: 5px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .error { color: #ff6b6b; }
+    .success { color: #51cf66; }
+    .info { color: #74c0fc; }
+  </style>
+</head>
+<body>
+  <h1>🔍 Image Debug Tool</h1>
+  
+  <button onclick="testAllImages()">Test All Images</button>
+  <button onclick="checkDataStore()">Check DataStore</button>
+  <button onclick="testPaths()">Test Image Paths</button>
+  <button onclick="window.location.reload()">Refresh</button>
+
+  <div id="results"></div>
+  <div class="console" id="console"></div>
+
+  <script src="js/data.js"></script>
+  <script>
+    const consoleDiv = document.getElementById('console');
+    
+    function log(message, type = 'info') {
+      const span = document.createElement('div');
+      span.className = type;
+      span.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+      consoleDiv.appendChild(span);
+      consoleDiv.scrollTop = consoleDiv.scrollHeight;
+      console.log(message);
+    }
+
+    function testAllImages() {
+      const results = document.getElementById('results');
+      results.innerHTML = '<h2>Testing Images...</h2>';
+      
+      log('Starting image tests...', 'info');
+
+      // Test your actual image files
+      const testImages = [
+        'assets/images/about me cover.png',
+        'assets/images/card 1.jpg',
+        'assets/images/education cover.jpg',
+        'assets/images/card 2.jpg',
+        'assets/images/experience cover page.jpg',
+        'assets/images/card 3.jpg',
+        'assets/images/technical activities cover page.png',
+        'assets/images/card 4.JPG',
+        'assets/images/learning and course cover page.jpg',
+        'assets/images/card 5.jpg',
+        'assets/images/project cover page.jpg',
+        'assets/images/card 6.jpg',
+        'assets/images/award cover page.jpg',
+        'assets/images/card 7.JPG',
+        'assets/images/skill and interest cover page.png',
+        'assets/images/card 8.jpg'
+      ];
+
+      testImages.forEach(path => {
+        const div = document.createElement('div');
+        div.className = 'test';
+        div.innerHTML = `
+          <strong>Testing:</strong> ${path}<br>
+          <span class="path">Full path: ${window.location.origin}/${path}</span><br>
+          <img src="${path}" 
+               onload="this.parentElement.classList.add('pass'); log('✓ Loaded: ${path}', 'success');" 
+               onerror="this.parentElement.classList.add('fail'); this.style.display='none'; log('✗ Failed: ${path}', 'error');">
+        `;
+        results.appendChild(div);
+      });
+    }
+
+    function checkDataStore() {
+      log('Checking DataStore...', 'info');
+      
+      if (typeof dataStore === 'undefined') {
+        log('✗ DataStore not found!', 'error');
+        return;
+      }
+
+      log('✓ DataStore found', 'success');
+      
+      const data = dataStore.getAll();
+      log(`Found ${data.length} sections`, 'success');
+      
+      data.forEach(section => {
+        log(`Section: ${section.title} (${section.items.length} items)`, 'info');
+        section.items.forEach((item, i) => {
+          log(`  ${i+1}. ${item.title}`, 'info');
+          log(`     Card: ${item.thumbnail}`, 'info');
+          log(`     Hero: ${item.image}`, 'info');
+        });
+      });
+    }
+
+    function testPaths() {
+      log('Testing path resolution...', 'info');
+      log(`Current URL: ${window.location.href}`, 'info');
+      log(`Origin: ${window.location.origin}`, 'info');
+      log(`Pathname: ${window.location.pathname}`, 'info');
+      
+      // Test if assets folder is accessible
+      fetch('assets/images/card 1.jpg')
+        .then(response => {
+          if (response.ok) {
+            log('✓ Assets folder is accessible', 'success');
+          } else {
+            log(`✗ Assets folder returned ${response.status}`, 'error');
+          }
+        })
+        .catch(error => {
+          log(`✗ Cannot access assets folder: ${error.message}`, 'error');
+        });
+    }
+
+    // Auto-run on load
+    window.addEventListener('DOMContentLoaded', () => {
+      log('Page loaded', 'success');
+      checkDataStore();
+      testAllImages();
+    });
+  </script>
+</body>
+</html>

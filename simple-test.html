@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Image Test</title>
+  <style>
+    body {
+      background: #141414;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    h1 { color: #e50914; }
+    .test-section {
+      background: #2a2a2a;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+    }
+    img {
+      max-width: 300px;
+      margin: 10px;
+      border: 2px solid #666;
+    }
+    .success { border-color: #2ea043; }
+    .error { border-color: #da3633; }
+    .path {
+      color: #888;
+      font-size: 12px;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+  <h1>Simple Image Test</h1>
+  
+  <div class="test-section">
+    <h2>Test 1: Direct Image Loading</h2>
+    <p>Testing if images load with direct src attribute:</p>
+    
+    <div>
+      <p class="path">assets/images/card 1.jpg</p>
+      <img src="assets/images/card 1.jpg" 
+           onload="this.classList.add('success'); console.log('✓ card 1 loaded')" 
+           onerror="this.classList.add('error'); console.error('✗ card 1 failed')">
+    </div>
+
+    <div>
+      <p class="path">assets/images/about me cover.png</p>
+      <img src="assets/images/about me cover.png" 
+           onload="this.classList.add('success'); console.log('✓ about me cover loaded')" 
+           onerror="this.classList.add('error'); console.error('✗ about me cover failed')">
+    </div>
+
+    <div>
+      <p class="path">assets/images/education cover.jpg</p>
+      <img src="assets/images/education cover.jpg" 
+           onload="this.classList.add('success'); console.log('✓ education cover loaded')" 
+           onerror="this.classList.add('error'); console.error('✗ education cover failed')">
+    </div>
+  </div>
+
+  <div class="test-section">
+    <h2>Test 2: DataStore Check</h2>
+    <div id="datastoreTest">Loading...</div>
+  </div>
+
+  <div class="test-section">
+    <h2>Test 3: Console Output</h2>
+    <p>Check browser console (F12) for detailed logs</p>
+    <button onclick="runTests()">Run All Tests</button>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script>
+    function runTests() {
+      console.log('=== Running Tests ===');
+      
+      // Test 1: Check if dataStore exists
+      if (typeof dataStore !== 'undefined') {
+        console.log('✓ DataStore loaded');
+        const data = dataStore.getAll();
+        console.log(`✓ Found ${data.length} sections`);
+        
+        // Log all image paths
+        data.forEach(section => {
+          console.log(`\n${section.title}:`);
+          section.items.forEach(item => {
+            console.log(`  - Card: ${item.thumbnail}`);
+            console.log(`  - Hero: ${item.image}`);
+          });
+        });
+      } else {
+        console.error('✗ DataStore not found!');
+      }
+
+      // Test 2: Check current directory
+      console.log('\nCurrent location:', window.location.href);
+      console.log('Origin:', window.location.origin);
+      console.log('Pathname:', window.location.pathname);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const testDiv = document.getElementById('datastoreTest');
+      
+      if (typeof dataStore !== 'undefined') {
+        const data = dataStore.getAll();
+        testDiv.innerHTML = `
+          <p style="color: #2ea043;">✓ DataStore loaded successfully</p>
+          <p>Sections: ${data.length}</p>
+          <p>Total items: ${data.reduce((sum, cat) => sum + cat.items.length, 0)}</p>
+        `;
+      } else {
+        testDiv.innerHTML = '<p style="color: #da3633;">✗ DataStore not loaded</p>';
+      }
+
+      runTests();
+    });
+  </script>
+</body>
+</html>
