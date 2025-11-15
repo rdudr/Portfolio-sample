@@ -44,7 +44,7 @@ class CategoryFilter {
     this.filterContainer.setAttribute('aria-label', 'Category filter');
 
     // Get all categories
-    const categories = this.dataStore.getAllCategories();
+    const categories = this.dataStore.getAll();
 
     // Create "All" button
     const allButton = this.createFilterButton('all', 'All', true);

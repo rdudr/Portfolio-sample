@@ -47,7 +47,7 @@
 
       // Initialize data store
       dataStore = new DataStore();
-      console.log('DataStore initialized with', dataStore.getAllCategories().length, 'categories');
+      console.log('DataStore initialized with', dataStore.getAll().length, 'categories');
 
       // Initialize view manager
       viewManager = new ViewManager(appContainer, dataStore);

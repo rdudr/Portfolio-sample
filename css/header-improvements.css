@@ -1,0 +1,376 @@
+/* Header Improvements - New Layout & Active States */
+
+/* ============================================
+   Header Container - New Layout
+   ============================================ */
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(20, 20, 20, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background 0.3s ease;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 1rem 3rem;
+  gap: 2rem;
+}
+
+/* ============================================
+   Header Left - Search
+   ============================================ */
+
+.header-left {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.search-input {
+  width: 280px;
+  padding: 0.6rem 0.75rem 0.6rem 2.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.search-input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.1);
+  width: 320px;
+}
+
+/* ============================================
+   Header Center - Navigation
+   ============================================ */
+
+.header-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.main-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.nav-link {
+  position: relative;
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.5rem 0;
+  transition: color 0.3s ease;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Hover Effect */
+.nav-link:hover {
+  color: #ffffff;
+}
+
+/* Active State - Red Highlight */
+.nav-link.active {
+  color: #e50914;
+  font-weight: 600;
+}
+
+/* Active Indicator - Red Underline */
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #e50914;
+  border-radius: 2px 2px 0 0;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Hover Indicator - Subtle */
+.nav-link:not(.active):hover::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px 2px 0 0;
+}
+
+/* ============================================
+   Header Right - Logo & Profile
+   ============================================ */
+
+.header-right {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.site-logo {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.site-logo a {
+  color: #e50914;
+  text-decoration: none;
+  transition: transform 0.3s ease, text-shadow 0.3s ease;
+  display: inline-block;
+}
+
+.site-logo a:hover {
+  transform: scale(1.05);
+  text-shadow: 0 0 20px rgba(229, 9, 20, 0.5);
+}
+
+/* Profile Icon */
+.profile-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+  background: linear-gradient(135deg, #e50914 0%, #b20710 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-icon:hover {
+  border-color: #e50914;
+  transform: scale(1.05);
+}
+
+.profile-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Fallback text if image doesn't load */
+.profile-icon::before {
+  content: 'RD';
+  position: absolute;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: white;
+  z-index: 0;
+}
+
+/* Hide fallback when image loads */
+.profile-icon:has(.profile-img)::before {
+  display: none;
+}
+
+/* ============================================
+   Responsive - Tablet
+   ============================================ */
+
+@media (max-width: 1024px) {
+  .header-container {
+    padding: 1rem 2rem;
+    gap: 1.5rem;
+  }
+
+  .main-nav {
+    gap: 1.5rem;
+  }
+
+  .nav-link {
+    font-size: 0.9rem;
+  }
+
+  .search-input {
+    width: 220px;
+  }
+
+  .search-input:focus {
+    width: 260px;
+  }
+}
+
+/* ============================================
+   Category Filter - Hide or Style Properly
+   ============================================ */
+
+.category-filter {
+  display: none !important; /* Hide category filter from header */
+}
+
+/* If you want to show it as small buttons instead, use this:
+.category-filter {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.filter-btn {
+  padding: 0.25rem 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  color: #ffffff;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.filter-btn.active {
+  background: #e50914;
+  border-color: #e50914;
+}
+*/
+
+/* ============================================
+   Responsive - Mobile
+   ============================================ */
+
+@media (max-width: 768px) {
+  .header-container {
+    padding: 0.75rem 1rem;
+    gap: 1rem;
+  }
+
+  /* Hide search on mobile */
+  .header-left .search-container {
+    display: none;
+  }
+
+  /* Stack navigation */
+  .header-center {
+    flex: 1;
+  }
+
+  .main-nav {
+    gap: 1rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .main-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-link {
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
+  .site-logo {
+    font-size: 1.5rem;
+  }
+
+  .profile-icon {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+/* ============================================
+   Card Size Reduction
+   ============================================ */
+
+.content-card {
+  /* Compact card size */
+  flex: 0 0 auto;
+  width: 200px !important;
+  max-width: 200px !important;
+}
+
+@media (max-width: 768px) {
+  .content-card {
+    width: 180px !important;
+    max-width: 180px !important;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .content-card {
+    width: 190px !important;
+    max-width: 190px !important;
+  }
+}
+
+/* ============================================
+   Smooth Transitions
+   ============================================ */
+
+.nav-link,
+.search-input,
+.profile-icon,
+.site-logo a {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}

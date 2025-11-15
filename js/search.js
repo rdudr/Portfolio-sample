@@ -108,7 +108,7 @@ class SearchComponent {
         const itemSlug = card.dataset.slug;
         
         // Get item data
-        const item = this.dataStore.getItemBySlug(categorySlug, itemSlug);
+        const item = this.dataStore.getItem(categorySlug, itemSlug);
         
         if (item && this.matchesQuery(item, normalizedQuery)) {
           // Show matching card

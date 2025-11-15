@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="css/loading-states.css">
   <link rel="stylesheet" href="css/error-handling.css">
   <link rel="stylesheet" href="css/mobile-optimization.css">
+  <link rel="stylesheet" href="css/header-improvements.css">
   
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,33 +33,42 @@
   <!-- Header -->
   <header class="site-header" role="banner">
     <div class="header-container">
+      <!-- Left: Search -->
       <div class="header-left">
-        <h1 class="site-logo">
-          <a href="#/" aria-label="Rishabh Dangi Portfolio Home">RD</a>
-        </h1>
-      </div>
-      
-      <div class="header-center">
-        <nav class="main-nav" aria-label="Main navigation">
-          <a href="#/" class="nav-link">Home</a>
-          <a href="#/about-me" class="nav-link">About</a>
-          <a href="#/education" class="nav-link">Education</a>
-          <a href="#/experience" class="nav-link">Experience</a>
-          <a href="#/project" class="nav-link">Projects</a>
-        </nav>
-      </div>
-      
-      <div class="header-right">
         <div class="search-container">
-          <input type="search" 
-                 class="search-input" 
-                 placeholder="Search portfolio..." 
-                 aria-label="Search portfolio content">
           <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="11" cy="11" r="8"></circle>
             <path d="m21 21-4.35-4.35"></path>
           </svg>
+          <input type="search" 
+                 class="search-input" 
+                 placeholder="Search portfolio..." 
+                 aria-label="Search portfolio content">
         </div>
+      </div>
+      
+      <!-- Center: Navigation -->
+      <div class="header-center">
+        <nav class="main-nav" aria-label="Main navigation">
+          <a href="#/about-me" class="nav-link" data-nav="about-me">About Me</a>
+          <a href="#/education" class="nav-link" data-nav="education">Education</a>
+          <a href="#/experience" class="nav-link" data-nav="experience">Experience</a>
+          <a href="#/technical-activities" class="nav-link" data-nav="technical-activities">Technical Activities</a>
+          <a href="#/learning-and-courses" class="nav-link" data-nav="learning-and-courses">Learning & Courses</a>
+          <a href="#/project" class="nav-link" data-nav="project">Projects</a>
+          <a href="#/award" class="nav-link" data-nav="award">Awards</a>
+          <a href="#/skills-and-interests" class="nav-link" data-nav="skills-and-interests">Skills & Interests</a>
+        </nav>
+      </div>
+      
+      <!-- Right: Profile & Logo -->
+      <div class="header-right">
+        <div class="profile-icon">
+          <img src="assets/images/profile.png" alt="Rishabh Dangi" class="profile-img">
+        </div>
+        <h1 class="site-logo">
+          <a href="#/" aria-label="Rishabh Dangi Portfolio Home">RD</a>
+        </h1>
       </div>
     </div>
   </header>
@@ -97,8 +107,12 @@
   <script src="js/view-manager.js"></script>
   <script src="js/back-navigation.js"></script>
   <script src="js/keyboard-navigation.js"></script>
+  <script src="js/header-navigation.js"></script>
   <script src="js/search.js"></script>
   <script src="js/category-filter.js"></script>
   <script src="js/main-netflix.js"></script>
+  
+  <!-- Emergency Image Fix (loads images if lazy loading fails) -->
+  <script src="fix-images.js"></script>
 </body>
 </html>

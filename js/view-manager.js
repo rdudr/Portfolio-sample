@@ -18,8 +18,8 @@ class ViewManager {
    */
   renderBrowseHub(filterCategory = null) {
     const categories = filterCategory 
-      ? [this.dataStore.getCategoryBySlug(filterCategory)].filter(Boolean)
-      : this.dataStore.getAllCategories();
+      ? [this.dataStore.getBySlug(filterCategory)].filter(Boolean)
+      : this.dataStore.getAll();
 
     const browseHubHTML = `
       <div class="browse-hub view-enter">
@@ -44,7 +44,7 @@ class ViewManager {
   renderHeroSection() {
     return `
       <section class="hero-section">
-        <div class="hero-background"></div>
+        <div class="hero-background" style="background-image: url('assets/images/home photo.JPG')"></div>
         <div class="hero-content">
           <h1 class="hero-title">Rishabh Dangi</h1>
           <p class="hero-tagline">Electrical Engineer | IoT Security | Embedded Systems</p>
@@ -59,23 +59,29 @@ class ViewManager {
    * @returns {string} Content row HTML
    */
   renderContentRow(category) {
+    // Get the cover image from the first item in the category
+    const coverImage = category.items && category.items.length > 0 ? category.items[0].image : '';
+    
     return `
       <section class="content-row" data-category="${category.slug}" aria-labelledby="${category.slug}-heading">
-        <h2 id="${category.slug}-heading" class="row-title">${category.title}</h2>
-        <div class="row-carousel" role="region" aria-label="${category.title} items">
-          <button class="carousel-arrow carousel-arrow-left" aria-label="Scroll left">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-          </button>
-          <div class="carousel-track">
-            ${category.items.map(item => this.renderContentCard(item, category.slug)).join('')}
+        ${coverImage ? `<div class="section-backdrop" style="background-image: url('${coverImage}')"></div>` : ''}
+        <div class="section-content">
+          <h2 id="${category.slug}-heading" class="row-title">${category.title}</h2>
+          <div class="row-carousel" role="region" aria-label="${category.title} items">
+            <button class="carousel-arrow carousel-arrow-left" aria-label="Scroll left">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </button>
+            <div class="carousel-track">
+              ${category.items.map(item => this.renderContentCard(item, category.slug)).join('')}
+            </div>
+            <button class="carousel-arrow carousel-arrow-right" aria-label="Scroll right">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
           </div>
-          <button class="carousel-arrow carousel-arrow-right" aria-label="Scroll right">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-          </button>
         </div>
       </section>
     `;
@@ -108,6 +114,7 @@ class ViewManager {
         </div>
         <div class="card-hover-details">
           <p class="card-description">${item.shortDescription || ''}</p>
+          <a href="#/${categorySlug}/${item.slug}" class="card-read-more">Read more →</a>
         </div>
       </article>
     `;
@@ -126,7 +133,7 @@ class ViewManager {
 
     // Small delay to show loading state
     setTimeout(() => {
-      const item = this.dataStore.getItemBySlug(categorySlug, itemSlug);
+      const item = this.dataStore.getItem(categorySlug, itemSlug);
       
       if (!item) {
         this.renderNotFound();

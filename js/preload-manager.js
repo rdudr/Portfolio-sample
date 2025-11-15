@@ -105,7 +105,7 @@ class PreloadManager {
    * @param {string} itemSlug - Item slug
    */
   preloadDetailPageImage(categorySlug, itemSlug) {
-    const item = this.dataStore.getItemBySlug(categorySlug, itemSlug);
+    const item = this.dataStore.getItem(categorySlug, itemSlug);
     
     if (!item || !item.image) return;
 
@@ -201,7 +201,7 @@ class PreloadManager {
     
     if (!categorySlug || !itemSlug) return;
 
-    const item = this.dataStore.getItemBySlug(categorySlug, itemSlug);
+    const item = this.dataStore.getItem(categorySlug, itemSlug);
     if (!item) return;
 
     // Preload thumbnail if not already loaded
@@ -218,7 +218,7 @@ class PreloadManager {
    * @param {string} categorySlug - Category slug
    */
   preloadCategory(categorySlug) {
-    const category = this.dataStore.getCategoryBySlug(categorySlug);
+    const category = this.dataStore.getBySlug(categorySlug);
     if (!category) return;
 
     category.items.forEach(item => {
@@ -236,7 +236,7 @@ class PreloadManager {
    * Preload critical images (first row, hero, etc.)
    */
   preloadCriticalImages() {
-    const categories = this.dataStore.getAllCategories();
+    const categories = this.dataStore.getAll();
     
     // Preload first category's items (About Me)
     if (categories.length > 0) {

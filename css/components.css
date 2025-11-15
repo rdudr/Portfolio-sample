@@ -1413,6 +1413,18 @@ img.lazy-error {
   background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
+  z-index: 1;
+}
+
+.hero-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
   z-index: 1;
 }
 
@@ -1500,16 +1512,54 @@ img.lazy-error {
 /* Content Row */
 .content-row {
   margin-bottom: 3rem; /* 3-4rem consistent spacing as per requirements */
-  padding: 0 4vw;
+  padding: 0;
   width: 100%;
   position: relative;
+  overflow: hidden;
+}
+
+/* Section Backdrop */
+.section-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.15;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.section-backdrop::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(20, 20, 20, 0.7) 0%,
+    rgba(20, 20, 20, 0.85) 50%,
+    rgba(20, 20, 20, 0.95) 100%
+  );
+}
+
+/* Section Content Wrapper */
+.section-content {
+  position: relative;
+  z-index: 1;
+  padding: 2rem 4vw;
 }
 
 .row-title {
   font-family: var(--font-sans);
   font-size: clamp(1.25rem, 2.5vw, 1.75rem);
   font-weight: 600;
-  color: var(--color-primary);
+  color: #e50914;
   margin: 0 0 var(--spacing-sm) 0;
   padding-left: 0;
 }
@@ -1519,7 +1569,7 @@ img.lazy-error {
   font-family: var(--font-sans);
   font-size: clamp(1.25rem, 2.5vw, 1.75rem);
   font-weight: 600;
-  color: var(--color-primary);
+  color: #e50914;
   margin: 0 0 var(--spacing-sm) 0;
 }
 
@@ -1660,8 +1710,8 @@ img.lazy-error {
 /* Content Card */
 .content-card {
   flex: 0 0 auto;
-  width: 85vw;
-  max-width: 300px;
+  width: 70vw;
+  max-width: 220px;
   border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
@@ -1711,7 +1761,7 @@ img.lazy-error {
 .card-image-container {
   position: relative;
   width: 100%;
-  padding-bottom: 56.25%; /* 16:9 aspect ratio - Requirement 3.3 */
+  padding-bottom: 140%; /* Taller aspect ratio for compact cards */
   overflow: hidden;
   background-color: #2a2a2a;
 }
@@ -1744,6 +1794,10 @@ img.lazy-error {
 
 .card-info {
   padding: var(--spacing-sm);
+  height: 90px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .card-title {
@@ -1786,6 +1840,9 @@ img.lazy-error {
   transition: opacity 300ms ease, transform 300ms ease;
   pointer-events: none;
   z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .card-description {
@@ -1794,11 +1851,29 @@ img.lazy-error {
   color: var(--color-secondary);
   line-height: 1.4;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.card-read-more {
+  align-self: flex-end;
+  color: #e50914;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  pointer-events: all;
+  transition: color 0.3s ease, transform 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.card-read-more:hover {
+  color: #f40612;
+  transform: translateX(4px);
 }
 
 /* Touch device handling - Requirement 4.5 */
@@ -2284,8 +2359,8 @@ img.lazy-error {
 /* Responsive Design */
 @media (min-width: 768px) {
   .content-card {
-    width: 40vw;
-    max-width: 350px;
+    width: 28vw;
+    max-width: 240px;
   }
   
   .detail-content {
@@ -2295,8 +2370,8 @@ img.lazy-error {
 
 @media (min-width: 1024px) {
   .content-card {
-    width: 20vw;
-    max-width: 300px;
+    width: 15vw;
+    max-width: 220px;
   }
 }
 
