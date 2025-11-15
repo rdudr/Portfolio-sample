@@ -1,0 +1,10 @@
+﻿{
+    "timestamp":  "2025-11-15T15:23:20",
+    "summary":  {
+                    "failed":  0,
+                    "passRate":  98.7,
+                    "warnings":  1,
+                    "total":  77,
+                    "passed":  76
+                }
+}

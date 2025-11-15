@@ -422,7 +422,9 @@
   - _Requirements: 20.2, 20.3, 20.4, 10.4_
 -
 
-- [-] 32. Cross-browser testing and final polish
+- [x] 32. Cross-browser testing and final polish
+
+
 
 
   - Test on Chrome, Firefox, Safari, Edge
