@@ -1,0 +1,488 @@
+/* Animations and Transitions */
+
+/* ============================================
+   Smooth Scroll Behavior
+   ============================================ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Disable smooth scroll for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ============================================
+   Keyframe Animations
+   ============================================ */
+
+/* Fade In Up Animation - for hero content entry */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade In Animation - simple opacity fade */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Fade Out Animation */
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Slide In From Left */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Slide In From Right */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Scale In Animation */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Shimmer Animation - for loading states */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Pulse Animation - for attention-grabbing elements */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* ============================================
+   Hero Content Animations
+   ============================================ */
+
+/* Apply fade-in-up animation to hero content */
+.hero-content {
+  animation: fadeInUp 0.8s ease-out;
+  animation-fill-mode: both;
+}
+
+/* Stagger animation for content elements */
+.content-left {
+  animation: fadeInUp 0.8s ease-out;
+  animation-delay: 0.1s;
+  animation-fill-mode: both;
+}
+
+.content-right {
+  animation: fadeInUp 0.8s ease-out;
+  animation-delay: 0.3s;
+  animation-fill-mode: both;
+}
+
+/* Individual element animations within hero content */
+.hero-heading {
+  animation: slideInLeft 0.6s ease-out;
+  animation-fill-mode: both;
+}
+
+.hero-text {
+  animation: fadeInUp 0.8s ease-out;
+  animation-delay: 0.2s;
+  animation-fill-mode: both;
+}
+
+.cta-button {
+  animation: fadeInUp 0.8s ease-out;
+  animation-delay: 0.4s;
+  animation-fill-mode: both;
+}
+
+/* ============================================
+   Carousel Image Transitions
+   ============================================ */
+
+/* Smooth fade transition for carousel images */
+.carousel-image {
+  opacity: 0;
+  transition: opacity var(--transition-carousel) ease-in-out;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.carousel-image.active {
+  opacity: 1;
+  position: relative;
+}
+
+/* Carousel container animation on load */
+.carousel {
+  animation: scaleIn 0.6s ease-out;
+  animation-fill-mode: both;
+}
+
+/* Carousel dots animation */
+.carousel-dots {
+  animation: fadeIn 0.8s ease-out;
+  animation-delay: 0.5s;
+  animation-fill-mode: both;
+}
+
+/* Individual dot transitions */
+.dot {
+  transition: all var(--transition-fast) ease;
+}
+
+.dot:hover {
+  transform: scale(1.2);
+}
+
+.dot.active {
+  transition: all var(--transition-normal) ease;
+}
+
+/* ============================================
+   Button Hover Transitions
+   ============================================ */
+
+/* CTA Button smooth hover effects */
+.cta-button {
+  transition: transform var(--transition-normal) ease,
+              box-shadow var(--transition-normal) ease,
+              background var(--transition-normal) ease,
+              border-color var(--transition-normal) ease;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+}
+
+.cta-button:active {
+  transform: translateY(0);
+  transition: transform var(--transition-fast) ease;
+}
+
+/* Tab button transitions */
+.tab-btn {
+  transition: all var(--transition-normal) ease;
+}
+
+.tab-btn:hover {
+  transform: translateY(-1px);
+}
+
+.tab-btn.active {
+  transition: all var(--transition-fast) ease;
+}
+
+/* ============================================
+   Image Card Transitions
+   ============================================ */
+
+/* Floating image card hover effects */
+.image-card {
+  transition: box-shadow var(--transition-normal) ease,
+              transform var(--transition-normal) ease;
+}
+
+.image-card:hover {
+  transform: translateY(-4px) translateZ(0);
+}
+
+/* Card image loading transition */
+.card-image {
+  transition: opacity var(--transition-slow) ease;
+}
+
+.card-image.loaded {
+  animation: fadeIn var(--transition-slow) ease;
+}
+
+/* ============================================
+   Content List Animations
+   ============================================ */
+
+/* List item hover transitions */
+.content-list-item {
+  transition: all var(--transition-fast) ease;
+}
+
+.content-list-item:hover {
+  transform: translateX(4px);
+}
+
+/* Stagger animation for list items */
+.content-list-item:nth-child(1) {
+  animation: fadeInUp 0.6s ease-out;
+  animation-delay: 0.1s;
+  animation-fill-mode: both;
+}
+
+.content-list-item:nth-child(2) {
+  animation: fadeInUp 0.6s ease-out;
+  animation-delay: 0.2s;
+  animation-fill-mode: both;
+}
+
+.content-list-item:nth-child(3) {
+  animation: fadeInUp 0.6s ease-out;
+  animation-delay: 0.3s;
+  animation-fill-mode: both;
+}
+
+.content-list-item:nth-child(4) {
+  animation: fadeInUp 0.6s ease-out;
+  animation-delay: 0.4s;
+  animation-fill-mode: both;
+}
+
+.content-list-item:nth-child(5) {
+  animation: fadeInUp 0.6s ease-out;
+  animation-delay: 0.5s;
+  animation-fill-mode: both;
+}
+
+.content-list-item:nth-child(6) {
+  animation: fadeInUp 0.6s ease-out;
+  animation-delay: 0.6s;
+  animation-fill-mode: both;
+}
+
+.content-list-item:nth-child(7) {
+  animation: fadeInUp 0.6s ease-out;
+  animation-delay: 0.7s;
+  animation-fill-mode: both;
+}
+
+.content-list-item:nth-child(8) {
+  animation: fadeInUp 0.6s ease-out;
+  animation-delay: 0.8s;
+  animation-fill-mode: both;
+}
+
+/* ============================================
+   Skills Grid Animations
+   ============================================ */
+
+/* Skill category animations */
+.skill-category {
+  animation: scaleIn 0.6s ease-out;
+  animation-fill-mode: both;
+}
+
+.skill-category:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.skill-category:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.skill-category:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* Skill item hover transitions */
+.skill-item {
+  transition: all var(--transition-fast) ease;
+}
+
+.skill-item:hover {
+  transform: translateY(-2px);
+}
+
+/* ============================================
+   Header Animations
+   ============================================ */
+
+/* Header entrance animation */
+.site-header {
+  animation: slideInDown 0.6s ease-out;
+  animation-fill-mode: both;
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Search input transitions */
+.search-input {
+  transition: all var(--transition-normal) ease;
+}
+
+/* ============================================
+   Scroll Snap Smooth Transitions
+   ============================================ */
+
+/* Smooth scroll snap container */
+.hero-container {
+  scroll-behavior: smooth;
+}
+
+/* Hero panel transitions during scroll */
+.hero-panel {
+  transition: opacity var(--transition-slow) ease;
+}
+
+/* ============================================
+   Loading State Animations
+   ============================================ */
+
+/* Loading shimmer effect */
+.loading {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Pulse animation for loading indicators */
+.loading-pulse {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* ============================================
+   Accessibility - Reduced Motion
+   ============================================ */
+
+/* Disable animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .hero-content,
+  .content-left,
+  .content-right,
+  .hero-heading,
+  .hero-text,
+  .cta-button,
+  .carousel,
+  .carousel-dots,
+  .content-list-item,
+  .skill-category,
+  .site-header {
+    animation: none !important;
+  }
+
+  .carousel-image {
+    transition: none !important;
+  }
+
+  .cta-button:hover,
+  .image-card:hover,
+  .content-list-item:hover,
+  .skill-item:hover {
+    transform: none !important;
+  }
+}
+
+/* ============================================
+   Performance Optimizations
+   ============================================ */
+
+/* Use GPU acceleration for transforms */
+.hero-content,
+.carousel,
+.image-card,
+.cta-button {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Remove will-change after animation completes */
+.hero-content.animation-complete,
+.carousel.animation-complete,
+.image-card.animation-complete,
+.cta-button.animation-complete {
+  will-change: auto;
+}
+
+/* ============================================
+   Focus Animations
+   ============================================ */
+
+/* Focus ring animation */
+@keyframes focusRing {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2);
+  }
+}
+
+.cta-button:focus-visible,
+.tab-btn:focus-visible,
+.dot:focus-visible,
+.search-input:focus-visible {
+  animation: focusRing 0.3s ease-out;
+}

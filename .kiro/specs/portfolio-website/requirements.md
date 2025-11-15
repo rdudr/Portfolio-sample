@@ -114,10 +114,13 @@ This document outlines the requirements for a modern personal portfolio website 
 
 1. THE Portfolio System SHALL display "Technical Activities" as the heading in the fourth hero panel
 2. THE Portfolio System SHALL render an appropriate background image for the technical activities section
-3. THE Portfolio System SHALL display the following technical activity entries with organization, location, and dates:
-   - Industrial Auto-mission, Sofcon, Ahmedabad (6 Jan - 4 April 2024)
-   - Java programming, MSME, Udaipur
-   - Additional technical activities as provided
+3. THE Portfolio System SHALL display the following six technical activity entries with organization, location, and dates:
+   - Industrial Auto-mission, [Sofcon, Ahmedabad] [6 Jan - 4 April 2024]
+   - Java programming, MSME, Udaipur [24 April 2023 - 25 May 2023]
+   - AutoCAD & SolidWorks, CADCAM Expert, Udaipur [May 2022 – June 2022]
+   - Industry 4.0: PLC+SCADA+IOT, Vision Automation, Udaipur [3 Nov 2022 – 3 Dec 2022]
+   - Electrical System & panel designing Vision Automation, Udaipur [4 July 2022 – 26 July 2022]
+   - Large Scale Industries Adani Thermal Power Station (ADTPS) [Aug 2021 – Aug 2021]
 4. THE Portfolio System SHALL render a floating image card or carousel on the right side showing relevant technical activity photos
 5. THE Portfolio System SHALL render a "Know More" button below the technical activities list
 
@@ -129,7 +132,15 @@ This document outlines the requirements for a modern personal portfolio website 
 
 1. THE Portfolio System SHALL display "Learning & Courses" as the heading in the fifth hero panel
 2. THE Portfolio System SHALL render an appropriate background image for the learning section
-3. THE Portfolio System SHALL display course entries with course name, platform or institution, and completion date including online courses, certifications, and workshops
+3. THE Portfolio System SHALL display the following eight course entries with course name, institution, and duration:
+   - Design, Technology and Innovation, 8-week Course IIT Mumbai
+   - Enhancing soft skills and Personality 8-weeks Course IIT Kanpur
+   - Introduction to Internet of Things 4-weeks Course NPTEL
+   - Joy of Computing using Python 12-weeks Course NPTEL
+   - Programming, Data Structures and Algorithms using Python 12-weeks Course NPTEL
+   - Introduction to Machine Learning 12-weeks Course NPTEL
+   - Cloud Computing 12-weeks Course NPTEL
+   - Cyber Security and Privacy 12-weeks Course NPTEL
 4. THE Portfolio System SHALL render a floating image card or carousel on the right side showing certificates or learning-related photos
 5. THE Portfolio System SHALL render a "Know More" button below the courses list
 
@@ -141,7 +152,14 @@ This document outlines the requirements for a modern personal portfolio website 
 
 1. THE Portfolio System SHALL display "Projects" as the heading in the sixth hero panel
 2. THE Portfolio System SHALL render an appropriate background image for the projects section
-3. THE Portfolio System SHALL display project entries with project name, description, technologies used, and timeline including IoT security products, embedded systems projects, and hardware-software integration work
+3. THE Portfolio System SHALL display the following seven project entries with project name and description:
+   - Star Delta Stator
+   - Star delta Stator using IOT and PLC Scada
+   - Detection usage of Lora Technology
+   - AI Based Energy Management System
+   - IoT Security Product Development
+   - Embedded Systems Integration Projects
+   - Hardware-Software Integration Solutions
 4. THE Portfolio System SHALL render a floating image card or carousel on the right side showing project photos or demonstrations
 5. THE Portfolio System SHALL render a "Know More" button below the projects list
 
@@ -153,10 +171,9 @@ This document outlines the requirements for a modern personal portfolio website 
 
 1. THE Portfolio System SHALL display "Awards" as the heading in the seventh hero panel
 2. THE Portfolio System SHALL render an appropriate background image for the awards section
-3. THE Portfolio System SHALL display the following award entries with award name, issuing organization, date, and description:
-   - KAVACH CYBER HACKATHON 2023
-   - SMART INDIA HACKATHON 2023
-   - Additional awards and recognitions as provided
+3. THE Portfolio System SHALL display the following award entries with award name, date, project, and prize details:
+   - KAVACH CYBER HACKATHON 2023, August 2023, Detection Usage of Lora, Winner Got Winning prize of 1 Lakh
+   - SMART INDIA HACKATHON 2023, December 2023, AI Based Energy Management System, Winner Got Winning prize of 1 Lakh
 4. THE Portfolio System SHALL render a floating image card or carousel on the right side showing award certificates or ceremony photos
 5. THE Portfolio System SHALL render a "Know More" button below the awards list
 
@@ -168,10 +185,10 @@ This document outlines the requirements for a modern personal portfolio website 
 
 1. THE Portfolio System SHALL display "Skills & Interests" as the heading in the eighth hero panel
 2. THE Portfolio System SHALL render an appropriate background image for the skills section
-3. THE Portfolio System SHALL display skills organized in three categories:
-   - Programming: including languages and frameworks
-   - Software: including development tools and applications
-   - Hardware: including embedded systems and electronics
+3. THE Portfolio System SHALL display skills organized in three categories with the following specific skills:
+   - Programming: Java, Arduino, Familiarity with MATLAB, Spring Boot, C & C++
+   - Software: Auto CAD, Solid Works, GNU Radio, WireShark, Photoshop, Illustrator, PSpice
+   - Hardware: Robotics, PLC & Scada, UART, I2C, SPI, Lora, Bluetooth, NRF, RF
 4. THE Portfolio System SHALL display personal interests with descriptions
 5. THE Portfolio System SHALL render a floating image card or carousel on the right side showing hobby or interest-related photos
 6. THE Portfolio System SHALL render a "Know More" button below the skills and interests content

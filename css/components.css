@@ -1,0 +1,820 @@
+/* Component Styles - Reusable UI Components */
+
+/* ============================================
+   Header Component
+   ============================================ */
+
+.site-header {
+  background: var(--color-header-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background var(--transition-normal);
+}
+
+/* Search Container */
+.search-container {
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  width: 100%;
+  max-width: 300px;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--border-radius-sm);
+  color: var(--color-primary);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-small);
+  transition: all var(--transition-normal);
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.search-input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+}
+
+/* Tab Switcher */
+.tab-switcher {
+  display: flex;
+  gap: var(--spacing-xs);
+  align-items: center;
+}
+
+.tab-btn {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--border-radius-sm);
+  color: var(--color-secondary);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  min-width: 70px;
+}
+
+.tab-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.tab-btn.active {
+  background: var(--color-primary);
+  color: #000;
+  border-color: var(--color-primary);
+}
+
+.tab-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+}
+
+/* Mobile header adjustments */
+@media (max-width: 767px) {
+  .search-input {
+    max-width: 150px;
+    font-size: 0.875rem;
+  }
+
+  .tab-btn {
+    padding: 0.375rem 0.625rem;
+    font-size: 0.75rem;
+    min-width: 60px;
+  }
+}
+
+/* ============================================
+   Hero Panel Components
+   ============================================ */
+
+/* Typography */
+.hero-heading {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-heading);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-heading);
+  color: var(--color-primary);
+  margin: 0 0 var(--spacing-md) 0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.hero-text {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-body);
+  color: var(--color-secondary);
+  margin: 0 0 var(--spacing-md) 0;
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Mobile typography adjustments */
+@media (max-width: 767px) {
+  .hero-heading {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .hero-text {
+    margin-bottom: var(--spacing-sm);
+  }
+}
+
+/* ============================================
+   CTA Button Component
+   ============================================ */
+
+.cta-button {
+  display: inline-block;
+  padding: 12px 32px;
+  border: none;
+  border-radius: var(--border-radius-lg);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-button);
+  text-decoration: none;
+  text-align: center;
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Default variant - subtle gradient */
+.cta-button[data-variant="default"],
+.cta-button:not([data-variant]) {
+  background: linear-gradient(
+    135deg,
+    var(--color-button-gradient-start),
+    var(--color-button-gradient-end)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.cta-button[data-variant="default"]:hover,
+.cta-button:not([data-variant]):hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.15),
+    rgba(255, 255, 255, 0.08)
+  );
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-button-hover);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Red variant */
+.cta-button[data-variant="red"] {
+  background: var(--color-accent-red);
+  border: 1px solid var(--color-accent-red);
+}
+
+.cta-button[data-variant="red"]:hover {
+  background: var(--color-accent-red-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-button-hover);
+}
+
+/* Focus state for accessibility */
+.cta-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3), var(--shadow-button);
+}
+
+/* Active state */
+.cta-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 10px var(--color-shadow);
+}
+
+/* Mobile button adjustments */
+@media (max-width: 767px) {
+  .cta-button {
+    padding: 10px 24px;
+    font-size: 1rem;
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+/* ============================================
+   Image Carousel Component
+   ============================================ */
+
+.carousel {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-card), var(--shadow-bevel);
+  background: rgba(0, 0, 0, 0.2);
+  transform: translateZ(0);
+}
+
+.carousel-track {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+}
+
+.carousel-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity var(--transition-carousel);
+  pointer-events: none;
+}
+
+.carousel-image.active {
+  opacity: 1;
+  position: relative;
+  pointer-events: auto;
+}
+
+/* Carousel Dots Navigation */
+.carousel-dots {
+  position: absolute;
+  bottom: var(--spacing-sm);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: var(--spacing-xs);
+  z-index: var(--z-carousel-dots);
+  padding: var(--spacing-xs);
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: var(--border-radius-lg);
+  backdrop-filter: blur(5px);
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--border-radius-full);
+  background: rgba(255, 255, 255, 0.5);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  padding: 0;
+  min-width: 10px;
+  min-height: 10px;
+  position: relative;
+}
+
+.dot:hover {
+  background: rgba(255, 255, 255, 0.8);
+  transform: scale(1.2);
+}
+
+.dot.active {
+  background: var(--color-primary);
+  width: 24px;
+  border-radius: var(--border-radius-lg);
+}
+
+.dot:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+}
+
+/* Touch target for dots */
+.dot::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+}
+
+/* Mobile carousel adjustments */
+@media (max-width: 767px) {
+  .carousel {
+    max-width: 100%;
+  }
+
+  .carousel-dots {
+    bottom: var(--spacing-xs);
+  }
+}
+
+/* ============================================
+   Floating Image Card Component
+   ============================================ */
+
+.image-card {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-card), var(--shadow-bevel);
+  background: rgba(0, 0, 0, 0.2);
+  transform: translateZ(0);
+  transition: box-shadow var(--transition-normal), transform var(--transition-normal);
+}
+
+.image-card:hover {
+  box-shadow: var(--shadow-card-hover), var(--shadow-bevel);
+  transform: translateY(-4px) translateZ(0);
+}
+
+.card-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 3 / 4;
+}
+
+/* Mobile image card adjustments */
+@media (max-width: 767px) {
+  .image-card {
+    max-width: 100%;
+  }
+}
+
+/* ============================================
+   Content List Styling (for Education, Experience, etc.)
+   ============================================ */
+
+.content-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--spacing-md) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.content-list-item {
+  padding: var(--spacing-sm);
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--border-radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.content-list-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-left-color: var(--color-primary);
+  transform: translateX(4px);
+}
+
+.list-item-title {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+  margin: 0 0 var(--spacing-xs) 0;
+}
+
+.list-item-subtitle {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-small);
+  color: var(--color-secondary);
+  margin: 0 0 var(--spacing-xs) 0;
+  opacity: 0.9;
+}
+
+.list-item-description {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-small);
+  color: var(--color-secondary);
+  line-height: var(--line-height-body);
+  margin: 0;
+  opacity: 0.8;
+}
+
+/* Mobile list adjustments */
+@media (max-width: 767px) {
+  .content-list {
+    gap: var(--spacing-xs);
+  }
+
+  .content-list-item {
+    padding: var(--spacing-xs);
+  }
+}
+
+/* ============================================
+   Education List Styling
+   ============================================ */
+
+.education-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--spacing-md) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.education-item {
+  padding: var(--spacing-sm);
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--border-radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.education-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-left-color: var(--color-primary);
+  transform: translateX(4px);
+}
+
+.education-institution {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+  margin: 0 0 var(--spacing-xs) 0;
+}
+
+.education-year {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-small);
+  color: var(--color-secondary);
+  margin: 0 0 0.25rem 0;
+  opacity: 0.9;
+}
+
+.education-degree {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-small);
+  color: var(--color-secondary);
+  margin: 0;
+  opacity: 0.8;
+}
+
+/* Mobile education list adjustments */
+@media (max-width: 767px) {
+  .education-list {
+    gap: var(--spacing-sm);
+  }
+
+  .education-item {
+    padding: var(--spacing-xs);
+  }
+}
+
+/* ============================================
+   Experience List Styling
+   ============================================ */
+
+.experience-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--spacing-md) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.experience-item {
+  padding: var(--spacing-sm);
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--border-radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.experience-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-left-color: var(--color-primary);
+  transform: translateX(4px);
+}
+
+.experience-organization {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+  margin: 0 0 var(--spacing-xs) 0;
+}
+
+.experience-role {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-small);
+  color: var(--color-secondary);
+  margin: 0 0 0.25rem 0;
+  opacity: 0.9;
+  font-style: italic;
+}
+
+.experience-period {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-small);
+  color: var(--color-secondary);
+  margin: 0 0 0.25rem 0;
+  opacity: 0.85;
+}
+
+.experience-description {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-small);
+  color: var(--color-secondary);
+  margin: 0;
+  opacity: 0.8;
+  line-height: var(--line-height-body);
+}
+
+/* Mobile experience list adjustments */
+@media (max-width: 767px) {
+  .experience-list {
+    gap: var(--spacing-sm);
+  }
+
+  .experience-item {
+    padding: var(--spacing-xs);
+  }
+}
+
+/* ============================================
+   Technical Activities List Styling
+   ============================================ */
+
+.technical-activities-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--spacing-md) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.technical-activity-item {
+  padding: var(--spacing-sm);
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--border-radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.technical-activity-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-left-color: var(--color-primary);
+  transform: translateX(4px);
+}
+
+.activity-title {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+  margin: 0 0 var(--spacing-xs) 0;
+}
+
+.activity-location {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-small);
+  color: var(--color-secondary);
+  margin: 0 0 0.25rem 0;
+  opacity: 0.9;
+  font-style: italic;
+}
+
+.activity-dates {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-small);
+  color: var(--color-secondary);
+  margin: 0;
+  opacity: 0.85;
+}
+
+/* Mobile technical activities list adjustments */
+@media (max-width: 767px) {
+  .technical-activities-list {
+    gap: var(--spacing-sm);
+  }
+
+  .technical-activity-item {
+    padding: var(--spacing-xs);
+  }
+}
+
+/* ============================================
+   Courses List Styling
+   ============================================ */
+
+.courses-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--spacing-md) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.course-item {
+  padding: var(--spacing-sm);
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--border-radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.course-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-left-color: var(--color-primary);
+  transform: translateX(4px);
+}
+
+.course-name {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+  margin: 0 0 var(--spacing-xs) 0;
+}
+
+.course-institution {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-small);
+  color: var(--color-secondary);
+  margin: 0 0 0.25rem 0;
+  opacity: 0.9;
+  font-style: italic;
+}
+
+.course-duration {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-small);
+  color: var(--color-secondary);
+  margin: 0;
+  opacity: 0.85;
+}
+
+/* Mobile courses list adjustments */
+@media (max-width: 767px) {
+  .courses-list {
+    gap: var(--spacing-sm);
+  }
+
+  .course-item {
+    padding: var(--spacing-xs);
+  }
+}
+
+/* ============================================
+   Skills Grid Component
+   ============================================ */
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.skill-category {
+  padding: var(--spacing-sm);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--border-radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.skill-category-title {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+  margin: 0 0 var(--spacing-sm) 0;
+}
+
+.skill-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+}
+
+.skill-item {
+  padding: 0.375rem 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius-lg);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-small);
+  color: var(--color-secondary);
+  transition: all var(--transition-fast);
+}
+
+.skill-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Mobile skills grid adjustments */
+@media (max-width: 767px) {
+  .skills-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+  }
+}
+
+/* ============================================
+   Loading States
+   ============================================ */
+
+.image-card.loading,
+.carousel-image.loading {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.image-card.error,
+.carousel-image.error {
+  background: rgba(211, 47, 47, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-card.error::after,
+.carousel-image.error::after {
+  content: 'Image failed to load';
+  color: var(--color-secondary);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-small);
+  text-align: center;
+  padding: var(--spacing-md);
+}
+
+/* ============================================
+   Accessibility Enhancements
+   ============================================ */
+
+/* Focus visible for keyboard navigation */
+.cta-button:focus-visible,
+.tab-btn:focus-visible,
+.dot:focus-visible,
+.search-input:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .carousel-image,
+  .cta-button,
+  .tab-btn,
+  .dot,
+  .content-list-item,
+  .skill-item,
+  .image-card {
+    transition: none;
+  }
+
+  .image-card.loading {
+    animation: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .tab-btn,
+  .search-input,
+  .cta-button {
+    border-width: 2px;
+  }
+
+  .content-list-item {
+    border-left-width: 4px;
+  }
+}

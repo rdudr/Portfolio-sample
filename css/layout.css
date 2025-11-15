@@ -1,0 +1,374 @@
+/* Layout System - Responsive Grid and Flexbox */
+
+/* ============================================
+   Base Layout Structure
+   ============================================ */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  color: var(--color-primary);
+  overflow-x: hidden;
+}
+
+/* ============================================
+   Scroll Container with Snap
+   ============================================ */
+
+.hero-container {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100vh;
+  scroll-behavior: smooth;
+}
+
+/* ============================================
+   Hero Panel Layout
+   ============================================ */
+
+.hero-panel {
+  position: relative;
+  min-height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-md);
+}
+
+.hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 1;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--color-overlay);
+  z-index: var(--z-overlay);
+}
+
+.hero-content {
+  position: relative;
+  z-index: var(--z-content);
+  width: 100%;
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  padding: var(--spacing-md);
+}
+
+/* ============================================
+   Mobile Layout (< 768px)
+   Flexbox with vertical stacking
+   ============================================ */
+
+@media (max-width: 767px) {
+  .hero-panel {
+    padding: var(--spacing-sm);
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    padding: var(--spacing-sm);
+  }
+
+  .content-left {
+    order: 1;
+    width: 100%;
+  }
+
+  .content-right {
+    order: 2;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Adjust spacing for mobile */
+  .hero-content {
+    gap: var(--spacing-sm);
+  }
+
+  /* Ensure images don't overflow on mobile */
+  .content-right img,
+  .content-right .image-card,
+  .content-right .carousel {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+/* ============================================
+   Tablet Layout (768px - 1023px)
+   Grid with adjusted proportions
+   ============================================ */
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hero-panel {
+    padding: var(--spacing-md);
+  }
+
+  .hero-content {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: var(--spacing-md);
+    align-items: center;
+    padding: var(--spacing-md);
+  }
+
+  .content-left {
+    padding-right: var(--spacing-sm);
+  }
+
+  .content-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+/* ============================================
+   Desktop Layout (≥ 768px)
+   Grid with 1.5fr 1fr split
+   ============================================ */
+
+@media (min-width: 768px) {
+  .hero-content {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: var(--grid-gap);
+    align-items: center;
+  }
+
+  .content-left {
+    padding-right: var(--spacing-md);
+  }
+
+  .content-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+/* ============================================
+   Large Desktop Layout (≥ 1024px)
+   Full grid with optimal spacing
+   ============================================ */
+
+@media (min-width: 1024px) {
+  .hero-panel {
+    padding: var(--spacing-lg);
+  }
+
+  .hero-content {
+    grid-template-columns: 1.5fr 1fr;
+    gap: var(--grid-gap);
+    padding: var(--spacing-lg);
+  }
+
+  .content-left {
+    padding-right: var(--spacing-lg);
+  }
+}
+
+/* ============================================
+   Content Area Styling
+   ============================================ */
+
+.content-left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  justify-content: center;
+}
+
+.content-right {
+  position: relative;
+  min-height: 300px;
+}
+
+/* ============================================
+   Header Layout
+   ============================================ */
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--header-height);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 var(--spacing-md);
+  z-index: var(--z-header);
+}
+
+/* Mobile header adjustments */
+@media (max-width: 767px) {
+  .site-header {
+    height: 60px;
+    padding: 0 var(--spacing-sm);
+    flex-wrap: wrap;
+  }
+
+  .search-container {
+    flex: 1;
+    min-width: 120px;
+  }
+
+  .tab-switcher {
+    flex-shrink: 0;
+  }
+}
+
+/* Tablet header adjustments */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .site-header {
+    padding: 0 var(--spacing-md);
+  }
+}
+
+/* ============================================
+   Utility Layout Classes
+   ============================================ */
+
+.container {
+  width: 100%;
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================
+   Responsive Spacing Utilities
+   ============================================ */
+
+.spacing-xs { gap: var(--spacing-xs); }
+.spacing-sm { gap: var(--spacing-sm); }
+.spacing-md { gap: var(--spacing-md); }
+.spacing-lg { gap: var(--spacing-lg); }
+.spacing-xl { gap: var(--spacing-xl); }
+
+/* Mobile spacing adjustments */
+@media (max-width: 767px) {
+  .spacing-lg { gap: var(--spacing-md); }
+  .spacing-xl { gap: var(--spacing-lg); }
+}
+
+/* ============================================
+   Grid System Utilities
+   ============================================ */
+
+.grid {
+  display: grid;
+}
+
+.grid-2-col {
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-md);
+}
+
+.grid-3-col {
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-md);
+}
+
+/* Responsive grid adjustments */
+@media (max-width: 767px) {
+  .grid-2-col,
+  .grid-3-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .grid-3-col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ============================================
+   Visibility Utilities
+   ============================================ */
+
+.mobile-only {
+  display: block;
+}
+
+.tablet-only {
+  display: none;
+}
+
+.desktop-only {
+  display: none;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .mobile-only {
+    display: none;
+  }
+  
+  .tablet-only {
+    display: block;
+  }
+  
+  .desktop-only {
+    display: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .mobile-only {
+    display: none;
+  }
+  
+  .tablet-only {
+    display: none;
+  }
+  
+  .desktop-only {
+    display: block;
+  }
+}
