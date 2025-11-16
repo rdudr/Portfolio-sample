@@ -396,7 +396,9 @@ class RowCarousel {
       this.isDragging = true;
       this.startX = e.pageX - this.track.offsetLeft;
       this.scrollLeft = this.track.scrollLeft;
-      this.track.style.cursor = 'grabbing';
+      
+      // Add class to track only, never to body
+      this.track.classList.add('is-dragging');
       this.track.style.userSelect = 'none';
 
       e.preventDefault();
@@ -406,7 +408,7 @@ class RowCarousel {
     this.track.addEventListener('mouseleave', () => {
       if (this.isDragging) {
         this.isDragging = false;
-        this.track.style.cursor = 'grab';
+        this.track.classList.remove('is-dragging');
         this.track.style.userSelect = '';
       }
     });
@@ -415,7 +417,7 @@ class RowCarousel {
     this.track.addEventListener('mouseup', () => {
       if (this.isDragging) {
         this.isDragging = false;
-        this.track.style.cursor = 'grab';
+        this.track.classList.remove('is-dragging');
         this.track.style.userSelect = '';
       }
     });

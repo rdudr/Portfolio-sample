@@ -27,6 +27,7 @@ class ViewManager {
         <div class="content-rows-container">
           ${categories.map(category => this.renderContentRow(category)).join('')}
         </div>
+        ${this.renderFooter()}
       </div>
     `;
 
@@ -54,6 +55,35 @@ class ViewManager {
   }
 
   /**
+   * Render footer section
+   * @returns {string} Footer HTML
+   */
+  renderFooter() {
+    return `
+      <footer class="portfolio-footer">
+        <div class="social-icons-container">
+          <a href="https://www.instagram.com/rd_udr/" target="_blank" rel="noopener noreferrer" aria-label="Rishabh Dangi on Instagram">
+            <img src="assets/images/social/facebook.png" alt="Rishabh Dangi on Instagram" class="social-icon">
+            <span class="social-text">rd_udr</span>
+          </a>
+          <a href="https://www.linkedin.com/in/rishabh-dangi-544657229/" target="_blank" rel="noopener noreferrer" aria-label="Rishabh Dangi on LinkedIn">
+            <img src="assets/images/social/Linkdin.png" alt="Rishabh Dangi on LinkedIn" class="social-icon">
+            <span class="social-text">rishabhdangi</span>
+          </a>
+          <a href="https://wa.me/919610129501" target="_blank" rel="noopener noreferrer" aria-label="Contact Rishabh Dangi on WhatsApp">
+            <img src="assets/images/social/whatsapp.png" alt="Contact Rishabh Dangi on WhatsApp" class="social-icon">
+            <span class="social-text">+91 96101-29501</span>
+          </a>
+          <a href="mailto:srishabhs516@gmail.com" aria-label="Email Rishabh Dangi">
+            <img src="assets/images/social/email.png" alt="Email Rishabh Dangi" class="social-icon">
+            <span class="email-text">srishabhs516@gmail.com</span>
+          </a>
+        </div>
+      </footer>
+    `;
+  }
+
+  /**
    * Render a content row
    * @param {Object} category - Category object
    * @returns {string} Content row HTML
@@ -61,6 +91,8 @@ class ViewManager {
   renderContentRow(category) {
     // Get the cover image from the first item in the category
     const coverImage = category.items && category.items.length > 0 ? category.items[0].image : '';
+    const itemCount = category.items.length;
+    const showDots = itemCount > 1;
     
     return `
       <section class="content-row" data-category="${category.slug}" aria-labelledby="${category.slug}-heading">
@@ -73,7 +105,7 @@ class ViewManager {
                 <polyline points="15 18 9 12 15 6"></polyline>
               </svg>
             </button>
-            <div class="carousel-track">
+            <div class="carousel-track" data-item-count="${itemCount}">
               ${category.items.map(item => this.renderContentCard(item, category.slug)).join('')}
             </div>
             <button class="carousel-arrow carousel-arrow-right" aria-label="Scroll right">
@@ -82,6 +114,7 @@ class ViewManager {
               </svg>
             </button>
           </div>
+          ${showDots ? `<div class="carousel-dots" role="tablist" aria-label="Carousel navigation"></div>` : ''}
         </div>
       </section>
     `;
@@ -98,7 +131,6 @@ class ViewManager {
       <article class="content-card" 
                data-category="${categorySlug}" 
                data-slug="${item.slug}"
-               role="button"
                tabindex="0"
                aria-label="View details for ${item.title}">
         <div class="card-image-container">
@@ -110,11 +142,12 @@ class ViewManager {
         <div class="card-info">
           <h3 class="card-title">${item.title}</h3>
           <p class="card-subtitle">${item.subtitle || ''}</p>
-          ${item.date ? `<p class="card-meta">${item.date}</p>` : ''}
-        </div>
-        <div class="card-hover-details">
-          <p class="card-description">${item.shortDescription || ''}</p>
-          <a href="#/${categorySlug}/${item.slug}" class="card-read-more">Read more →</a>
+          <a href="#/${categorySlug}/${item.slug}" class="card-read-more-btn" aria-label="Read more about ${item.title}">
+            <span>Read More</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
         </div>
       </article>
     `;

@@ -116,6 +116,12 @@
       // Observe initial lazy images
       setTimeout(() => {
         lazyImageLoader.refresh();
+        
+        // Initialize carousel dots
+        if (window.carouselDots) {
+          window.carouselDots.refresh();
+          console.log('Carousel dots initialized');
+        }
       }, 150);
 
       // Initialize preload manager - Requirements 13.3

@@ -1,0 +1,300 @@
+/* ============================================
+   Card Hover Animation Fix
+   Prevents first card from expanding on hover
+   ============================================ */
+
+/* Step 1: Set consistent minimum height for all cards */
+.content-card {
+  min-height: 460px;
+  max-height: 460px;
+  display: flex;
+  flex-direction: column;
+  position: relative !important;
+  overflow: hidden !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Step 2: Ensure hover state does NOT change height */
+.content-card:hover {
+  transform: scale(1.05);
+  /* NO height or min-height properties here */
+}
+
+/* Step 3: Handle content overflow on hover */
+.content-card:hover .card-info {
+  overflow: hidden;
+}
+
+/* Step 4: Remove any first-child specific height overrides - NEUTRALIZED */
+/* All cards now use the same height from the main .content-card rule */
+
+/* Ensure card image container doesn't expand */
+.card-image-container {
+  flex-shrink: 0;
+  height: 240px;
+  overflow: hidden !important;
+  position: relative;
+}
+
+/* Ensure card overlay stays within bounds */
+.card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+/* Ensure card info section fills remaining space but doesn't overflow */
+.card-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 1.25rem;
+  overflow: hidden;
+  gap: 0.5rem;
+  height: 100%;
+}
+
+/* Card title - Red color for visibility in dark theme */
+.card-title {
+  color: #e50914;
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  min-height: 2.8em;
+  max-height: 2.8em;
+  text-align: left;
+}
+
+/* Prevent subtitle from expanding card */
+.card-subtitle {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  min-height: 4em;
+  max-height: 4em;
+  text-align: justify;
+  hyphens: auto;
+  word-spacing: -0.05em;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .content-card {
+    min-height: 420px;
+    max-height: 420px;
+  }
+  
+  .card-image-container {
+    height: 200px;
+  }
+  
+  .card-title {
+    font-size: 1rem;
+    min-height: 2.6em;
+  }
+  
+  .card-subtitle {
+    font-size: 0.85rem;
+    min-height: 3.6em;
+  }
+}
+
+
+/* Force all cards to behave identically - no exceptions */
+.carousel-track .content-card,
+.row-carousel .content-card,
+.content-card:nth-child(1),
+.content-card:nth-child(2),
+.content-card:nth-child(3),
+.content-card:nth-child(n) {
+  min-height: 460px !important;
+  max-height: 460px !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+/* Ensure no background or overlay expands beyond card bounds */
+.content-card::before,
+.content-card::after,
+.content-card * {
+  max-height: 100%;
+}
+
+/* Clip any animations or transitions */
+.content-card,
+.content-card:hover,
+.content-card:focus {
+  contain: layout style paint;
+}
+
+
+/* Fix grabbing cursor and backdrop - scope to carousel only */
+/* Ensure body never gets grabbing cursor or backdrop */
+body {
+  cursor: default !important;
+}
+
+body::before,
+body::after {
+  display: none !important;
+}
+
+/* Scope grabbing cursor only to carousel track */
+.carousel-track {
+  cursor: grab;
+}
+
+.carousel-track.is-dragging,
+.carousel-track:active {
+  cursor: grabbing !important;
+}
+
+/* Prevent any backdrop or overlay on body during drag */
+body.is-dragging,
+body.dragging,
+body.grabbing {
+  cursor: default !important;
+}
+
+body.is-dragging::before,
+body.dragging::before,
+body.grabbing::before,
+body.is-dragging::after,
+body.dragging::after,
+body.grabbing::after {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Ensure row carousel container doesn't propagate cursor */
+.row-carousel {
+  cursor: default;
+}
+
+/* Only the track should show grab cursor */
+.row-carousel .carousel-track {
+  cursor: grab;
+}
+
+.row-carousel .carousel-track:active {
+  cursor: grabbing;
+}
+
+
+/* ============================================
+   Fix Stretched Carousel Arrows
+   ============================================ */
+
+/* Step 1: Set positioning context on carousel container */
+.row-carousel {
+  position: relative !important;
+}
+
+/* Step 2: Position arrows absolutely and center vertically */
+.carousel-arrow {
+  position: absolute !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  z-index: 10 !important;
+  
+  /* Ensure fixed size - prevent stretching */
+  width: 44px !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  max-height: 44px !important;
+  flex-shrink: 0 !important;
+  
+  /* Remove any flex properties that cause stretching */
+  align-self: center !important;
+}
+
+/* Step 3: Position left and right arrows horizontally */
+.carousel-arrow-left {
+  left: -25px !important;
+}
+
+.carousel-arrow-right {
+  right: -25px !important;
+}
+
+/* Ensure arrows don't stretch in any layout */
+.content-row .carousel-arrow,
+.row-carousel .carousel-arrow {
+  position: absolute !important;
+  height: 44px !important;
+  width: 44px !important;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .carousel-arrow-left {
+    left: 0 !important;
+  }
+  
+  .carousel-arrow-right {
+    right: 0 !important;
+  }
+}
+
+
+/* ============================================
+   Fix Carousel Scroll Area - Remove Extra Space
+   ============================================ */
+
+/* Constrain carousel track height to card height only */
+.carousel-track {
+  max-height: 460px !important;
+  overflow-y: hidden !important;
+  overflow-x: auto !important;
+}
+
+/* Ensure row carousel doesn't create extra vertical space */
+.row-carousel {
+  max-height: 460px !important;
+  overflow: visible !important;
+}
+
+/* Remove any extra padding/margin that creates empty space */
+.content-row {
+  overflow: visible !important;
+}
+
+.section-content {
+  overflow: visible !important;
+}
+
+/* Ensure carousel track only scrolls horizontally */
+.carousel-track {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: flex-start !important;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .carousel-track {
+    max-height: 420px !important;
+  }
+  
+  .row-carousel {
+    max-height: 420px !important;
+  }
+}

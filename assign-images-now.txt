@@ -1,0 +1,11 @@
+# Available Images from Random Folder
+# Total: 70+ JPG images found
+
+I'll now update your data.js file to assign these images randomly to portfolio items that don't have images yet.
+
+The images will be assigned from:
+assets/images/random/1610183169271.jpg
+assets/images/random/1610183169273.jpg
+... and so on
+
+Would you like me to proceed with updating data.js?

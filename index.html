@@ -2,8 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <meta name="description" content="Personal portfolio of Rishabh Dangi - Electrical Engineer specializing in IoT security, embedded systems, and product development">
+  <meta http-equiv="Content-Security-Policy" 
+        content="default-src 'self'; 
+                 img-src 'self' data: https:; 
+                 style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; 
+                 font-src 'self' https://fonts.gstatic.com;">
+  
   <title>Rishabh Dangi - Portfolio</title>
   
   <!-- CSS Files -->
@@ -12,25 +18,64 @@
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/performance.css">
+  <link rel="stylesheet" href="css/loading-states.css">
+  <link rel="stylesheet" href="css/error-handling.css">
+  <link rel="stylesheet" href="css/mobile-optimization.css">
+  <link rel="stylesheet" href="css/header-improvements.css">
+  <link rel="stylesheet" href="css/card-hover-fix.css">
   
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header class="site-header">
-    <div class="search-container">
-      <input type="search" placeholder="Search" class="search-input" aria-label="Search portfolio">
+  <!-- Header -->
+  <header class="site-header" role="banner">
+    <div class="header-container">
+      <!-- Left: Search -->
+      <div class="header-left">
+        <div class="search-container">
+          <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+          <input type="search" 
+                 class="search-input" 
+                 placeholder="Search portfolio..." 
+                 aria-label="Search portfolio content">
+        </div>
+      </div>
+      
+      <!-- Center: Navigation -->
+      <div class="header-center">
+        <nav class="main-nav" aria-label="Main navigation">
+          <a href="#/about-me" class="nav-link" data-nav="about-me">About Me</a>
+          <a href="#/education" class="nav-link" data-nav="education">Education</a>
+          <a href="#/experience" class="nav-link" data-nav="experience">Experience</a>
+          <a href="#/technical-activities" class="nav-link" data-nav="technical-activities">Technical Activities</a>
+          <a href="#/learning-and-courses" class="nav-link" data-nav="learning-and-courses">Learning & Courses</a>
+          <a href="#/project" class="nav-link" data-nav="project">Projects</a>
+          <a href="#/award" class="nav-link" data-nav="award">Awards</a>
+          <a href="#/skills-and-interests" class="nav-link" data-nav="skills-and-interests">Skills & Interests</a>
+        </nav>
+      </div>
+      
+      <!-- Right: Profile & Logo -->
+      <div class="header-right">
+        <div class="profile-icon">
+          <img src="assets/images/profile.png" alt="Rishabh Dangi" class="profile-img">
+        </div>
+        <h1 class="site-logo">
+          <a href="#/" aria-label="Rishabh Dangi Portfolio Home">RD</a>
+        </h1>
+      </div>
     </div>
-    <nav class="tab-switcher" role="tablist" aria-label="Media type filter">
-      <button class="tab-btn active" data-tab="photos" role="tab" aria-pressed="true" aria-label="Show photos">Photos</button>
-      <button class="tab-btn" data-tab="video" role="tab" aria-pressed="false" aria-label="Show videos">Video</button>
-      <button class="tab-btn" data-tab="audio" role="tab" aria-pressed="false" aria-label="Show audio">Audio</button>
-    </nav>
   </header>
 
-  <main class="hero-container">
+  <!-- Main Application Container -->
+  <main id="app" role="main">
     <!-- Section 1: About Me -->
     <section class="hero-panel" data-section="about">
       <div class="hero-background" style="background-image: url('assets/images/motorcycle-background.jpg')"></div>
