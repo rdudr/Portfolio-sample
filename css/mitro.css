@@ -1,0 +1,289 @@
+/* Mitro Login Page Styles */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #141414 0%, #1a1a1a 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  padding: 20px;
+}
+
+.mitro-container {
+  max-width: 1200px;
+  width: 100%;
+  text-align: center;
+}
+
+.mitro-title {
+  font-size: 3.5rem;
+  font-weight: 400;
+  margin-bottom: 3rem;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+
+.user-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  margin-bottom: 3rem;
+  padding: 0 20px;
+}
+
+.user-card {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  width: 200px;
+}
+
+.user-card:hover {
+  transform: scale(1.1);
+}
+
+.user-card:hover .user-photo {
+  border-color: #fff;
+}
+
+.user-card:hover .user-name {
+  color: #fff;
+}
+
+.user-photo-container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 1rem;
+}
+
+.user-photo {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 3px solid transparent;
+  transition: border-color 0.3s ease;
+  background: linear-gradient(135deg, #e50914 0%, #b20710 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.user-photo.has-image {
+  background: none;
+}
+
+.user-name {
+  font-size: 1.3rem;
+  color: #808080;
+  transition: color 0.3s ease;
+  font-weight: 400;
+}
+
+.add-user-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: 2px solid #808080;
+  color: #808080;
+  padding: 0.75rem 2rem;
+  font-size: 1.1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  margin-top: 1rem;
+}
+
+.add-user-btn:hover {
+  border-color: #fff;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.add-user-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(5px);
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  background: #141414;
+  border-radius: 8px;
+  padding: 3rem;
+  max-width: 450px;
+  width: 90%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  border: 1px solid #333;
+}
+
+.modal-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.modal-username {
+  font-size: 1.2rem;
+  color: #808080;
+  margin-bottom: 2rem;
+}
+
+.password-input,
+.text-input {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+  background: #333;
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: #fff;
+  margin-bottom: 1.5rem;
+  font-family: inherit;
+  transition: border-color 0.3s ease;
+}
+
+.password-input:focus,
+.text-input:focus {
+  outline: none;
+  border-color: #e50914;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.modal-btn {
+  flex: 1;
+  padding: 0.875rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.cancel-btn {
+  background: #333;
+  color: #fff;
+}
+
+.cancel-btn:hover {
+  background: #444;
+}
+
+.submit-btn {
+  background: #e50914;
+  color: #fff;
+}
+
+.submit-btn:hover {
+  background: #f40612;
+}
+
+.error-message {
+  color: #e50914;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  min-height: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .mitro-title {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .user-card {
+    width: 150px;
+  }
+
+  .user-photo-container {
+    width: 150px;
+    height: 150px;
+  }
+
+  .user-photo {
+    font-size: 3rem;
+  }
+
+  .user-name {
+    font-size: 1.1rem;
+  }
+
+  .modal-content {
+    padding: 2rem;
+  }
+
+  .modal-title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .mitro-title {
+    font-size: 2rem;
+  }
+
+  .user-card {
+    width: 120px;
+  }
+
+  .user-photo-container {
+    width: 120px;
+    height: 120px;
+  }
+
+  .user-photo {
+    font-size: 2.5rem;
+  }
+
+  .user-name {
+    font-size: 1rem;
+  }
+
+  .user-cards-container {
+    gap: 1.5rem;
+  }
+
+  .modal-buttons {
+    flex-direction: column;
+  }
+}

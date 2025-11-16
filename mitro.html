@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Mitro - Secure User Login">
+  <title>Mitro - Login</title>
+  <link rel="stylesheet" href="css/mitro.css">
+</head>
+<body>
+  <div class="mitro-container">
+    <h1 class="mitro-title">Who's watching?</h1>
+    
+    <div class="user-cards-container" id="userCardsContainer">
+      <!-- User cards will be dynamically generated here -->
+    </div>
+
+    <button class="add-user-btn" id="addUserBtn">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="16"></line>
+        <line x1="8" y1="12" x2="16" y2="12"></line>
+      </svg>
+      Add User
+    </button>
+  </div>
+
+  <!-- Password Modal -->
+  <div class="modal" id="passwordModal">
+    <div class="modal-content">
+      <h2 class="modal-title">Enter Password</h2>
+      <p class="modal-username" id="modalUsername"></p>
+      <input type="password" 
+             class="password-input" 
+             id="passwordInput" 
+             placeholder="Enter password"
+             autocomplete="off">
+      <div class="modal-buttons">
+        <button class="modal-btn cancel-btn" id="cancelBtn">Cancel</button>
+        <button class="modal-btn submit-btn" id="submitBtn">Login</button>
+      </div>
+      <p class="error-message" id="errorMessage"></p>
+    </div>
+  </div>
+
+  <!-- Add User Modal -->
+  <div class="modal" id="addUserModal">
+    <div class="modal-content">
+      <h2 class="modal-title">Add New User</h2>
+      <input type="text" 
+             class="text-input" 
+             id="newUsername" 
+             placeholder="Enter username"
+             maxlength="20">
+      <input type="password" 
+             class="password-input" 
+             id="newUserPassword" 
+             placeholder="Enter password"
+             autocomplete="new-password">
+      <input type="text" 
+             class="text-input" 
+             id="newUserPhoto" 
+             placeholder="Photo URL (optional)">
+      <input type="password" 
+             class="password-input" 
+             id="masterKey" 
+             placeholder="Enter master key"
+             autocomplete="off">
+      <div class="modal-buttons">
+        <button class="modal-btn cancel-btn" id="addUserCancelBtn">Cancel</button>
+        <button class="modal-btn submit-btn" id="addUserSubmitBtn">Add User</button>
+      </div>
+      <p class="error-message" id="addUserErrorMessage"></p>
+    </div>
+  </div>
+
+  <script src="js/mitro.js"></script>
+</body>
+</html>
