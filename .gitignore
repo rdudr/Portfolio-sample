@@ -36,3 +36,15 @@ coverage/
 
 # Validation reports
 validation-report.json
+
+# Documentation and test files (optional - uncomment if you want to exclude these)
+# *_IMPLEMENTATION.md
+# *_COMPLETION.md
+# *_GUIDE.md
+# *_SUMMARY.md
+# *_REPORT.md
+# test-*.html
+# verify-*.js
+# validate-*.js
+# validate-*.ps1
+# *.bat

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redirecting... - Rishabh Dangi Portfolio</title>
+  <script>
+    // GitHub Pages SPA redirect handler
+    // This script takes the current URL and redirects to index.html with the path as a hash
+    // This allows the single-page app router to handle the route correctly
+    
+    (function() {
+      var pathSegmentsToKeep = 1; // Change to 0 if using a custom domain
+      
+      var location = window.location;
+      var pathSegments = location.pathname.split('/').filter(function(segment) {
+        return segment !== '';
+      });
+      
+      // Keep only the repository name segment for GitHub Pages
+      var pathToKeep = pathSegments.slice(0, pathSegmentsToKeep).join('/');
+      var route = pathSegments.slice(pathSegmentsToKeep).join('/');
+      
+      // Redirect to index.html with the route as a hash
+      var redirect = location.protocol + '//' + location.host + 
+                    (pathToKeep ? '/' + pathToKeep : '') + 
+                    '/#/' + route +
+                    (location.search || '') +
+                    (location.hash.replace('#', '') || '');
+      
+      window.location.replace(redirect);
+    })();
+  </script>
+</head>
+<body>
+  <p>Redirecting to portfolio...</p>
+</body>
+</html>
