@@ -48,3 +48,5 @@ validation-report.json
 # validate-*.js
 # validate-*.ps1
 # *.bat
+.vscode/
+.kiro/
