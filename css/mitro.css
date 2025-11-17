@@ -226,9 +226,23 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+
+  .mitro-container {
+    padding: 1rem 0;
+  }
+
   .mitro-title {
     font-size: 2.5rem;
     margin-bottom: 2rem;
+  }
+
+  .user-cards-container {
+    gap: 1.5rem;
+    padding: 0 10px;
+    justify-content: center;
   }
 
   .user-card {
@@ -248,42 +262,197 @@ body {
     font-size: 1.1rem;
   }
 
+  .add-user-btn {
+    padding: 0.875rem 1.75rem;
+    font-size: 1rem;
+    min-height: 48px;
+  }
+
   .modal-content {
-    padding: 2rem;
+    padding: 2rem 1.5rem;
+    width: 95%;
+    max-width: 400px;
   }
 
   .modal-title {
     font-size: 1.5rem;
+  }
+
+  .password-input,
+  .text-input {
+    min-height: 48px;
+    font-size: 16px; /* Prevents iOS zoom */
+  }
+
+  .modal-btn {
+    min-height: 48px;
+    font-size: 1rem;
   }
 }
 
 @media (max-width: 480px) {
   .mitro-title {
     font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .user-cards-container {
+    gap: 1.25rem;
+    padding: 0 5px;
   }
 
   .user-card {
-    width: 120px;
+    width: 130px;
   }
 
   .user-photo-container {
-    width: 120px;
-    height: 120px;
+    width: 130px;
+    height: 130px;
+    margin-bottom: 0.75rem;
   }
 
   .user-photo {
-    font-size: 2.5rem;
+    font-size: 2.75rem;
   }
 
   .user-name {
     font-size: 1rem;
   }
 
-  .user-cards-container {
-    gap: 1.5rem;
+  .add-user-btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  .modal-content {
+    padding: 1.5rem 1rem;
+  }
+
+  .modal-title {
+    font-size: 1.35rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .modal-username {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
   }
 
   .modal-buttons {
     flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .modal-btn {
+    width: 100%;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 360px) {
+  .mitro-title {
+    font-size: 1.75rem;
+  }
+
+  .user-card {
+    width: 110px;
+  }
+
+  .user-photo-container {
+    width: 110px;
+    height: 110px;
+  }
+
+  .user-photo {
+    font-size: 2.25rem;
+  }
+
+  .user-name {
+    font-size: 0.9rem;
+  }
+}
+
+/* Landscape orientation on mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .mitro-title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .user-cards-container {
+    max-height: 50vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .modal-content {
+    max-height: 90vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  /* Remove hover effects on touch devices */
+  .user-card:hover {
+    transform: none;
+  }
+
+  .user-card:hover .user-photo {
+    border-color: transparent;
+  }
+
+  .user-card:hover .user-name {
+    color: #808080;
+  }
+
+  /* Add tap feedback instead */
+  .user-card:active {
+    transform: scale(0.95);
+    transition: transform 100ms ease;
+  }
+
+  .user-card:active .user-photo {
+    border-color: #fff;
+  }
+
+  .add-user-btn:hover {
+    transform: none;
+    border-color: #808080;
+    color: #808080;
+  }
+
+  .add-user-btn:active {
+    transform: scale(0.98);
+    border-color: #fff;
+    color: #fff;
+  }
+}
+
+/* iOS specific fixes */
+@supports (-webkit-touch-callout: none) {
+  .password-input,
+  .text-input {
+    font-size: 16px !important; /* Prevent iOS zoom */
+  }
+
+  .modal {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Safe area insets for notched devices */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: max(10px, env(safe-area-inset-left));
+    padding-right: max(10px, env(safe-area-inset-right));
+    padding-top: max(20px, env(safe-area-inset-top));
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+  }
+
+  .modal-content {
+    padding-left: max(1.5rem, calc(1.5rem + env(safe-area-inset-left)));
+    padding-right: max(1.5rem, calc(1.5rem + env(safe-area-inset-right)));
   }
 }

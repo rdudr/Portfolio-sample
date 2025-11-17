@@ -185,6 +185,20 @@ button,
   
   /* Ensure smooth scrolling on mobile */
   overscroll-behavior-x: contain;
+  
+  /* Enable horizontal scrolling */
+  overflow-x: auto;
+  overflow-y: hidden;
+  
+  /* Snap scrolling for better UX */
+  scroll-snap-type: x proximity;
+  scroll-padding: 0 1rem;
+}
+
+/* Snap points for cards */
+.carousel-track .content-card {
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
 }
 
 /* Disable hover effects on touch devices */
@@ -198,8 +212,10 @@ button,
   }
 
   /* Hide carousel arrows on touch devices */
-  .carousel-arrow {
-    display: none;
+  .carousel-arrow,
+  .carousel-arrow-left,
+  .carousel-arrow-right {
+    display: none !important;
   }
 
   /* Disable card hover effects on touch */
@@ -218,6 +234,37 @@ button,
   .card-overlay,
   .card-hover-details {
     display: none;
+  }
+}
+
+/* Mobile-specific carousel optimizations */
+@media (max-width: 767px) {
+  .carousel-track {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.5rem 1rem;
+    scroll-padding: 0 1rem;
+  }
+
+  .row-carousel {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  /* Ensure cards are properly sized for mobile */
+  .carousel-track .content-card {
+    flex: 0 0 auto;
+    width: 75vw;
+    max-width: 280px;
+    min-width: 240px;
+  }
+
+  /* Hide arrows on mobile */
+  .carousel-arrow,
+  .carousel-arrow-left,
+  .carousel-arrow-right {
+    display: none !important;
   }
 }
 
